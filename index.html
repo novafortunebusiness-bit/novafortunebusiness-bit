@@ -362,7 +362,6 @@
             margin-bottom: 10px;
         }
 
-        /* ==================== CARTE BIENVENUE VOCALE ACCUEIL ==================== */
         .voice-welcome-card {
             background: linear-gradient(135deg, #064e3b 0%, #14191f 65%, #1e293b 100%);
             color: #ffffff;
@@ -391,7 +390,6 @@
         .voice-bars span:nth-child(2) { animation-delay: 0.15s; height: 16px; }
         .voice-bars span:nth-child(3) { animation-delay: 0.3s; height: 10px; }
 
-        /* ==================== STATISTIQUES PLATEFORME EN DIRECT ==================== */
         .platform-pulse-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -421,7 +419,6 @@
             margin-top: 2px;
         }
 
-        /* ==================== RENDEMENT AUTO 24H SUR L'ACCUEIL ==================== */
         .auto-yield-card {
             background: linear-gradient(145deg, #ffffff 0%, #f0fdf4 100%);
             border: 1.5px solid var(--green-primary);
@@ -447,7 +444,6 @@
             transition: width 0.4s ease;
         }
 
-        /* ==================== MISSIONS & COFFRES BONUS ==================== */
         .missions-card {
             background: var(--bg-card);
             border: 1px solid var(--gray-border);
@@ -471,7 +467,6 @@
             padding-bottom: 0;
         }
 
-        /* ==================== SIMULATEUR DE GAINS VIP ==================== */
         .simulator-card {
             background: linear-gradient(145deg, #14191f 0%, #1e293b 100%);
             color: #ffffff;
@@ -1495,7 +1490,6 @@
     <!-- ==================== PAGE 2 : ACCUEIL ==================== -->
     <div id="view-home" class="view">
 
-        <!-- CARTE D'ACCUEIL VOCAL PERSONNALISÉ -->
         <div class="voice-welcome-card">
             <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
                 <div>
@@ -1516,7 +1510,6 @@
             </div>
         </div>
 
-        <!-- STATISTIQUES GLOBALES EN DIRECT -->
         <div class="platform-pulse-grid">
             <div class="pulse-stat-box">
                 <div class="pulse-stat-val" style="color:var(--green-dark);" id="liveInvestorsCount">14 820</div>
@@ -1532,7 +1525,6 @@
             </div>
         </div>
 
-        <!-- TABLEAU DE RENDEMENT AUTOMATIQUE QUOTIDIEN -->
         <div class="auto-yield-card" id="homeAutoYieldCard">
             <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
                 <div>
@@ -1550,7 +1542,6 @@
             </div>
         </div>
 
-        <!-- RETRAITS EN DIRECT -->
         <div class="live-withdrawals-box">
             <div class="live-badge-row">
                 <span class="live-pill"><span class="live-dot"></span> Retraits en direct</span>
@@ -1576,7 +1567,6 @@
             <div class="live-recent-mini-list" id="liveRecentMiniList"></div>
         </div>
 
-        <!-- PRÉSENCE QUOTIDIENNE -->
         <div class="checkin-banner-home" onclick="navigate('view-checkin')">
             <div style="display:flex; align-items:center; gap:12px;">
                 <div style="width:44px; height:44px; border-radius:12px; background:rgba(16,185,129,0.2); color:var(--green-primary); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
@@ -1590,7 +1580,6 @@
             <span class="hero-tag" style="margin:0; flex-shrink:0;" id="homeCheckinBadge">+27 F</span>
         </div>
 
-        <!-- ACCÈS RAPIDE -->
         <h3 style="font-size:1rem; font-weight:800; margin-bottom:12px;">Accès Rapide</h3>
         <div class="quick-grid">
             <button class="action-tile" onclick="navigate('view-invest')">
@@ -1626,7 +1615,6 @@
             </button>
         </div>
 
-        <!-- COFFRES & RÉCOMPENSES D'ACTIVITÉ -->
         <div class="missions-card">
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
                 <div style="display:flex; align-items:center; gap:8px;">
@@ -1642,7 +1630,6 @@
             <div id="homeMissionsList"></div>
         </div>
 
-        <!-- SIMULATEUR DE GAINS VIP INTERACTIF -->
         <div class="simulator-card">
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span class="hero-tag" style="margin:0;">Simulateur de Gains</span>
@@ -2158,9 +2145,9 @@
         </div>
 
         <div class="vip-card" style="background:linear-gradient(135deg, var(--black-dark) 0%, #1e293b 65%, var(--green-dark) 100%); color:#ffffff;">
-            <span class="hero-tag">Récompense de Parrainage</span>
-            <h2 style="font-size:1.18rem; margin-bottom:6px;">Partagez votre lien et gagnez lorsque votre équipe recharge !</h2>
-            <p style="font-size:0.84rem; color:#cbd5e1;">Copiez le lien de votre site et partagez-le avec vos amis pour inviter de nouveaux membres sur Nova Fortune.</p>
+            <span class="hero-tag">Parrainage • 1 000 F CFA</span>
+            <h2 style="font-size:1.18rem; margin-bottom:6px;">Partagez votre lien : quand un filleul investit, vous gagnez 1 000 F CFA seulement.</h2>
+            <p style="font-size:0.84rem; color:#cbd5e1;">Chaque filleul qui investit via votre lien rapporte un bonus unique de 1 000 F CFA. C'est fini pour ce filleul.</p>
         </div>
 
         <div class="vip-card">
@@ -2179,17 +2166,17 @@
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; text-align:center;">
                 <div style="background:#f8fafc; border:1px solid var(--gray-border); padding:14px; border-radius:12px;">
                     <div style="font-size:1.4rem; font-weight:800; color:var(--black-dark);" id="teamMembersCount">0</div>
-                    <div style="font-size:0.76rem; color:var(--gray-muted);">Membres invités</div>
+                    <div style="font-size:0.76rem; color:var(--gray-muted);">Filleuls investisseurs</div>
                 </div>
                 <div style="background:#f8fafc; border:1px solid var(--gray-border); padding:14px; border-radius:12px;">
                     <div style="font-size:1.4rem; font-weight:800; color:var(--green-dark);" id="teamBonusTotal">0 F</div>
-                    <div style="font-size:0.76rem; color:var(--gray-muted);">Récompenses gagnées</div>
+                    <div style="font-size:0.76rem; color:var(--gray-muted);">Gains parrainage (1 000 F / filleul)</div>
                 </div>
             </div>
 
-            <button type="button" class="btn btn-outline" style="margin-top:16px; font-size:0.82rem;" onclick="simulateReferralBonus()">
-                Simuler une recharge de filleul (+1 000 F)
-            </button>
+            <div class="info-alert" style="margin-top:14px; margin-bottom:0;">
+                Règle de parrainage : dès qu'un filleul s'inscrit avec votre lien et investit, vous recevez <strong>1 000 F CFA seulement</strong> pour ce filleul.
+            </div>
         </div>
     </div>
 
@@ -2296,6 +2283,7 @@
 
     const WELCOME_BONUS = 100;
     const DAILY_CHECKIN_REWARD = 27;
+    const REFERRAL_INVEST_BONUS = 1000;
     const MIN_RECHARGE = 5000;
     const MAX_RECHARGE = 1000000;
     const MIN_WITHDRAW = 1000;
@@ -2352,7 +2340,6 @@
     let pendingAutoVoiceName = null;
     let selectedSimPlanIdx = 0;
 
-    // ==================== SYNTHÈSE VOCALE DE BIENVENUE ====================
     function speakFrenchText(text, onBlocked) {
         if (!state.uiSounds) return;
         if (!('speechSynthesis' in window)) return;
@@ -2401,7 +2388,6 @@
     }
     window.replayWelcomeVoice = replayWelcomeVoice;
 
-    // Débloque automatiquement la voix au premier toucher si le navigateur a bloqué l'autoplay
     document.addEventListener('pointerdown', () => {
         if (pendingAutoVoiceName !== null && currentUid) {
             const nameToSpeak = pendingAutoVoiceName;
@@ -2516,6 +2502,7 @@
         linkedAccount: null,
         teamCount: 0,
         teamBonus: 0,
+        referralInvestedIds: [],
         checkinHistory: [],
         claimedMissions: [],
         uiSounds: true,
@@ -2560,7 +2547,6 @@
     }
     window.toggleInterfaceSounds = toggleInterfaceSounds;
 
-    // ==================== COFFRES BONUS & OBJECTIFS ====================
     const DAILY_MISSIONS = [
         {
             id: 'mission_checkin',
@@ -2914,6 +2900,7 @@
                 linkedAccount: state.linkedAccount,
                 teamCount: state.teamCount,
                 teamBonus: state.teamBonus,
+                referralInvestedIds: state.referralInvestedIds,
                 checkinHistory: state.checkinHistory,
                 claimedMissions: state.claimedMissions,
                 uiSounds: state.uiSounds,
@@ -2949,7 +2936,6 @@
         });
     }
 
-    // ==================== CRÉDIT AUTOMATIQUE TOUTES LES 24 HEURES ====================
     function processDailyInvestments() {
         if (!Array.isArray(state.purchases) || state.purchases.length === 0) return false;
 
@@ -3110,6 +3096,7 @@
                         linkedAccount: data.linkedAccount || null,
                         teamCount: Number(data.teamCount || 0),
                         teamBonus: Number(data.teamBonus || 0),
+                        referralInvestedIds: Array.isArray(data.referralInvestedIds) ? data.referralInvestedIds : [],
                         checkinHistory: Array.isArray(data.checkinHistory) ? data.checkinHistory : [],
                         claimedMissions: Array.isArray(data.claimedMissions) ? data.claimedMissions : [],
                         uiSounds: typeof data.uiSounds === 'boolean' ? data.uiSounds : true,
@@ -3205,6 +3192,7 @@
                 linkedAccount: null,
                 teamCount: 0,
                 teamBonus: 0,
+                referralInvestedIds: [],
                 checkinHistory: [],
                 claimedMissions: [],
                 uiSounds: true,
@@ -3271,6 +3259,7 @@
                     linkedAccount: data.linkedAccount || null,
                     teamCount: Number(data.teamCount || 0),
                     teamBonus: Number(data.teamBonus || 0),
+                    referralInvestedIds: Array.isArray(data.referralInvestedIds) ? data.referralInvestedIds : [],
                     checkinHistory: Array.isArray(data.checkinHistory) ? data.checkinHistory : [],
                     claimedMissions: Array.isArray(data.claimedMissions) ? data.claimedMissions : [],
                     uiSounds: typeof data.uiSounds === 'boolean' ? data.uiSounds : true,
@@ -3603,16 +3592,31 @@
     }
     window.submitWithdraw = submitWithdraw;
 
-    async function simulateReferralBonus() {
-        state.teamCount += 1;
-        state.teamBonus += 1000;
-        state.balance += 1000;
-        state.totalEarned += 1000;
+    // Bonus unique de 1 000 F CFA lorsqu'un filleul investit
+    async function creditSingleReferralInvestmentBonus(referralId) {
+        const cleanId = String(referralId || '').trim();
+        if (!cleanId) return false;
+        if (!Array.isArray(state.referralInvestedIds)) {
+            state.referralInvestedIds = [];
+        }
+        if (state.referralInvestedIds.includes(cleanId)) {
+            return false;
+        }
+        state.referralInvestedIds.push(cleanId);
+        state.teamCount = Number(state.teamCount || 0) + 1;
+        state.teamBonus = Number(state.teamBonus || 0) + REFERRAL_INVEST_BONUS;
+        state.balance = Number(state.balance || 0) + REFERRAL_INVEST_BONUS;
+        state.totalEarned = Number(state.totalEarned || 0) + REFERRAL_INVEST_BONUS;
+        state.notifications.unshift({
+            title: "Bonus parrainage unique (+1 000 F)",
+            body: `Votre filleul (${cleanId}) a investi : +1 000 F CFA crédités une seule fois.`,
+            date: new Date().toLocaleString('fr-FR')
+        });
         playUiTone('gain');
         await saveState();
-        showToast("Récompense d'équipe reçue : +1 000 F ajoutés au solde !");
+        return true;
     }
-    window.simulateReferralBonus = simulateReferralBonus;
+    window.creditSingleReferralInvestmentBonus = creditSingleReferralInvestmentBonus;
 
     function sendSupportTicket(e) {
         e.preventDefault();
@@ -3723,6 +3727,7 @@
             linkedAccount: null,
             teamCount: 0,
             teamBonus: 0,
+            referralInvestedIds: [],
             checkinHistory: [],
             claimedMissions: [],
             uiSounds: true,
@@ -3771,7 +3776,6 @@
         document.getElementById('accDailyIncome').innerText = activeDailyIncome.toLocaleString('fr-FR') + ' F / jour';
         document.getElementById('accTotalEarned').innerText = formatMoney(state.totalEarned);
 
-        // Mise à jour du tableau de rendement automatique 24h sur l'accueil
         const homeAutoDaily = document.getElementById('homeDailyAutoIncome');
         const homePacksBadge = document.getElementById('homeActivePacksBadge');
         const homeCountdownEl = document.getElementById('homeNextCreditCountdown');
@@ -3797,8 +3801,10 @@
             ? `${state.linkedAccount.method} lié`
             : 'Aucun compte lié';
 
-        document.getElementById('teamMembersCount').innerText = state.teamCount;
-        document.getElementById('teamBonusTotal').innerText = state.teamBonus.toLocaleString('fr-FR') + ' F';
+        const countFromArray = Array.isArray(state.referralInvestedIds) ? state.referralInvestedIds.length : 0;
+        const displayTeamCount = Math.max(Number(state.teamCount || 0), countFromArray);
+        document.getElementById('teamMembersCount').innerText = displayTeamCount;
+        document.getElementById('teamBonusTotal').innerText = Number(state.teamBonus || 0).toLocaleString('fr-FR') + ' F';
 
         renderCheckinUI();
         renderHomeMissions();

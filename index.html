@@ -1,1 +1,3354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Fortune - Plateforme d'Investissement & Croissance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #f4f6f8;
+            --bg-card: #ffffff;
+            --green-primary: #10b981;
+            --green-dark: #059669;
+            --green-light: #d1fae5;
+            --yellow-accent: #facc15;
+            --yellow-soft: #fef9c3;
+            --yellow-dark: #ca8a04;
+            --black-dark: #14191f;
+            --gray-dark: #334155;
+            --gray-muted: #64748b;
+            --gray-soft: #eef2f6;
+            --gray-border: #e2e8f0;
+            --danger: #ef4444;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --shadow: 0 8px 24px -6px rgba(20, 25, 31, 0.06), 0 4px 10px -4px rgba(20, 25, 31, 0.03);
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--gray-soft);
+            color: var(--black-dark);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .ico {
+            width: 18px;
+            height: 18px;
+            display: inline-block;
+            flex-shrink: 0;
+            vertical-align: middle;
+        }
+
+        .ico-lg {
+            width: 22px;
+            height: 22px;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .ico-xl {
+            width: 40px;
+            height: 40px;
+            display: inline-block;
+        }
+
+        .app-shell {
+            width: 100%;
+            max-width: 480px;
+            background-color: var(--bg-main);
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 92px;
+            box-shadow: 0 0 40px rgba(20, 25, 31, 0.1);
+            overflow-x: hidden;
+        }
+
+        .top-bar {
+            background: linear-gradient(135deg, var(--black-dark) 0%, #1e293b 100%);
+            color: #ffffff;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            border-bottom: 2px solid var(--yellow-accent);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 1.05rem;
+        }
+
+        .brand-badge {
+            background: linear-gradient(135deg, var(--yellow-accent), var(--green-primary));
+            color: var(--black-dark);
+            padding: 5px 11px;
+            border-radius: 10px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .user-pill {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 6px 11px;
+            border-radius: 99px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(250, 204, 21, 0.35);
+            white-space: nowrap;
+        }
+
+        .mini-header-btn {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 99px;
+            padding: 7px 10px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+
+        .mini-header-btn.danger-pill {
+            background: rgba(239, 68, 68, 0.22);
+            border-color: rgba(239, 68, 68, 0.45);
+            color: #fecaca;
+        }
+
+        .sticky-account-bar {
+            position: fixed;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-16px);
+            width: 100%;
+            max-width: 480px;
+            background: rgba(20, 25, 31, 0.96);
+            color: #ffffff;
+            padding: 10px 18px;
+            z-index: 48;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--green-primary);
+            opacity: 0;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .sticky-account-bar.visible {
+            display: flex;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .view {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.35); opacity: 0.65; }
+        }
+
+        .welcome-contract-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(250, 204, 21, 0.16);
+            border: 1px solid rgba(250, 204, 21, 0.45);
+            color: var(--yellow-accent);
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.7px;
+            padding: 4px 10px;
+            border-radius: 99px;
+            text-transform: uppercase;
+        }
+
+        .auth-wrapper {
+            padding: 24px 18px;
+            min-height: 100vh;
+            background: linear-gradient(160deg, var(--black-dark) 0%, #1e293b 55%, var(--green-dark) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .auth-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 26px 22px;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.22);
+        }
+
+        .congrats-contract-box {
+            background: linear-gradient(145deg, #111827 0%, #1e293b 60%, #065f46 100%);
+            color: #ffffff;
+            border-radius: 16px;
+            padding: 16px 14px;
+            margin: 14px 0 18px;
+            text-align: left;
+            border: 1.5px solid rgba(250, 204, 21, 0.5);
+        }
+
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .auth-logo h1 {
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: var(--black-dark);
+        }
+
+        .auth-logo span {
+            color: var(--green-primary);
+        }
+
+        .auth-switch-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            background: var(--gray-soft);
+            padding: 5px;
+            border-radius: 14px;
+            margin-bottom: 18px;
+        }
+
+        .auth-tab-btn {
+            border: none;
+            background: transparent;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--gray-muted);
+            cursor: pointer;
+        }
+
+        .auth-tab-btn.active {
+            background: var(--black-dark);
+            color: var(--yellow-accent);
+        }
+
+        .promo-banner-auth {
+            background: var(--yellow-soft);
+            border: 1px dashed var(--yellow-dark);
+            color: var(--black-dark);
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .form-group { margin-bottom: 14px; }
+
+        .form-label {
+            display: block;
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: var(--gray-dark);
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid var(--gray-border);
+            border-radius: var(--radius-md);
+            font-size: 0.94rem;
+            background: #f8fafc;
+            color: var(--black-dark);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--green-primary);
+            background: #ffffff;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 13px 18px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.94rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-green {
+            background: linear-gradient(135deg, var(--green-primary), var(--green-dark));
+            color: #ffffff;
+        }
+
+        .btn-yellow {
+            background: linear-gradient(135deg, var(--yellow-accent), #eab308);
+            color: var(--black-dark);
+        }
+
+        .btn-dark {
+            background: var(--black-dark);
+            color: #ffffff;
+        }
+
+        .btn-outline {
+            background: #ffffff;
+            color: var(--gray-dark);
+            border: 1.5px solid var(--gray-border);
+        }
+
+        .btn-danger {
+            background: #fee2e2;
+            color: var(--danger);
+            border: 1px solid #fecaca;
+        }
+
+        .hero-tag {
+            background: var(--yellow-accent);
+            color: var(--black-dark);
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 99px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .live-withdrawals-box {
+            background: linear-gradient(135deg, #14191f 0%, #1e293b 100%);
+            color: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 15px 16px;
+            margin-bottom: 16px;
+            border: 1.5px solid rgba(16, 185, 129, 0.45);
+            box-shadow: var(--shadow);
+        }
+
+        .live-badge-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 8px;
+        }
+
+        .live-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.18);
+            border: 1px solid rgba(16, 185, 129, 0.45);
+            color: #6ee7b7;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            padding: 4px 10px;
+            border-radius: 99px;
+            text-transform: uppercase;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green-primary);
+            animation: pulseDot 1.6s infinite;
+        }
+
+        .live-spotlight-card {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(250, 204, 21, 0.28);
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .live-spotlight-card.switching {
+            opacity: 0.35;
+            transform: translateY(3px);
+        }
+
+        .live-recent-mini-list {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .live-mini-row {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 7px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.76rem;
+            color: #e2e8f0;
+        }
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .action-tile {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 18px 15px;
+            border: 1px solid var(--gray-border);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            text-align: left;
+            transition: transform 0.15s ease, border-color 0.15s ease;
+        }
+
+        .action-tile:hover {
+            border-color: var(--green-primary);
+            transform: translateY(-2px);
+        }
+
+        .tile-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tile-green { background: var(--green-light); color: var(--green-dark); }
+        .tile-yellow { background: var(--yellow-soft); color: var(--yellow-dark); }
+        .tile-gray { background: var(--gray-soft); color: var(--black-dark); }
+
+        .action-tile h3 { font-size: 0.98rem; font-weight: 700; color: var(--black-dark); }
+        .action-tile span { font-size: 0.76rem; color: var(--gray-muted); }
+
+        .checkin-banner-home {
+            background: linear-gradient(135deg, var(--black-dark) 0%, #1e293b 100%);
+            color: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 16px 18px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border: 1.5px solid var(--green-primary);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+        }
+
+        .home-empty-slot {
+            min-height: 150px;
+            width: 100%;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .page-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--gray-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--black-dark);
+            flex-shrink: 0;
+        }
+
+        .page-title { font-size: 1.15rem; font-weight: 800; color: var(--black-dark); }
+
+        .vip-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid var(--gray-border);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .vip-card.featured { border: 1.5px solid var(--yellow-accent); }
+
+        .vip-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--black-dark);
+            color: var(--yellow-accent);
+            font-weight: 800;
+            font-size: 0.78rem;
+            padding: 4px 12px;
+            border-radius: 99px;
+        }
+
+        .vip-product-name {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .vip-price { font-size: 1.55rem; font-weight: 800; color: var(--black-dark); margin-bottom: 12px; }
+
+        .vip-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            background: #f8fafc;
+            border: 1px solid var(--gray-border);
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+            gap: 6px;
+        }
+
+        .vip-stat-val { font-weight: 800; font-size: 0.9rem; color: var(--black-dark); }
+        .vip-stat-lbl { font-size: 0.7rem; color: var(--gray-muted); }
+
+        .wallet-card {
+            background: linear-gradient(135deg, var(--green-dark) 0%, var(--black-dark) 100%);
+            color: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .wallet-balance { font-size: 1.95rem; font-weight: 800; color: var(--yellow-accent); margin: 6px 0 16px; }
+
+        .wallet-subgrid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.14);
+        }
+
+        .wallet-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .section-caption {
+            font-size: 0.74rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gray-muted);
+            margin: 18px 4px 10px;
+        }
+
+        .menu-list {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--gray-border);
+            box-shadow: var(--shadow);
+        }
+
+        .menu-item {
+            padding: 15px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--gray-border);
+            cursor: pointer;
+            gap: 10px;
+        }
+
+        .menu-item:last-child { border-bottom: none; }
+        .menu-item:hover { background: #f8fafc; }
+
+        .menu-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--black-dark);
+        }
+
+        .menu-icon-box {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--gray-soft);
+            color: var(--green-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background-color: #cbd5e1;
+            transition: 0.25s;
+            border-radius: 99px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 3px;
+            background-color: #ffffff;
+            transition: 0.25s;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: var(--green-primary);
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+
+        .recharge-hero-box {
+            background: linear-gradient(155deg, #14191f 0%, #1e293b 100%);
+            color: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 20px 18px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(250, 204, 21, 0.25);
+        }
+
+        .recharge-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            gap: 10px;
+        }
+
+        .recharge-label-cap {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 1.4px;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        .recharge-avail-pill {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 99px;
+            padding: 7px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .recharge-big-amount-row {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+        }
+
+        .recharge-big-number {
+            font-size: 2.55rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+            line-height: 1.05;
+        }
+
+        .recharge-currency-tag {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #cbd5e1;
+            letter-spacing: 1px;
+        }
+
+        .recharge-limits-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.78rem;
+            color: #cbd5e1;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .recharge-slider-panel {
+            background: #1b222c;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            padding: 16px 14px;
+            margin-top: 16px;
+        }
+
+        .ruler-slider-wrap {
+            position: relative;
+            height: 48px;
+            background: #11161d;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .ruler-ticks {
+            position: absolute;
+            inset: 0 18px;
+            background-image: repeating-linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0.25) 0px,
+                rgba(255, 255, 255, 0.25) 1.5px,
+                transparent 1.5px,
+                transparent 10px
+            );
+            height: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .recharge-range-input {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            background: transparent;
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .recharge-range-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 30px;
+            height: 40px;
+            border-radius: 99px;
+            background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+            border: 2px solid var(--yellow-accent);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+            cursor: grab;
+        }
+
+        .recharge-range-input::-moz-range-thumb {
+            width: 30px;
+            height: 40px;
+            border-radius: 99px;
+            background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+            border: 2px solid var(--yellow-accent);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+            cursor: grab;
+        }
+
+        .preset-pills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .preset-pill-btn {
+            background: #242d3a;
+            color: #ffffff;
+            border: 1.5px solid rgba(255, 255, 255, 0.14);
+            border-radius: 99px;
+            padding: 12px 14px;
+            font-size: 0.96rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .preset-pill-btn.active {
+            border-color: var(--green-primary);
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--yellow-accent);
+        }
+
+        .recharge-bottom-bar {
+            background: var(--black-dark);
+            color: #ffffff;
+            border-radius: 22px;
+            padding: 12px 14px 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 14px;
+            border: 1px solid rgba(250, 204, 21, 0.35);
+            box-shadow: var(--shadow);
+        }
+
+        .checkin-hero-card {
+            background: linear-gradient(165deg, #14191f 0%, #1e293b 100%);
+            color: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 24px 18px;
+            text-align: center;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+        }
+
+        .checkin-wheel {
+            width: 236px;
+            height: 236px;
+            border-radius: 50%;
+            margin: 0 auto 18px;
+            position: relative;
+            background: radial-gradient(circle at center, #1b222c 54%, #10151b 55%, #1d2530 100%);
+            border: 3px solid #2b3544;
+            box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.65), 0 10px 25px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .checkin-inner-ring {
+            width: 148px;
+            height: 148px;
+            border-radius: 50%;
+            border: 2.5px solid var(--green-primary);
+            background: linear-gradient(145deg, #161c24, #0f141a);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
+            z-index: 2;
+        }
+
+        .checkin-day-dot {
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            font-size: 0.72rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            background: rgba(255, 255, 255, 0.05);
+            transform: translate(-50%, -50%);
+        }
+
+        .checkin-day-dot.done {
+            background: var(--green-primary);
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+
+        .checkin-day-dot.today {
+            border: 2px solid var(--yellow-accent);
+            color: var(--yellow-accent);
+        }
+
+        .checkin-stats-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            margin-top: 18px;
+            padding-top: 14px;
+            text-align: left;
+        }
+
+        .checkin-stats-split > div:first-child {
+            border-right: 1px solid rgba(255, 255, 255, 0.12);
+            padding-right: 12px;
+        }
+
+        .checkin-stats-split > div:last-child {
+            padding-left: 14px;
+        }
+
+        .calendar-card {
+            background: #14191f;
+            color: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 20px 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .cal-weekdays, .cal-days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            gap: 6px;
+        }
+
+        .cal-weekdays span {
+            font-size: 0.74rem;
+            font-weight: 700;
+            color: #94a3b8;
+            padding-bottom: 8px;
+        }
+
+        .cal-day-cell {
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+
+        .cal-day-cell.checked {
+            background: #ffffff;
+            color: var(--black-dark);
+            font-weight: 800;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.45);
+        }
+
+        .cal-day-cell.today-ring {
+            border: 1.5px solid var(--green-primary);
+        }
+
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .method-option {
+            border: 1.5px solid var(--gray-border);
+            background: #ffffff;
+            color: var(--gray-dark);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.86rem;
+            cursor: pointer;
+        }
+
+        .method-option.selected {
+            border-color: var(--green-primary);
+            background: var(--green-light);
+            color: var(--green-dark);
+        }
+
+        .copy-box {
+            background: var(--yellow-soft);
+            border: 1.5px dashed var(--yellow-dark);
+            padding: 13px 14px;
+            border-radius: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .record-card {
+            background: var(--bg-card);
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border: 1px solid var(--gray-border);
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-pill {
+            padding: 5px 11px;
+            border-radius: 99px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .status-pending { background: var(--yellow-soft); color: #92400e; border: 1px solid rgba(202, 138, 4, 0.3); }
+        .status-success { background: var(--green-light); color: var(--green-dark); }
+        .status-rejected { background: #fee2e2; color: var(--danger); }
+
+        .support-channel {
+            background: #f8fafc;
+            border: 1px solid var(--gray-border);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .support-badge-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .info-alert {
+            background: var(--yellow-soft);
+            border-left: 4px solid var(--yellow-dark);
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            color: var(--black-dark);
+            margin-bottom: 16px;
+            line-height: 1.48;
+        }
+
+        .danger-alert {
+            background: #fee2e2;
+            border-left: 4px solid var(--danger);
+            padding: 13px 14px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            color: #991b1b;
+            margin-bottom: 16px;
+            line-height: 1.48;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            border-top: 1px solid var(--gray-border);
+            display: flex;
+            justify-content: space-around;
+            padding: 9px 4px;
+            z-index: 60;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            color: var(--gray-muted);
+            font-size: 0.68rem;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 2px 6px;
+        }
+
+        .nav-btn.active { color: var(--green-dark); }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--black-dark);
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 99px;
+            font-size: 0.84rem;
+            font-weight: 600;
+            z-index: 999;
+            border-left: 4px solid var(--yellow-accent);
+            display: none;
+            max-width: 90%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<svg style="display:none;" aria-hidden="true">
+    <symbol id="ic-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"/>
+    </symbol>
+    <symbol id="ic-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/>
+    </symbol>
+    <symbol id="ic-team" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </symbol>
+    <symbol id="ic-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+    </symbol>
+    <symbol id="ic-whatsapp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+    </symbol>
+    <symbol id="ic-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 3H5a2 2 0 0 0-2 2v2"/><circle cx="16" cy="14" r="1.5"/>
+    </symbol>
+    <symbol id="ic-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+    </symbol>
+    <symbol id="ic-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+    </symbol>
+    <symbol id="ic-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+    </symbol>
+    <symbol id="ic-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+    </symbol>
+    <symbol id="ic-transfer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+    </symbol>
+    <symbol id="ic-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+    </symbol>
+    <symbol id="ic-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+    </symbol>
+    <symbol id="ic-history" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+    </symbol>
+    <symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+    </symbol>
+    <symbol id="ic-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+    </symbol>
+    <symbol id="ic-volume" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+    </symbol>
+    <symbol id="ic-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><polyline points="9 16 11 18 15 14"/>
+    </symbol>
+    <symbol id="ic-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>
+    </symbol>
+</svg>
+
+<div class="toast" id="toast"></div>
+
+<div class="app-shell" id="appShell">
+
+    <!-- ==================== PAGE 1 : INSCRIPTION & CONNEXION ==================== -->
+    <div id="view-register" class="auth-wrapper">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <div class="brand-badge" style="display:inline-block; margin-bottom:8px;">OFFICIEL NOVA FORTUNE</div>
+                <h1>NOVA <span>FORTUNE</span></h1>
+                <p style="font-size:0.85rem; color:var(--gray-muted); margin-top:4px;">Entreprise à long terme • Contrat 1 an 5 mois</p>
+            </div>
+
+            <div class="auth-switch-tabs">
+                <button type="button" class="auth-tab-btn active" id="tabRegisterBtn" onclick="switchAuthTab('register')">S'inscrire</button>
+                <button type="button" class="auth-tab-btn" id="tabLoginBtn" onclick="switchAuthTab('login')">Se connecter</button>
+            </div>
+
+            <div id="registerPanel">
+                <div class="promo-banner-auth">
+                    Bonus de bienvenue : <strong>100 F CFA</strong> offerts • Contrat long terme <strong>1 an 5 mois</strong>
+                </div>
+                <form id="registerForm" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label class="form-label">Nom complet</label>
+                        <input type="text" id="regName" class="form-control" placeholder="Ex: Kouassi Jean" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Numéro de téléphone</label>
+                        <input type="tel" id="regPhone" class="form-control" placeholder="Ex: 0700000000" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" id="regPass" class="form-control" placeholder="Créez un mot de passe (min. 6 caractères)" minlength="6" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Code d'invitation (Optionnel)</label>
+                        <input type="text" id="regRef" class="form-control" placeholder="Ex: NF-8842">
+                    </div>
+                    <button type="submit" class="btn btn-green" id="regSubmitBtn">
+                        S'inscrire sur Nova Fortune
+                    </button>
+                </form>
+                <p style="font-size:0.76rem; color:var(--gray-muted); text-align:center; margin-top:12px;">
+                    Déjà inscrit ? <a href="javascript:void(0)" onclick="switchAuthTab('login')" style="color:var(--green-dark); font-weight:800; text-decoration:none;">Connectez-vous ici</a>
+                </p>
+            </div>
+
+            <div id="loginPanel" style="display:none;">
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">Numéro de téléphone</label>
+                        <input type="tel" id="loginPhone" class="form-control" placeholder="Ex: 0700000000" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" id="loginPass" class="form-control" placeholder="Votre mot de passe" required>
+                    </div>
+                    <button type="submit" class="btn btn-yellow" id="loginSubmitBtn">
+                        Se connecter
+                    </button>
+                </form>
+                <p style="font-size:0.76rem; color:var(--gray-muted); text-align:center; margin-top:12px;">
+                    Pas encore de compte ? <a href="javascript:void(0)" onclick="switchAuthTab('register')" style="color:var(--green-dark); font-weight:800; text-decoration:none;">S'inscrire</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== ÉCRAN DE LECTURE APRÈS INSCRIPTION (AVANT L'ACCUEIL) ==================== -->
+    <div id="view-congrats" class="auth-wrapper" style="display:none; text-align:center;">
+        <div class="auth-card">
+            <div style="width:68px; height:68px; background:var(--green-light); color:var(--green-dark); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 14px;">
+                <svg class="ico-lg"><use href="#ic-check"/></svg>
+            </div>
+            <span class="hero-tag">Félicitations • Bienvenue</span>
+            <h2 style="font-size:1.38rem; font-weight:800; margin-bottom:6px;">Félicitations, <span id="congratsName" style="color:var(--green-dark);"></span> !</h2>
+            <p style="font-size:0.84rem; color:var(--gray-muted); line-height:1.5;">
+                Prenez un instant pour lire le message de bienvenue avant d'accéder à la page d'accueil.
+            </p>
+
+            <div class="congrats-contract-box">
+                <div class="welcome-contract-pill" style="margin-bottom:10px;">
+                    <svg class="ico"><use href="#ic-shield"/></svg> Contrat Long Terme • 1 An 5 Mois
+                </div>
+                <p style="font-size:0.86rem; line-height:1.58; color:#f1f5f9; margin-bottom:12px;">
+                    <strong>Bienvenue sur notre entreprise Nova Fortune.</strong> Cette entreprise est à <strong>long terme</strong> : nous allons faire <strong>1 an et 5 mois</strong>. C'est notre contrat que nous avons signé, donc nous allons bien durer ensemble.
+                </p>
+                <div style="background:rgba(16, 185, 129, 0.16); border:1px solid rgba(110, 231, 183, 0.35); border-radius:10px; padding:9px 12px; font-size:0.78rem; color:#a7f3d0; font-weight:700;">
+                    Bonus d'inscription crédité : +100 F CFA • Durée : 1 an 5 mois
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-yellow" id="continueToHomeBtn" onclick="enterPlatform()">
+                J'ai lu, continuer vers l'accueil &rsaquo;
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== HEADER GLOBAL ==================== -->
+    <header class="top-bar" id="mainHeader" style="display:none;">
+        <div class="brand">
+            <span class="brand-badge">NOVA FORTUNE</span>
+        </div>
+        <div class="header-right">
+            <div class="user-pill">
+                <svg class="ico" style="color:var(--yellow-accent);"><use href="#ic-wallet"/></svg>
+                <span id="headerBalance">0 F</span>
+            </div>
+            <button type="button" class="mini-header-btn danger-pill" onclick="confirmLogout()" title="Se déconnecter">
+                <svg class="ico"><use href="#ic-logout"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- ==================== BARRE PRO FLOTTANTE AU DÉFILEMENT ==================== -->
+    <div class="sticky-account-bar" id="stickyAccountBar">
+        <div>
+            <div style="font-size:0.68rem; color:#cbd5e1; text-transform:uppercase; letter-spacing:0.4px;">
+                Solde Nova Fortune • <span id="stickyLinkedStatus" style="color:#6ee7b7;">Compte lié</span>
+            </div>
+            <div style="font-size:0.95rem; font-weight:800; color:var(--yellow-accent);" id="stickyBalanceText">0 F CFA</div>
+            <div style="font-size:0.7rem; color:#6ee7b7;" id="stickyDailyText">+0 F / jour</div>
+        </div>
+        <div style="display:flex; gap:8px;">
+            <button type="button" class="btn btn-green" style="width:auto; padding:7px 12px; font-size:0.76rem; border-radius:10px;" onclick="navigate('view-recharge')">Recharger</button>
+            <button type="button" class="btn btn-yellow" style="width:auto; padding:7px 12px; font-size:0.76rem; border-radius:10px;" onclick="navigate('view-withdraw')">Retrait</button>
+        </div>
+    </div>
+
+    <!-- ==================== PAGE 2 : ACCUEIL ==================== -->
+    <div id="view-home" class="view">
+
+        <div class="live-withdrawals-box">
+            <div class="live-badge-row">
+                <span class="live-pill"><span class="live-dot"></span> Retraits en direct</span>
+                <button type="button" onclick="cycleLiveWithdrawal()" style="background:rgba(255,255,255,0.1); color:var(--yellow-accent); border:1px solid rgba(250,204,21,0.35); border-radius:99px; padding:4px 10px; font-size:0.7rem; font-weight:800; cursor:pointer;">
+                    Suivant &rsaquo;
+                </button>
+            </div>
+
+            <div class="live-spotlight-card" id="liveSpotlightCard">
+                <div>
+                    <div style="font-size:0.9rem; font-weight:800; color:#ffffff;" id="liveSpotlightText">
+                        Jean Kouassi vient de retirer
+                    </div>
+                    <div style="font-size:0.74rem; color:#cbd5e1; margin-top:2px;" id="liveSpotlightMeta">
+                        Via Wave • À l'instant
+                    </div>
+                </div>
+                <div style="text-align:right; flex-shrink:0;">
+                    <span class="status-pill status-success" id="liveSpotlightAmount">+15 000 FCFA</span>
+                </div>
+            </div>
+
+            <div class="live-recent-mini-list" id="liveRecentMiniList"></div>
+        </div>
+
+        <div class="checkin-banner-home" onclick="navigate('view-checkin')">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <div style="width:44px; height:44px; border-radius:12px; background:rgba(16,185,129,0.2); color:var(--green-primary); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                    <svg class="ico-lg"><use href="#ic-calendar"/></svg>
+                </div>
+                <div>
+                    <div style="font-size:0.95rem; font-weight:800;">Présence quotidienne</div>
+                    <div style="font-size:0.76rem; color:#cbd5e1;" id="homeCheckinSubtitle">Réclamez votre bonus journalier (+27 F CFA)</div>
+                </div>
+            </div>
+            <span class="hero-tag" style="margin:0; flex-shrink:0;" id="homeCheckinBadge">+27 F</span>
+        </div>
+
+        <h3 style="font-size:1rem; font-weight:800; margin-bottom:12px;">Accès Rapide</h3>
+        <div class="quick-grid">
+            <button class="action-tile" onclick="navigate('view-invest')">
+                <div class="tile-icon tile-green"><svg class="ico-lg"><use href="#ic-chart"/></svg></div>
+                <div>
+                    <h3>Investir</h3>
+                    <span>Tous les plans VIP</span>
+                </div>
+            </button>
+
+            <button class="action-tile" onclick="navigate('view-recharge')">
+                <div class="tile-icon tile-yellow"><svg class="ico-lg"><use href="#ic-plus"/></svg></div>
+                <div>
+                    <h3>Recharger</h3>
+                    <span>Dès 5 000 F CFA</span>
+                </div>
+            </button>
+
+            <button class="action-tile" onclick="navigate('view-team')">
+                <div class="tile-icon tile-yellow"><svg class="ico-lg"><use href="#ic-team"/></svg></div>
+                <div>
+                    <h3>Équipe</h3>
+                    <span>Parrainer & gagner</span>
+                </div>
+            </button>
+
+            <button class="action-tile" onclick="navigate('view-account')">
+                <div class="tile-icon tile-green"><svg class="ico-lg"><use href="#ic-user"/></svg></div>
+                <div>
+                    <h3>Mon Compte</h3>
+                    <span>Solde & activités</span>
+                </div>
+            </button>
+        </div>
+
+        <div id="homeRemovedSlot" class="home-empty-slot" aria-hidden="true"></div>
+    </div>
+
+    <!-- ==================== PAGE 3 : INVESTIR ==================== -->
+    <div id="view-invest" class="view">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn" onclick="navigate('view-home')"><svg class="ico"><use href="#ic-back"/></svg></button>
+                <h2 class="page-title">Investir • Plans VIP</h2>
+            </div>
+        </div>
+
+        <div class="info-alert">
+            Solde disponible : <strong id="investBalanceDisplay">0 F CFA</strong>. Après investissement, vos gains sont crédités automatiquement sur votre solde toutes les <strong>24 heures</strong>.
+        </div>
+
+        <div id="vipListContainer"></div>
+    </div>
+
+    <!-- ==================== PAGE 4 : MON COMPTE ==================== -->
+    <div id="view-account" class="view">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn" onclick="navigate('view-home')"><svg class="ico"><use href="#ic-back"/></svg></button>
+                <h2 class="page-title">Mon Compte</h2>
+            </div>
+        </div>
+
+        <div class="wallet-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:0.82rem; opacity:0.85;">Solde Total Disponible</span>
+                <span style="background:rgba(255,255,255,0.14); padding:3px 10px; border-radius:99px; font-size:0.74rem;" id="accUserPhone"></span>
+            </div>
+            <div class="wallet-balance" id="accBalance">0 F CFA</div>
+            <div class="wallet-subgrid">
+                <div>
+                    <div style="font-size:0.75rem; opacity:0.8;">Revenus Quotidiens (24h)</div>
+                    <div style="font-weight:800; font-size:0.98rem; color:#6ee7b7;" id="accDailyIncome">0 F / jour</div>
+                </div>
+                <div>
+                    <div style="font-size:0.75rem; opacity:0.8;">Revenus Totaux Crédités</div>
+                    <div style="font-weight:800; font-size:0.98rem; color:var(--yellow-accent);" id="accTotalEarned">0 F CFA</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wallet-actions">
+            <button class="btn btn-green" onclick="navigate('view-recharge')">
+                <svg class="ico"><use href="#ic-plus"/></svg> Recharger
+            </button>
+            <button class="btn btn-yellow" onclick="navigate('view-withdraw')">
+                <svg class="ico"><use href="#ic-transfer"/></svg> Retrait
+            </button>
+        </div>
+
+        <div class="section-caption">Activités & Préférences</div>
+        <div class="menu-list">
+            <div class="menu-item" onclick="navigate('view-checkin')">
+                <div class="menu-item-left">
+                    <span class="menu-icon-box" style="background:var(--green-light); color:var(--green-dark);"><svg class="ico"><use href="#ic-calendar"/></svg></span>
+                    <div>
+                        <div>Présence quotidienne</div>
+                        <div style="font-size:0.74rem; color:var(--green-dark); font-weight:700;" id="accCheckinStatus">Bonus +27 F disponible</div>
+                    </div>
+                </div>
+                <svg class="ico" style="color:var(--gray-muted);"><use href="#ic-chevron"/></svg>
+            </div>
+            <div class="menu-item" onclick="navigate('view-notifications')">
+                <div class="menu-item-left">
+                    <span class="menu-icon-box"><svg class="ico"><use href="#ic-bell"/></svg></span>
+                    <span>Notifications</span>
+                </div>
+                <svg class="ico" style="color:var(--gray-muted);"><use href="#ic-chevron"/></svg>
+            </div>
+            <div class="menu-item">
+                <div class="menu-item-left">
+                    <span class="menu-icon-box"><svg class="ico"><use href="#ic-volume"/></svg></span>
+                    <div>
+                        <div>Sons de l'interface</div>
+                        <div style="font-size:0.73rem; color:var(--gray-muted); font-weight:500;">Un son discret pour un gain ou un achat</div>
+                    </div>
+                </div>
+                <label class="toggle-switch" onclick="event.stopPropagation()">
+                    <input type="checkbox" id="uiSoundToggle" checked onchange="toggleInterfaceSounds(this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="section-caption">Gestion Financière</div>
+        <div class="menu-list">
+            <div class="menu-item" onclick="navigate('view-purchases')">
+                <div class="menu-item-left"><span class="menu-icon-box"><svg class="ico"><use href="#ic-bag"/></svg></span> Mes achats (Packs actifs)</div>
+                <svg class="ico" style="color:var(--gray-muted);"><use href="#ic-chevron"/></svg>
+            </div>
+            <div class="menu-item" onclick="navigate('view-link-account')">
+                <div class="menu-item-left"><span class="menu-icon-box"><svg class="ico"><use href="#ic-link"/></svg></span> Lier mon compte de retrait</div>
+                <svg class="ico" style="color:var(--gray-muted);"><use href="#ic-chevron"/></svg>
+            </div>
+            <div class="menu-item" onclick="navigate('view-linked-account')">
+                <div class="menu-item-left"><span class="menu-icon-box"><svg class="ico"><use href="#ic-user"/></svg></span> Voir mon compte lié</div>
+                <svg class="ico" style="color:var(--gray-muted);"><use href="#ic-chevron"/></svg>
+            </div>
+            <div class="menu-item" onclick="navigate('view-recharge-history')">
+                <div class="menu-item-left"><span class="menu-icon-box"><svg class="ico"><use href="#ic-history"/></svg></span> Historique de recharge</div>
+                <svg class="ico" style="color:var(--gray-muted);"><use href="#ic-chevron"/></svg>
+            </div>
+            <div class="menu-item" onclick="navigate('view-withdraw-history')">
+                <div class="menu-item-left"><span class="menu-icon-box"><svg class="ico"><use href="#ic-transfer"/></svg></span> Historique de retrait</div>
+                <svg class="ico" style="color:var(--gray-muted);"><use href="#ic-chevron"/></svg>
+            </div>
+        </div>
+
+        <div class="section-caption">Aide et Informations</div>
+        <div class="menu-list">
+            <div class="menu-item" onclick="navigate('view-support')">
+                <div class="menu-item-left"><span class="menu-icon-box"><svg class="ico"><use href="#ic-whatsapp"/></svg></span> Service client WhatsApp</div>
+                <svg class="ico" style="color:var(--gray-muted);"><use href="#ic-chevron"/></svg>
+            </div>
+            <div class="menu-item" onclick="navigate('view-logout')">
+                <div class="menu-item-left" style="color:var(--danger);"><span class="menu-icon-box" style="background:#fee2e2; color:var(--danger);"><svg class="ico"><use href="#ic-logout"/></svg></span> Se déconnecter</div>
+                <svg class="ico" style="color:var(--gray-muted);"><use href="#ic-chevron"/></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== PAGE PRÉSENCE QUOTIDIENNE ==================== -->
+    <div id="view-checkin" class="view">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn" onclick="navigate('view-home')"><svg class="ico"><use href="#ic-back"/></svg></button>
+                <h2 class="page-title">Présence quotidienne</h2>
+            </div>
+        </div>
+
+        <div class="checkin-hero-card">
+            <div class="checkin-wheel" id="checkinWheelBtn" onclick="claimDailyCheckin()">
+                <div id="wheelDayMarkers"></div>
+                <div class="checkin-inner-ring">
+                    <span style="width:24px; height:4px; border-radius:99px; background:var(--green-primary); margin-bottom:8px;"></span>
+                    <div style="font-size:2.1rem; font-weight:800; line-height:1;">+27</div>
+                    <div style="font-size:0.82rem; font-weight:700; color:var(--green-primary); letter-spacing:1.2px; margin-top:4px;">FCFA</div>
+                </div>
+            </div>
+
+            <h3 id="checkinStatusTitle" style="font-size:1.2rem; font-weight:800; color:#6ee7b7; margin-bottom:6px;">
+                Touchez le cercle pour recevoir +27 FCFA
+            </h3>
+            <p id="checkinStatusDesc" style="font-size:0.84rem; color:#cbd5e1;">
+                Validez votre présence chaque jour pour augmenter votre solde.
+            </p>
+
+            <button type="button" class="btn btn-green" id="claimCheckinBtn" style="margin-top:16px;" onclick="claimDailyCheckin()">
+                Valider ma présence (+27 FCFA)
+            </button>
+
+            <div class="checkin-stats-split">
+                <div>
+                    <div style="font-size:0.68rem; color:#94a3b8; font-weight:700; letter-spacing:0.8px;">TOTAL DE JOURS</div>
+                    <div style="font-size:1.45rem; font-weight:800; margin-top:4px;"><span id="checkinTotalDays">0</span> <span style="font-size:0.9rem; font-weight:600; color:#cbd5e1;">jours</span></div>
+                </div>
+                <div>
+                    <div style="font-size:0.68rem; color:#94a3b8; font-weight:700; letter-spacing:0.8px;">SÉRIE EN COURS</div>
+                    <div style="font-size:1.45rem; font-weight:800; margin-top:4px;"><span id="checkinStreakDays">0</span> <span style="font-size:0.9rem; font-weight:600; color:#cbd5e1;">jours</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="calendar-card">
+            <div style="font-size:0.72rem; letter-spacing:1px; color:#94a3b8; font-weight:700; margin-bottom:6px;">HISTORIQUE DES VISITES</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                <div>
+                    <div style="font-size:1.2rem; font-weight:800; text-transform:capitalize;" id="calMonthTitle">Novembre 2026</div>
+                    <div style="font-size:0.82rem; color:#6ee7b7; font-weight:600;" id="calMonthValidatedCount">0 jour validé</div>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button type="button" class="back-btn" style="background:#242d3a; border-color:rgba(255,255,255,0.12); color:#fff;" onclick="changeCalendarMonth(-1)">
+                        <svg class="ico"><use href="#ic-back"/></svg>
+                    </button>
+                    <button type="button" class="back-btn" style="background:#242d3a; border-color:rgba(255,255,255,0.12); color:#fff;" onclick="changeCalendarMonth(1)">
+                        <svg class="ico"><use href="#ic-chevron"/></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="cal-weekdays">
+                <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
+            </div>
+            <div class="cal-days-grid" id="calDaysGrid"></div>
+        </div>
+    </div>
+
+    <!-- ==================== PAGE NOTIFICATIONS ==================== -->
+    <div id="view-notifications" class="view">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn" onclick="navigate('view-account')"><svg class="ico"><use href="#ic-back"/></svg></button>
+                <h2 class="page-title">Notifications</h2>
+            </div>
+        </div>
+        <div id="notificationsList"></div>
+    </div>
+
+    <!-- ==================== PAGE 5 : RECHARGER ==================== -->
+    <div id="view-recharge" class="view">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn" onclick="navigate('view-account')"><svg class="ico"><use href="#ic-back"/></svg></button>
+                <h2 class="page-title">Recharge</h2>
+            </div>
+            <button type="button" class="back-btn" onclick="navigate('view-recharge-history')" title="Historique de recharge">
+                <svg class="ico"><use href="#ic-history"/></svg>
+            </button>
+        </div>
+
+        <div class="recharge-hero-box">
+            <div class="recharge-top-row">
+                <span class="recharge-label-cap">MONTANT</span>
+                <div class="recharge-avail-pill">
+                    <svg class="ico" style="color:var(--green-primary);"><use href="#ic-wallet"/></svg>
+                    <div>
+                        <div style="font-size:0.68rem; color:#94a3b8;">Solde disponible</div>
+                        <div style="font-size:0.85rem; font-weight:800; color:#ffffff;" id="rechargeAvailBalance">0 FCFA</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recharge-big-amount-row">
+                <div class="recharge-big-number" id="rechargeBigDisplay">5 000</div>
+                <span class="recharge-currency-tag">FCFA</span>
+            </div>
+
+            <div class="recharge-limits-row">
+                <span>Min 5 000 FCFA</span>
+                <span>Max 1 000 000 FCFA</span>
+            </div>
+
+            <div class="recharge-slider-panel">
+                <div class="ruler-slider-wrap">
+                    <div class="ruler-ticks"></div>
+                    <input
+                        type="range"
+                        id="rechargeRangeSlider"
+                        class="recharge-range-input"
+                        min="5000"
+                        max="1000000"
+                        step="500"
+                        value="5000"
+                        oninput="onRechargeSliderChange(this.value)"
+                    >
+                </div>
+
+                <div class="preset-pills-grid" id="presetPillsGrid">
+                    <button type="button" class="preset-pill-btn active" data-val="5000" onclick="setRechargeAmount(5000)">5 000</button>
+                    <button type="button" class="preset-pill-btn" data-val="10000" onclick="setRechargeAmount(10000)">10 000</button>
+                    <button type="button" class="preset-pill-btn" data-val="40000" onclick="setRechargeAmount(40000)">40 000</button>
+                    <button type="button" class="preset-pill-btn" data-val="100000" onclick="setRechargeAmount(100000)">100 000</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="vip-card">
+            <div class="form-group">
+                <label class="form-label">Ou saisir un montant personnalisé (Min. 5 000 FCFA)</label>
+                <input type="number" id="rechargeAmount" class="form-control" value="5000" min="5000" max="1000000" oninput="onRechargeInputChange(this.value)">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Votre numéro de rechargement</label>
+                <input type="tel" id="rechargeSenderPhone" class="form-control" placeholder="Ex: 0700000000">
+            </div>
+
+            <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">Sélectionnez la méthode de paiement</label>
+                <div class="method-grid" id="rechargeMethods" style="margin-bottom:0;">
+                    <div class="method-option selected" onclick="selectPaymentMethod(this, 'Wave', '07 88 99 00 11')">Wave</div>
+                    <div class="method-option" onclick="selectPaymentMethod(this, 'MTN Money', '05 44 55 66 77')">MTN Money</div>
+                    <div class="method-option" onclick="selectPaymentMethod(this, 'Orange Money', '07 11 22 33 44')">Orange Money</div>
+                    <div class="method-option" onclick="selectPaymentMethod(this, 'Moov Money', '01 22 33 44 55')">Moov Money</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="recharge-bottom-bar">
+            <div>
+                <div style="font-size:0.65rem; letter-spacing:1.1px; color:#94a3b8; font-weight:700; text-transform:uppercase;">VOUS ALLEZ RECHARGER</div>
+                <div style="font-size:1.15rem; font-weight:800; color:#ffffff; margin-top:2px;">
+                    <span id="rechargeFooterAmount">5 000</span> <span style="font-size:0.75rem; color:#cbd5e1;">FCFA</span>
+                </div>
+            </div>
+            <button type="button" class="btn" id="rechargeContinueBtn" style="width:auto; background:#ffffff; color:var(--black-dark); border-radius:99px; padding:13px 18px; font-weight:800; font-size:0.88rem;" onclick="goToPaymentConfirmation()">
+                Recharger maintenant
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== PAGE 6 : EFFECTUER LE PAIEMENT ==================== -->
+    <div id="view-payment-confirm" class="view">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn" onclick="navigate('view-recharge')"><svg class="ico"><use href="#ic-back"/></svg></button>
+                <h2 class="page-title">Paiement enregistré • En attente</h2>
+            </div>
+        </div>
+
+        <div class="vip-card">
+            <div class="info-alert">
+                Votre demande de recharge a été enregistrée automatiquement en <strong>En attente</strong> dans l'<strong>Historique de recharge</strong>. Finalisez votre paiement sur le lien Jeko ci-dessous.
+            </div>
+
+            <div style="text-align:center; padding-bottom:14px; border-bottom:1px solid var(--gray-border);">
+                <span style="font-size:0.8rem; color:var(--gray-muted);">Montant via <strong id="payMethodDisplay">Wave</strong></span>
+                <div style="font-size:1.75rem; font-weight:800; color:var(--green-dark); margin-top:4px;" id="payAmountDisplay">0 F CFA</div>
+                <span style="font-size:0.78rem; color:var(--gray-muted);">Numéro : <strong id="paySenderDisplay"></strong> • Statut : <strong style="color:#92400e;">En attente</strong></span>
+            </div>
+
+            <div style="margin-top:15px;">
+                <label class="form-label">Lien de paiement Jeko :</label>
+                <div class="copy-box">
+                    <span style="font-size:0.78rem; font-weight:700; word-break:break-all;" id="jekoLinkDisplay">https://pay.jeko.africa/pl/d95bfc0e-e246-4947-ac8c-aaa4e5614f16</span>
+                    <button type="button" class="btn btn-dark" style="width:auto; padding:8px 14px; font-size:0.78rem; flex-shrink:0;" onclick="copyText(document.getElementById('jekoLinkDisplay').innerText)">
+                        Copier
+                    </button>
+                </div>
+            </div>
+
+            <a id="jekoPaymentAnchor" href="https://pay.jeko.africa/pl/d95bfc0e-e246-4947-ac8c-aaa4e5614f16" target="_blank" rel="noopener noreferrer" class="btn btn-green" style="margin-top:14px; text-decoration:none;">
+                Ouvrir le lien de paiement Jeko
+            </a>
+
+            <button type="button" class="btn btn-yellow" style="margin-top:10px;" onclick="navigate('view-recharge-history')">
+                Voir dans l'historique de recharge (En attente)
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== PAGE 7 : HISTORIQUE DE RECHARGE ==================== -->
+    <div id="view-recharge-history" class="view">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn" onclick="navigate('view-account')"><svg class="ico"><use href="#ic-back"/></svg></button>
+                <h2 class="page-title">Historique de recharge</h2>
+            </div>
+        </div>
+        <div class="info-alert">
+            Chaque demande de recharge est enregistrée en <strong>En attente</strong> dès l'appui sur continuer le paiement, jusqu'à validation.
+        </div>
+        <div id="rechargeHistoryList"></div>
+    </div>
+
+    <!-- ==================== PAGE 8 : LIER LE COMPTE ==================== -->
+    <div id="view-link-account" class="view">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn" onclick="navigate('view-account')"><svg class="ico"><use href="#ic-back"/></svg></button>
+                <h2 class="page-title">Lier mon compte</h2>
+            </div>
+        </div>
+
+        <div class="vip-card">
+            <div class="info-alert">
+                Sélectionnez votre méthode de paiement et saisissez votre numéro pour enregistrer votre compte de retrait.
+            </div>
+            <div class="form-group">
+                <label class="form-label">Méthode de paiement</label>
+                <div class="method-grid" id="linkMethods">
+                    <div class="method-option selected" onclick="selectLinkMethod(this, 'Wave')">Wave</div>
+                    <div class="method-option" onclick="selectLinkMethod(this, 'MTN Money')">MTN Money</div>
+                    <div class="method-option" onclick="selectLinkMethod(this, 'Orange Money')">Orange Money</div>
+                    <div class="method-option" onclick="selectLinkMethod(this, 'Moov Money')">Moov Money</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Votre numéro</label>
+                <input type="tel" id="linkPhoneInput" class="form-control" placeholder="Ex: 0700000000">
+            </div>
+            <button class="btn btn-green" onclick="saveLinkedAccount()">
+                Enregistrer mon compte
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== PAGE 9 : VOIR MON COMPTE LIÉ ==================== -->
+    <div id="view-linked-account" class="view">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn" onclick="navigate('view-account')"><svg class="ico"><use href="#ic-back"/></svg></button>
+                <h2 class="page-title">Mon compte lié</h2>
+            </div>
+        </div>
+        <div id="linkedAccountDetails"></div>
+    </div>
+
+    <!-- ==================== PAGE 10 : RETRAIT ==================== -->
+    <div id="view-withdraw" class="view">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn" onclick="navigate('view-account')"><svg class="ico"><use href="#ic-back"/></svg></button>
+                <h2 class="page-title">Demande de Retrait</h2>
+            </div>
+        </div>
+
+        <div id="withdrawUnlinkedAlert" class="danger-alert" style="display:none;">
+            <div style="font-weight:800; margin-bottom:6px;">Compte de retrait non lié</div>
+            <p style="margin-bottom:10px;">Vous devez d'abord lier votre compte de paiement avant de pouvoir lancer un retrait.</p>
+            <button type="button" class="btn btn-dark" style="padding:9px 14px; font-size:0.8rem;" onclick="navigate('view-link-account')">
+                Lier mon compte maintenant
+            </button>
+        </div>
+
+        <div class="info-alert">
+            <strong>Minimum de retrait :</strong> <strong>1 000 F CFA</strong>.<br>
+            <strong>Statut :</strong> Une fois lancé, votre retrait reste en <strong>En attente</strong>.<br>
+            <strong>Frais de retrait :</strong> <strong>4 %</strong> appliqués sur le montant demandé.
+        </div>
+
+        <div class="vip-card" id="withdrawFormCard">
+            <div style="margin-bottom:14px; font-size:0.85rem;">
+                Solde disponible : <strong style="color:var(--green-dark);" id="withdrawBalanceDisplay">0 F CFA</strong>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Montant du retrait (F CFA • Min. 1 000 F)</label>
+                <input type="number" id="withdrawAmountInput" class="form-control" placeholder="Ex: 1000" min="1000" oninput="calculateWithdrawNet()">
+            </div>
+
+            <div style="background:#f8fafc; border:1px solid var(--gray-border); padding:12px; border-radius:12px; margin-bottom:15px; font-size:0.84rem;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span>Frais de retrait (4 %) :</span>
+                    <strong id="withdrawFeeDisplay" style="color:var(--danger);">0 F CFA</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between;">
+                    <span>Montant net à recevoir :</span>
+                    <strong id="withdrawNetDisplay" style="color:var(--green-dark);">0 F CFA</strong>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Votre numéro de retrait</label>
+                <input type="tel" id="withdrawPhoneInput" class="form-control" placeholder="Ex: 0700000000">
+            </div>
+
+            <button class="btn btn-yellow" id="submitWithdrawBtn" onclick="submitWithdraw()">
+                Confirmer le retrait
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== PAGE 11 : HISTORIQUE DE RETRAIT ==================== -->
+    <div id="view-withdraw-history" class="view">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn" onclick="navigate('view-account')"><svg class="ico"><use href="#ic-back"/></svg></button>
+                <h2 class="page-title">Historique de retrait</h2>
+            </div>
+        </div>
+        <div class="info-alert">
+            Une fois lancé, votre retrait reste en <strong>En attente</strong> dans l'historique.
+        </div>
+        <div id="withdrawHistoryList"></div>
+    </div>
+
+    <!-- ==================== PAGE 12 : MES ACHATS ==================== -->
+    <div id="view-purchases" class="view">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn" onclick="navigate('view-account')"><svg class="ico"><use href="#ic-back"/></svg></button>
+                <h2 class="page-title">Mes Achats</h2>
+            </div>
+        </div>
+        <div class="info-alert">
+            Chaque investissement crédite automatiquement son gain quotidien toutes les <strong>24 heures</strong> pendant la durée du pack.
+        </div>
+        <div id="purchasesList"></div>
+    </div>
+
+    <!-- ==================== PAGE 13 : MON ÉQUIPE ==================== -->
+    <div id="view-team" class="view">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn" onclick="navigate('view-home')"><svg class="ico"><use href="#ic-back"/></svg></button>
+                <h2 class="page-title">Mon Équipe</h2>
+            </div>
+        </div>
+
+        <div class="vip-card" style="background:linear-gradient(135deg, var(--black-dark) 0%, #1e293b 65%, var(--green-dark) 100%); color:#ffffff;">
+            <span class="hero-tag">Récompense de Parrainage</span>
+            <h2 style="font-size:1.18rem; margin-bottom:6px;">Partagez votre lien et gagnez lorsque votre équipe recharge !</h2>
+            <p style="font-size:0.84rem; color:#cbd5e1;">Chaque fois qu'un membre invité effectue une recharge via votre lien, vous recevez une récompense directe.</p>
+        </div>
+
+        <div class="vip-card">
+            <label class="form-label">Votre lien d'invitation :</label>
+            <div class="copy-box">
+                <span id="referralLinkText" style="font-size:0.8rem; font-weight:700; word-break:break-all;">https://novafortune.app/invite?ref=NF001</span>
+                <button class="btn btn-green" style="width:auto; padding:8px 14px; font-size:0.78rem; flex-shrink:0;" onclick="copyText(document.getElementById('referralLinkText').innerText)">
+                    Copier
+                </button>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; text-align:center;">
+                <div style="background:#f8fafc; border:1px solid var(--gray-border); padding:14px; border-radius:12px;">
+                    <div style="font-size:1.4rem; font-weight:800; color:var(--black-dark);" id="teamMembersCount">0</div>
+                    <div style="font-size:0.76rem; color:var(--gray-muted);">Membres invités</div>
+                </div>
+                <div style="background:#f8fafc; border:1px solid var(--gray-border); padding:14px; border-radius:12px;">
+                    <div style="font-size:1.4rem; font-weight:800; color:var(--green-dark);" id="teamBonusTotal">0 F</div>
+                    <div style="font-size:0.76rem; color:var(--gray-muted);">Récompenses gagnées</div>
+                </div>
+            </div>
+
+            <button class="btn btn-outline" style="margin-top:16px; font-size:0.82rem;" onclick="simulateReferralBonus()">
+                Simuler une recharge de filleul (+1 000 F)
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== PAGE 14 : SERVICE CLIENT ==================== -->
+    <div id="view-support" class="view">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn" onclick="navigate('view-home')"><svg class="ico"><use href="#ic-back"/></svg></button>
+                <h2 class="page-title">Service Client Nova Fortune</h2>
+            </div>
+        </div>
+
+        <div class="vip-card">
+            <div class="support-channel">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div class="support-badge-icon" style="background:var(--green-light); color:var(--green-dark);">
+                        <svg class="ico-lg"><use href="#ic-whatsapp"/></svg>
+                    </div>
+                    <div>
+                        <div style="font-weight:800; font-size:0.92rem;">WhatsApp Officiel Nova Fortune</div>
+                        <div style="font-size:0.78rem; color:var(--gray-muted);">Contactez directement Nova Fortune sur WhatsApp</div>
+                    </div>
+                </div>
+                <a href="https://wa.me/2250700000000?text=Bonjour%20Service%20Client%20Nova%20Fortune%2C%20j%27ai%20besoin%20d%27assistance." target="_blank" rel="noopener noreferrer" class="btn btn-green" style="width:auto; padding:9px 14px; font-size:0.78rem; text-decoration:none;">
+                    WhatsApp
+                </a>
+            </div>
+
+            <form onsubmit="sendSupportTicket(event)" style="margin-top:16px; padding-top:16px; border-top:1px solid var(--gray-border);">
+                <div class="form-group">
+                    <label class="form-label">Sujet de votre demande</label>
+                    <select id="supportTopic" class="form-control">
+                        <option value="Recharge en attente">Recharge en attente</option>
+                        <option value="Retrait en attente">Retrait en attente (min. 1 000 F, frais 4%)</option>
+                        <option value="Plan VIP">Information sur les plans VIP</option>
+                        <option value="Équipe">Récompense d'équipe / parrainage</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Votre message</label>
+                    <textarea id="supportMessage" class="form-control" rows="3" placeholder="Décrivez votre préoccupation (ex: ID de transaction ou numéro)..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-yellow">
+                    Envoyer sur WhatsApp
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== PAGE 15 : SE DÉCONNECTER ==================== -->
+    <div id="view-logout" class="view">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn" onclick="navigate('view-account')"><svg class="ico"><use href="#ic-back"/></svg></button>
+                <h2 class="page-title">Déconnexion</h2>
+            </div>
+        </div>
+
+        <div class="vip-card" style="text-align:center; padding:28px 20px;">
+            <div style="width:62px; height:62px; background:#fee2e2; color:var(--danger); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 14px;">
+                <svg class="ico-lg"><use href="#ic-logout"/></svg>
+            </div>
+            <h3 style="font-size:1.18rem; font-weight:800; margin-bottom:8px;">Voulez-vous vous déconnecter ?</h3>
+            <p style="font-size:0.84rem; color:var(--gray-muted); margin-bottom:20px;">
+                Vous pourrez vous reconnecter à tout moment avec votre numéro et votre mot de passe.
+            </p>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                <button class="btn btn-outline" onclick="navigate('view-account')">Annuler</button>
+                <button class="btn btn-danger" onclick="confirmLogout()">Se déconnecter</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== BARRE DE NAVIGATION INFÉRIEURE ==================== -->
+    <nav class="bottom-nav" id="bottomNav" style="display:none;">
+        <button class="nav-btn active" id="nav-home" onclick="navigate('view-home')">
+            <svg class="ico"><use href="#ic-home"/></svg>
+            <span>Accueil</span>
+        </button>
+        <button class="nav-btn" id="nav-invest" onclick="navigate('view-invest')">
+            <svg class="ico"><use href="#ic-chart"/></svg>
+            <span>Investir</span>
+        </button>
+        <button class="nav-btn" id="nav-team" onclick="navigate('view-team')">
+            <svg class="ico"><use href="#ic-team"/></svg>
+            <span>Équipe</span>
+        </button>
+        <button class="nav-btn" id="nav-support" onclick="navigate('view-support')">
+            <svg class="ico"><use href="#ic-whatsapp"/></svg>
+            <span>WhatsApp</span>
+        </button>
+        <button class="nav-btn" id="nav-account" onclick="navigate('view-account')">
+            <svg class="ico"><use href="#ic-user"/></svg>
+            <span>Compte</span>
+        </button>
+    </nav>
+
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getDatabase, ref, set, get, push, onValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+
+    const WELCOME_BONUS = 100;
+    const DAILY_CHECKIN_REWARD = 27;
+    const MIN_RECHARGE = 5000;
+    const MAX_RECHARGE = 1000000;
+    const MIN_WITHDRAW = 1000;
+    const DAY_MS = 24 * 60 * 60 * 1000;
+    const WHATSAPP_NUMBER = "2250700000000";
+    const JEKO_RECHARGE_URL = "https://pay.jeko.africa/pl/d95bfc0e-e246-4947-ac8c-aaa4e5614f16";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyC7BobRSMpmbyqPlaZnkbwjWXLl9lGC6Ys",
+        authDomain: "coca-ultra.firebaseapp.com",
+        databaseURL: "https://coca-ultra-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "coca-ultra",
+        storageBucket: "coca-ultra.firebasestorage.app",
+        messagingSenderId: "125374921171",
+        appId: "1:125374921171:web:8e6e79d60d0a089f7bd726",
+        measurementId: "G-0ZJWF2S33K"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
+    const WITHDRAWAL_NAMES = [
+        "konan frabrice",
+        "kouame kouassi",
+        "David",
+        "Nestor",
+        "Laurent",
+        "maris kacou",
+        "koffi n’dri",
+        "Jean Kouassi",
+        "Ibrahim Traoré",
+        "Serge Koffi",
+        "Adama Koné",
+        "Arnaud Yao",
+        "Didier N'Guessan",
+        "Fatoumata Diabaté",
+        "Awa Touré",
+        "Mariam Coulibaly"
+    ];
+
+    const WITHDRAWAL_AMOUNTS = [
+        4500, 8000, 12500, 18000, 24000, 32000, 45000, 60000, 15000, 28500
+    ];
+
+    const PAYMENT_METHODS = ["Wave", "MTN Money", "Orange Money", "Moov Money"];
+    const RELATIVE_TIMES = ["À l'instant", "Il y a 1 min", "Il y a 2 min", "Il y a 4 min", "Il y a 6 min"];
+
+    let liveWithdrawalIndex = 0;
+    let liveTickerTimer = null;
+    let isReadingWelcomeAfterSignup = false;
+
+    function buildWithdrawalItem(index) {
+        const safeIdx = ((index % WITHDRAWAL_NAMES.length) + WITHDRAWAL_NAMES.length) % WITHDRAWAL_NAMES.length;
+        const name = WITHDRAWAL_NAMES[safeIdx];
+        const amount = WITHDRAWAL_AMOUNTS[safeIdx % WITHDRAWAL_AMOUNTS.length];
+        const method = PAYMENT_METHODS[safeIdx % PAYMENT_METHODS.length];
+        const timeLabel = RELATIVE_TIMES[safeIdx % RELATIVE_TIMES.length];
+        return { name, amount, method, timeLabel };
+    }
+
+    function renderLiveWithdrawals() {
+        const card = document.getElementById('liveSpotlightCard');
+        const textEl = document.getElementById('liveSpotlightText');
+        const metaEl = document.getElementById('liveSpotlightMeta');
+        const amtEl = document.getElementById('liveSpotlightAmount');
+        const miniList = document.getElementById('liveRecentMiniList');
+
+        if (!textEl || !metaEl || !amtEl || !miniList) return;
+
+        const current = buildWithdrawalItem(liveWithdrawalIndex);
+        if (card) card.classList.add('switching');
+
+        setTimeout(() => {
+            textEl.innerText = `${current.name} vient de retirer`;
+            metaEl.innerText = `${current.method} • ${current.timeLabel}`;
+            amtEl.innerText = `+${current.amount.toLocaleString('fr-FR')} FCFA`;
+
+            const rows = [1, 2, 3].map(offset => {
+                const item = buildWithdrawalItem(liveWithdrawalIndex + offset);
+                return `
+                    <div class="live-mini-row">
+                        <span><strong>${item.name}</strong> vient de retirer <span style="color:#6ee7b7; font-weight:700;">(${item.method})</span></span>
+                        <span style="font-weight:800; color:var(--yellow-accent); white-space:nowrap;">${item.amount.toLocaleString('fr-FR')} F</span>
+                    </div>
+                `;
+            }).join('');
+            miniList.innerHTML = rows;
+
+            if (card) card.classList.remove('switching');
+        }, 140);
+    }
+
+    function cycleLiveWithdrawal() {
+        liveWithdrawalIndex = (liveWithdrawalIndex + 1) % WITHDRAWAL_NAMES.length;
+        renderLiveWithdrawals();
+    }
+    window.cycleLiveWithdrawal = cycleLiveWithdrawal;
+
+    function startLiveWithdrawalsTicker() {
+        renderLiveWithdrawals();
+        if (liveTickerTimer) clearInterval(liveTickerTimer);
+        liveTickerTimer = setInterval(() => {
+            liveWithdrawalIndex = (liveWithdrawalIndex + 1) % WITHDRAWAL_NAMES.length;
+            renderLiveWithdrawals();
+        }, 3200);
+    }
+
+    const VIP_PLANS = [
+        { id: 'vip1', level: 'VIP 1', productName: 'Pack Nova Fortune Démarrage', price: 5000, daily: 1000, days: 10, featured: false },
+        { id: 'vip2', level: 'VIP 2', productName: 'Pack Nova Fortune Émeraude', price: 10000, daily: 2000, days: 10, featured: true },
+        { id: 'vip3', level: 'VIP 3', productName: 'Pack Nova Fortune Or Prestige', price: 40000, daily: 6000, days: 10, featured: false },
+        { id: 'vip4', level: 'VIP 4', productName: 'Pack Nova Fortune Diamant', price: 100000, daily: 15000, days: 10, featured: true }
+    ];
+
+    let currentUid = null;
+    let unsubscribeUser = null;
+    let autoCreditTimer = null;
+    let isSavingState = false;
+    let calendarViewDate = new Date();
+
+    let state = {
+        user: null,
+        balance: 0,
+        totalEarned: 0,
+        purchases: [],
+        recharges: [],
+        withdrawals: [],
+        linkedAccount: null,
+        teamCount: 0,
+        teamBonus: 0,
+        checkinHistory: [],
+        uiSounds: true,
+        notifications: []
+    };
+
+    let selectedRechargeMethod = { name: 'Wave', merchantNumber: '07 88 99 00 11' };
+    let pendingRecharge = { amount: MIN_RECHARGE, phone: '', method: 'Wave', merchant: '07 88 99 00 11' };
+    let selectedLinkMethod = 'Wave';
+
+    function playUiTone(type = 'gain') {
+        if (!state.uiSounds) return;
+        try {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return;
+            const ctx = new AudioCtx();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.type = 'sine';
+            const now = ctx.currentTime;
+            if (type === 'gain') {
+                osc.frequency.setValueAtTime(587.33, now);
+                osc.frequency.exponentialRampToValueAtTime(880, now + 0.14);
+            } else {
+                osc.frequency.setValueAtTime(520, now);
+                osc.frequency.exponentialRampToValueAtTime(660, now + 0.1);
+            }
+            gain.gain.setValueAtTime(0.06, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+            osc.start(now);
+            osc.stop(now + 0.23);
+        } catch (e) {}
+    }
+
+    async function toggleInterfaceSounds(enabled) {
+        state.uiSounds = Boolean(enabled);
+        if (state.uiSounds) playUiTone('click');
+        showToast(state.uiSounds ? "Sons de l'interface activés." : "Sons de l'interface désactivés.");
+        await saveState();
+    }
+    window.toggleInterfaceSounds = toggleInterfaceSounds;
+
+    function getLocalDateKey(dateObj = new Date()) {
+        const y = dateObj.getFullYear();
+        const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const d = String(dateObj.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+    }
+
+    function calculateCurrentStreak(history) {
+        if (!Array.isArray(history) || history.length === 0) return 0;
+        const uniqueSet = new Set(history);
+        let streak = 0;
+        const cursor = new Date();
+        if (!uniqueSet.has(getLocalDateKey(cursor))) {
+            cursor.setDate(cursor.getDate() - 1);
+        }
+        while (uniqueSet.has(getLocalDateKey(cursor))) {
+            streak += 1;
+            cursor.setDate(cursor.getDate() - 1);
+        }
+        return streak;
+    }
+
+    async function claimDailyCheckin() {
+        const todayKey = getLocalDateKey();
+        if (state.checkinHistory.includes(todayKey)) {
+            showToast("Vous avez déjà reçu vos 27 FCFA aujourd'hui. Revenez demain !");
+            return;
+        }
+        state.checkinHistory.push(todayKey);
+        state.balance = Number(state.balance || 0) + DAILY_CHECKIN_REWARD;
+        state.totalEarned = Number(state.totalEarned || 0) + DAILY_CHECKIN_REWARD;
+        state.notifications.unshift({
+            title: "Présence quotidienne validée",
+            body: `Vous avez reçu +${DAILY_CHECKIN_REWARD} FCFA aujourd'hui.`,
+            date: new Date().toLocaleString('fr-FR')
+        });
+        playUiTone('gain');
+        await saveState();
+        showToast(`+${DAILY_CHECKIN_REWARD} FCFA ajoutés à votre solde !`);
+    }
+    window.claimDailyCheckin = claimDailyCheckin;
+
+    function changeCalendarMonth(delta) {
+        calendarViewDate = new Date(calendarViewDate.getFullYear(), calendarViewDate.getMonth() + delta, 1);
+        renderCheckinUI();
+    }
+    window.changeCalendarMonth = changeCalendarMonth;
+
+    function renderCheckinUI() {
+        const todayKey = getLocalDateKey();
+        const checkedToday = state.checkinHistory.includes(todayKey);
+        const totalDays = state.checkinHistory.length;
+        const streak = calculateCurrentStreak(state.checkinHistory);
+
+        const titleEl = document.getElementById('checkinStatusTitle');
+        const descEl = document.getElementById('checkinStatusDesc');
+        const btnEl = document.getElementById('claimCheckinBtn');
+        const homeSub = document.getElementById('homeCheckinSubtitle');
+        const homeBadge = document.getElementById('homeCheckinBadge');
+        const accStatus = document.getElementById('accCheckinStatus');
+
+        if (checkedToday) {
+            if (titleEl) titleEl.innerText = "Vous avez reçu 27 FCFA aujourd'hui";
+            if (descEl) descEl.innerText = "Revenez demain pour poursuivre votre série.";
+            if (btnEl) {
+                btnEl.innerText = "Présence validée aujourd'hui";
+                btnEl.disabled = true;
+                btnEl.style.opacity = "0.6";
+            }
+            if (homeSub) homeSub.innerText = `Validé aujourd'hui • Série : ${streak} jour(s)`;
+            if (homeBadge) homeBadge.innerText = "VALIDÉ";
+            if (accStatus) accStatus.innerText = `Validé aujourd'hui (${streak} j)`;
+        } else {
+            if (titleEl) titleEl.innerText = "Touchez le cercle pour recevoir +27 FCFA";
+            if (descEl) descEl.innerText = "Validez votre présence quotidienne en un clic.";
+            if (btnEl) {
+                btnEl.innerText = "Valider ma présence (+27 FCFA)";
+                btnEl.disabled = false;
+                btnEl.style.opacity = "1";
+            }
+            if (homeSub) homeSub.innerText = "Réclamez votre bonus journalier (+27 F CFA)";
+            if (homeBadge) homeBadge.innerText = "+27 F";
+            if (accStatus) accStatus.innerText = "Bonus +27 F disponible";
+        }
+
+        const totalEl = document.getElementById('checkinTotalDays');
+        const streakEl = document.getElementById('checkinStreakDays');
+        if (totalEl) totalEl.innerText = totalDays;
+        if (streakEl) streakEl.innerText = streak;
+
+        const wheelMarkers = document.getElementById('wheelDayMarkers');
+        if (wheelMarkers) {
+            const labels = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+            const now = new Date();
+            const currentJsDay = now.getDay();
+            const mondayOffset = currentJsDay === 0 ? -6 : 1 - currentJsDay;
+            const monday = new Date(now);
+            monday.setDate(now.getDate() + mondayOffset);
+
+            wheelMarkers.innerHTML = labels.map((lbl, idx) => {
+                const d = new Date(monday);
+                d.setDate(monday.getDate() + idx);
+                const k = getLocalDateKey(d);
+                const isDone = state.checkinHistory.includes(k);
+                const isToday = k === todayKey;
+                const angleDeg = -140 + idx * 46;
+                const rad = (angleDeg * Math.PI) / 180;
+                const r = 98;
+                const x = 118 + r * Math.cos(rad);
+                const y = 118 + r * Math.sin(rad);
+                return `<span class="checkin-day-dot ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}" style="left:${x}px; top:${y}px;">${lbl}</span>`;
+            }).join('');
+        }
+
+        const year = calendarViewDate.getFullYear();
+        const month = calendarViewDate.getMonth();
+        const monthName = calendarViewDate.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+        const calTitle = document.getElementById('calMonthTitle');
+        if (calTitle) calTitle.innerText = monthName;
+
+        const firstDay = new Date(year, month, 1).getDay();
+        const startPad = firstDay === 0 ? 6 : firstDay - 1;
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const monthPrefix = `${year}-${String(month + 1).padStart(2, '0')}-`;
+        const validatedInMonth = state.checkinHistory.filter(k => k.startsWith(monthPrefix)).length;
+
+        const countEl = document.getElementById('calMonthValidatedCount');
+        if (countEl) {
+            countEl.innerText = `${validatedInMonth} ${validatedInMonth > 1 ? 'jours validés' : 'jour validé'}`;
+        }
+
+        const grid = document.getElementById('calDaysGrid');
+        if (grid) {
+            let cells = '';
+            for (let i = 0; i < startPad; i++) {
+                cells += `<div></div>`;
+            }
+            for (let day = 1; day <= daysInMonth; day++) {
+                const key = `${monthPrefix}${String(day).padStart(2, '0')}`;
+                const isChecked = state.checkinHistory.includes(key);
+                const isToday = key === todayKey;
+                cells += `<div class="cal-day-cell ${isChecked ? 'checked' : ''} ${isToday ? 'today-ring' : ''}">${day}</div>`;
+            }
+            grid.innerHTML = cells;
+        }
+    }
+
+    function syncRechargeAmountUI(rawVal) {
+        let val = Number(rawVal) || MIN_RECHARGE;
+        if (val < MIN_RECHARGE) val = MIN_RECHARGE;
+        if (val > MAX_RECHARGE) val = MAX_RECHARGE;
+
+        const formatted = val.toLocaleString('fr-FR');
+        const bigDisp = document.getElementById('rechargeBigDisplay');
+        const footDisp = document.getElementById('rechargeFooterAmount');
+        const slider = document.getElementById('rechargeRangeSlider');
+        const input = document.getElementById('rechargeAmount');
+
+        if (bigDisp) bigDisp.innerText = formatted;
+        if (footDisp) footDisp.innerText = formatted;
+        if (slider) slider.value = val;
+        if (input) input.value = val;
+
+        document.querySelectorAll('#presetPillsGrid .preset-pill-btn').forEach(btn => {
+            btn.classList.toggle('active', Number(btn.dataset.val) === val);
+        });
+    }
+
+    function onRechargeSliderChange(val) {
+        syncRechargeAmountUI(val);
+    }
+    window.onRechargeSliderChange = onRechargeSliderChange;
+
+    function onRechargeInputChange(val) {
+        const num = Number(val);
+        if (!num) return;
+        const clamped = Math.min(MAX_RECHARGE, Math.max(MIN_RECHARGE, num));
+        const formatted = clamped.toLocaleString('fr-FR');
+        document.getElementById('rechargeBigDisplay').innerText = formatted;
+        document.getElementById('rechargeFooterAmount').innerText = formatted;
+        document.getElementById('rechargeRangeSlider').value = clamped;
+        document.querySelectorAll('#presetPillsGrid .preset-pill-btn').forEach(btn => {
+            btn.classList.toggle('active', Number(btn.dataset.val) === clamped);
+        });
+    }
+    window.onRechargeInputChange = onRechargeInputChange;
+
+    function setRechargeAmount(val) {
+        playUiTone('click');
+        syncRechargeAmountUI(val);
+    }
+    window.setRechargeAmount = setRechargeAmount;
+
+    function cleanPhone(phone) {
+        return String(phone || '').replace(/\D+/g, '').trim();
+    }
+
+    function phoneToInternalEmail(phone) {
+        return `${cleanPhone(phone)}@novafortune.app`;
+    }
+
+    function switchAuthTab(mode) {
+        const regTab = document.getElementById('tabRegisterBtn');
+        const logTab = document.getElementById('tabLoginBtn');
+        const regPanel = document.getElementById('registerPanel');
+        const logPanel = document.getElementById('loginPanel');
+
+        if (mode === 'login') {
+            regTab.classList.remove('active');
+            logTab.classList.add('active');
+            regPanel.style.display = 'none';
+            logPanel.style.display = 'block';
+        } else {
+            logTab.classList.remove('active');
+            regTab.classList.add('active');
+            logPanel.style.display = 'none';
+            regPanel.style.display = 'block';
+        }
+    }
+    window.switchAuthTab = switchAuthTab;
+
+    function showAuthScreen(mode = 'login') {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.getElementById('stickyAccountBar').classList.remove('visible');
+        document.getElementById('mainHeader').style.display = 'none';
+        document.getElementById('bottomNav').style.display = 'none';
+        document.getElementById('view-congrats').style.display = 'none';
+        document.getElementById('view-register').style.display = 'flex';
+        switchAuthTab(mode);
+        window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    function showCongratsScreen(userName) {
+        isReadingWelcomeAfterSignup = true;
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.getElementById('stickyAccountBar').classList.remove('visible');
+        document.getElementById('mainHeader').style.display = 'none';
+        document.getElementById('bottomNav').style.display = 'none';
+        document.getElementById('view-register').style.display = 'none';
+        document.getElementById('congratsName').innerText = userName || 'cher membre';
+        document.getElementById('view-congrats').style.display = 'flex';
+        window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    function showPlatformScreen(viewId = 'view-home') {
+        document.getElementById('view-register').style.display = 'none';
+        document.getElementById('view-congrats').style.display = 'none';
+        document.getElementById('mainHeader').style.display = 'flex';
+        document.getElementById('bottomNav').style.display = 'flex';
+        startLiveWithdrawalsTicker();
+        navigate(viewId);
+    }
+
+    async function saveState() {
+        updateUI();
+        if (!currentUid) return;
+        isSavingState = true;
+        try {
+            await set(ref(db, `users/${currentUid}`), {
+                user: state.user,
+                balance: state.balance,
+                totalEarned: state.totalEarned,
+                purchases: state.purchases,
+                recharges: state.recharges,
+                withdrawals: state.withdrawals,
+                linkedAccount: state.linkedAccount,
+                teamCount: state.teamCount,
+                teamBonus: state.teamBonus,
+                checkinHistory: state.checkinHistory,
+                uiSounds: state.uiSounds,
+                notifications: state.notifications
+            });
+        } catch (err) {
+            console.error("Erreur sauvegarde Firebase :", err);
+        } finally {
+            setTimeout(() => { isSavingState = false; }, 150);
+        }
+    }
+
+    function normalizePurchases(rawPurchases) {
+        if (!Array.isArray(rawPurchases)) return [];
+        const now = Date.now();
+        return rawPurchases.map(p => {
+            const days = Number(p.days || 10);
+            const daily = Number(p.daily || 0);
+            const purchasedAt = Number(p.purchasedAt || now);
+            const creditedDays = Math.min(days, Math.max(0, Number(p.creditedDays || 0)));
+            const lastCreditedAt = Number(p.lastCreditedAt || purchasedAt);
+            const active = typeof p.active === 'boolean' ? p.active : (creditedDays < days);
+            return {
+                ...p,
+                price: Number(p.price || 0),
+                daily,
+                days,
+                purchasedAt,
+                creditedDays,
+                lastCreditedAt,
+                active
+            };
+        });
+    }
+
+    function processDailyInvestments() {
+        if (!Array.isArray(state.purchases) || state.purchases.length === 0) return false;
+
+        const now = Date.now();
+        let addedTotal = 0;
+        let changed = false;
+
+        state.purchases = state.purchases.map(p => {
+            const days = Number(p.days || 10);
+            const daily = Number(p.daily || 0);
+            const purchasedAt = Number(p.purchasedAt || now);
+            let creditedDays = Math.min(days, Math.max(0, Number(p.creditedDays || 0)));
+            let lastCreditedAt = Number(p.lastCreditedAt || purchasedAt);
+            let active = creditedDays < days;
+
+            if (active && daily > 0 && now - lastCreditedAt >= DAY_MS) {
+                const elapsedPeriods = Math.floor((now - lastCreditedAt) / DAY_MS);
+                const remainingDays = days - creditedDays;
+                const periodsToCredit = Math.min(elapsedPeriods, remainingDays);
+
+                if (periodsToCredit > 0) {
+                    const gain = periodsToCredit * daily;
+                    state.balance = Number(state.balance || 0) + gain;
+                    state.totalEarned = Number(state.totalEarned || 0) + gain;
+                    addedTotal += gain;
+                    creditedDays += periodsToCredit;
+                    lastCreditedAt += periodsToCredit * DAY_MS;
+                    active = creditedDays < days;
+                    changed = true;
+                }
+            }
+
+            if (p.active !== active || p.creditedDays !== creditedDays || p.lastCreditedAt !== lastCreditedAt) {
+                changed = true;
+            }
+
+            return {
+                ...p,
+                days,
+                daily,
+                purchasedAt,
+                creditedDays,
+                lastCreditedAt,
+                active
+            };
+        });
+
+        if (addedTotal > 0) {
+            playUiTone('gain');
+            state.notifications.unshift({
+                title: "Gain quotidien crédité",
+                body: `+${formatMoney(addedTotal)} ajoutés à votre solde.`,
+                date: new Date().toLocaleString('fr-FR')
+            });
+            showToast(`+${formatMoney(addedTotal)} crédités automatiquement sur votre compte !`);
+        }
+
+        return changed;
+    }
+
+    function startAutoCreditLoop() {
+        if (autoCreditTimer) clearInterval(autoCreditTimer);
+        autoCreditTimer = setInterval(async () => {
+            if (!currentUid || isSavingState) return;
+            const changed = processDailyInvestments();
+            if (changed) {
+                await saveState();
+            } else {
+                updateUI();
+            }
+        }, 60 * 1000);
+    }
+
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.innerText = msg;
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 3400);
+    }
+    window.showToast = showToast;
+
+    function formatMoney(num) {
+        return Number(num).toLocaleString('fr-FR') + ' F CFA';
+    }
+
+    function formatCountdown(msRemaining) {
+        if (msRemaining <= 0) return 'Crédit imminent';
+        const totalSeconds = Math.floor(msRemaining / 1000);
+        const h = Math.floor(totalSeconds / 3600);
+        const m = Math.floor((totalSeconds % 3600) / 60);
+        return `${h}h ${m}min`;
+    }
+
+    function refreshWithdrawLockState() {
+        const isLinked = Boolean(state.linkedAccount && state.linkedAccount.phone);
+        const alertEl = document.getElementById('withdrawUnlinkedAlert');
+        const btnEl = document.getElementById('submitWithdrawBtn');
+        const amtEl = document.getElementById('withdrawAmountInput');
+        const phEl = document.getElementById('withdrawPhoneInput');
+
+        if (alertEl) alertEl.style.display = isLinked ? 'none' : 'block';
+        if (btnEl) {
+            btnEl.disabled = !isLinked;
+            btnEl.style.opacity = isLinked ? '1' : '0.5';
+            btnEl.style.cursor = isLinked ? 'pointer' : 'not-allowed';
+        }
+        if (amtEl) amtEl.disabled = !isLinked;
+        if (phEl) phEl.disabled = !isLinked;
+    }
+
+    function handleAccountScroll() {
+        const accountView = document.getElementById('view-account');
+        const stickyBar = document.getElementById('stickyAccountBar');
+        const isAccountActive = accountView && accountView.classList.contains('active');
+
+        if (isAccountActive && window.scrollY > 130) {
+            stickyBar.classList.add('visible');
+        } else {
+            stickyBar.classList.remove('visible');
+        }
+    }
+    window.addEventListener('scroll', handleAccountScroll, { passive: true });
+
+    onAuthStateChanged(auth, (user) => {
+        if (typeof unsubscribeUser === 'function') {
+            unsubscribeUser();
+            unsubscribeUser = null;
+        }
+
+        if (user) {
+            currentUid = user.uid;
+            startAutoCreditLoop();
+            const userRef = ref(db, `users/${currentUid}`);
+            unsubscribeUser = onValue(userRef, async (snapshot) => {
+                if (!auth.currentUser || isSavingState) return;
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    state = {
+                        user: data.user || { name: '', phone: user.email ? user.email.split('@')[0] : '', code: 'NF-0000' },
+                        balance: Number(data.balance || 0),
+                        totalEarned: Number(data.totalEarned || 0),
+                        purchases: normalizePurchases(data.purchases),
+                        recharges: Array.isArray(data.recharges) ? data.recharges : [],
+                        withdrawals: Array.isArray(data.withdrawals) ? data.withdrawals : [],
+                        linkedAccount: data.linkedAccount || null,
+                        teamCount: Number(data.teamCount || 0),
+                        teamBonus: Number(data.teamBonus || 0),
+                        checkinHistory: Array.isArray(data.checkinHistory) ? data.checkinHistory : [],
+                        uiSounds: typeof data.uiSounds === 'boolean' ? data.uiSounds : true,
+                        notifications: Array.isArray(data.notifications) ? data.notifications : []
+                    };
+                    const changed = processDailyInvestments();
+                    if (changed) {
+                        await saveState();
+                    } else {
+                        updateUI();
+                    }
+                }
+            });
+
+            if (isReadingWelcomeAfterSignup) {
+                showCongratsScreen(state.user?.name || document.getElementById('regName')?.value?.trim() || 'cher membre');
+            } else {
+                showPlatformScreen('view-home');
+            }
+        } else {
+            currentUid = null;
+            isReadingWelcomeAfterSignup = false;
+            if (autoCreditTimer) {
+                clearInterval(autoCreditTimer);
+                autoCreditTimer = null;
+            }
+            if (liveTickerTimer) {
+                clearInterval(liveTickerTimer);
+                liveTickerTimer = null;
+            }
+            showAuthScreen('login');
+        }
+    });
+
+    window.onload = function() {
+        renderVipPlans();
+        syncRechargeAmountUI(MIN_RECHARGE);
+        renderLiveWithdrawals();
+        updateUI();
+    };
+
+    async function handleRegister(e) {
+        e.preventDefault();
+        const name = document.getElementById('regName').value.trim();
+        const phone = cleanPhone(document.getElementById('regPhone').value);
+        const pass = document.getElementById('regPass').value;
+        const refCode = document.getElementById('regRef').value.trim();
+        const email = phoneToInternalEmail(phone);
+        const btn = document.getElementById('regSubmitBtn');
+
+        if (!phone) {
+            showToast("Veuillez saisir un numéro de téléphone valide.");
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerText = "Vérification...";
+        isReadingWelcomeAfterSignup = true;
+
+        try {
+            let cred;
+            try {
+                cred = await createUserWithEmailAndPassword(auth, email, pass);
+            } catch (err) {
+                isReadingWelcomeAfterSignup = false;
+                if (err.code === 'auth/email-already-in-use') {
+                    showToast("Ce numéro est déjà inscrit ! Connectez-vous avec votre mot de passe.");
+                    document.getElementById('loginPhone').value = phone;
+                    switchAuthTab('login');
+                    return;
+                }
+                throw err;
+            }
+
+            currentUid = cred.user.uid;
+            const code = 'NF-' + Math.floor(1000 + Math.random() * 9000);
+            state = {
+                user: { name, phone, code, invitedBy: refCode || null, registeredAt: new Date().toISOString() },
+                balance: WELCOME_BONUS,
+                totalEarned: 0,
+                purchases: [],
+                recharges: [],
+                withdrawals: [],
+                linkedAccount: null,
+                teamCount: 0,
+                teamBonus: 0,
+                checkinHistory: [],
+                uiSounds: true,
+                notifications: [{
+                    title: "Bienvenue sur Nova Fortune",
+                    body: `Bienvenue ${name} sur notre entreprise à long terme (contrat 1 an 5 mois, +${WELCOME_BONUS} F CFA offerts).`,
+                    date: new Date().toLocaleString('fr-FR')
+                }]
+            };
+
+            try {
+                await set(ref(db, `users/${currentUid}`), state);
+                await set(ref(db, `registeredPhones/${phone}`), {
+                    uid: currentUid,
+                    name,
+                    registeredAt: new Date().toISOString()
+                });
+            } catch (dbErr) {
+                console.warn("Avertissement base de données :", dbErr);
+            }
+
+            updateUI();
+            showCongratsScreen(name);
+        } catch (err) {
+            isReadingWelcomeAfterSignup = false;
+            showToast("Erreur d'inscription : " + (err.message || err.code));
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "S'inscrire sur Nova Fortune";
+        }
+    }
+    window.handleRegister = handleRegister;
+
+    async function handleLogin(e) {
+        e.preventDefault();
+        const phone = cleanPhone(document.getElementById('loginPhone').value);
+        const pass = document.getElementById('loginPass').value;
+        const email = phoneToInternalEmail(phone);
+        const btn = document.getElementById('loginSubmitBtn');
+
+        if (!phone) {
+            showToast("Veuillez saisir votre numéro de téléphone.");
+            return;
+        }
+
+        isReadingWelcomeAfterSignup = false;
+        btn.disabled = true;
+        btn.innerText = "Connexion...";
+
+        try {
+            const cred = await signInWithEmailAndPassword(auth, email, pass);
+            currentUid = cred.user.uid;
+            const snap = await get(ref(db, `users/${currentUid}`));
+            if (snap.exists()) {
+                const data = snap.val();
+                state = {
+                    user: data.user || { name: '', phone, code: 'NF-0000' },
+                    balance: Number(data.balance || 0),
+                    totalEarned: Number(data.totalEarned || 0),
+                    purchases: normalizePurchases(data.purchases),
+                    recharges: Array.isArray(data.recharges) ? data.recharges : [],
+                    withdrawals: Array.isArray(data.withdrawals) ? data.withdrawals : [],
+                    linkedAccount: data.linkedAccount || null,
+                    teamCount: Number(data.teamCount || 0),
+                    teamBonus: Number(data.teamBonus || 0),
+                    checkinHistory: Array.isArray(data.checkinHistory) ? data.checkinHistory : [],
+                    uiSounds: typeof data.uiSounds === 'boolean' ? data.uiSounds : true,
+                    notifications: Array.isArray(data.notifications) ? data.notifications : []
+                };
+                const changed = processDailyInvestments();
+                if (changed) {
+                    await saveState();
+                }
+            }
+            updateUI();
+            showPlatformScreen('view-home');
+            showToast("Connexion réussie !");
+        } catch (err) {
+            if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') {
+                showToast("Numéro ou mot de passe incorrect.");
+            } else if (err.code === 'auth/user-not-found') {
+                showToast("Aucun compte trouvé avec ce numéro.");
+            } else {
+                showToast("Erreur de connexion (" + (err.code || 'réseau') + ").");
+            }
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "Se connecter";
+        }
+    }
+    window.handleLogin = handleLogin;
+
+    function enterPlatform() {
+        isReadingWelcomeAfterSignup = false;
+        playUiTone('gain');
+        showPlatformScreen('view-home');
+    }
+    window.enterPlatform = enterPlatform;
+
+    function navigate(viewId) {
+        if (!currentUid && viewId !== 'view-register') {
+            showAuthScreen('login');
+            return;
+        }
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        const target = document.getElementById(viewId);
+        if (target) target.classList.add('active');
+
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        if (viewId === 'view-home' || viewId === 'view-checkin') document.getElementById('nav-home').classList.add('active');
+        if (viewId === 'view-invest') document.getElementById('nav-invest').classList.add('active');
+        if (viewId === 'view-team') document.getElementById('nav-team').classList.add('active');
+        if (viewId === 'view-support') document.getElementById('nav-support').classList.add('active');
+        if (['view-account', 'view-recharge', 'view-payment-confirm', 'view-withdraw', 'view-purchases', 'view-link-account', 'view-linked-account', 'view-recharge-history', 'view-withdraw-history', 'view-notifications', 'view-logout'].includes(viewId)) {
+            document.getElementById('nav-account').classList.add('active');
+        }
+
+        if (viewId === 'view-recharge') {
+            syncRechargeAmountUI(document.getElementById('rechargeAmount').value || MIN_RECHARGE);
+            if (state.user && !document.getElementById('rechargeSenderPhone').value) {
+                document.getElementById('rechargeSenderPhone').value = state.user.phone;
+            }
+        }
+
+        if (viewId === 'view-withdraw' && state.linkedAccount) {
+            document.getElementById('withdrawPhoneInput').value = state.linkedAccount.phone;
+        }
+
+        updateUI();
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        handleAccountScroll();
+    }
+    window.navigate = navigate;
+
+    function renderVipPlans() {
+        const investContainer = document.getElementById('vipListContainer');
+        investContainer.innerHTML = '';
+
+        VIP_PLANS.forEach(plan => {
+            const totalReturn = plan.daily * plan.days;
+            const cardHTML = `
+                <div class="vip-card ${plan.featured ? 'featured' : ''}">
+                    <span class="vip-badge">${plan.level}</span>
+                    <div class="vip-product-name">${plan.productName}</div>
+                    <div class="vip-price">${formatMoney(plan.price)}</div>
+                    <div class="vip-stats">
+                        <div>
+                            <div class="vip-stat-val" style="color:var(--green-dark);">${plan.daily.toLocaleString('fr-FR')} F</div>
+                            <div class="vip-stat-lbl">Chaque 24h</div>
+                        </div>
+                        <div>
+                            <div class="vip-stat-val">${plan.days} Jours</div>
+                            <div class="vip-stat-lbl">Durée</div>
+                        </div>
+                        <div>
+                            <div class="vip-stat-val" style="color:var(--yellow-dark);">${totalReturn.toLocaleString('fr-FR')} F</div>
+                            <div class="vip-stat-lbl">Revenu Total</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-green" onclick="buyVipPlan('${plan.id}')">
+                        Investir maintenant
+                    </button>
+                </div>
+            `;
+            investContainer.innerHTML += cardHTML;
+        });
+    }
+
+    async function buyVipPlan(planId) {
+        const plan = VIP_PLANS.find(p => p.id === planId);
+        if (!plan) return;
+
+        if (state.balance < plan.price) {
+            showToast("Solde insuffisant ! Veuillez recharger votre compte.");
+            setTimeout(() => {
+                setRechargeAmount(plan.price);
+                navigate('view-recharge');
+            }, 900);
+            return;
+        }
+
+        const now = Date.now();
+        state.balance -= plan.price;
+        state.purchases.unshift({
+            id: 'ACH-' + now.toString().slice(-5),
+            level: plan.level,
+            productName: plan.productName,
+            price: plan.price,
+            daily: plan.daily,
+            days: plan.days,
+            creditedDays: 0,
+            purchasedAt: now,
+            lastCreditedAt: now,
+            active: true,
+            date: new Date(now).toLocaleDateString('fr-FR')
+        });
+
+        state.notifications.unshift({
+            title: `Investissement ${plan.level} activé`,
+            body: `${plan.productName} (${formatMoney(plan.price)}) génère +${formatMoney(plan.daily)} toutes les 24h.`,
+            date: new Date(now).toLocaleString('fr-FR')
+        });
+
+        playUiTone('gain');
+        await saveState();
+        showToast(`${plan.productName} activé : +${plan.daily.toLocaleString('fr-FR')} F toutes les 24h !`);
+        navigate('view-purchases');
+    }
+    window.buyVipPlan = buyVipPlan;
+
+    function selectPaymentMethod(el, name, merchantNumber) {
+        document.querySelectorAll('#rechargeMethods .method-option').forEach(opt => opt.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedRechargeMethod = { name, merchantNumber };
+    }
+    window.selectPaymentMethod = selectPaymentMethod;
+
+    async function goToPaymentConfirmation() {
+        const amount = Number(document.getElementById('rechargeAmount').value);
+        const phone = document.getElementById('rechargeSenderPhone').value.trim();
+
+        if (!amount || amount < MIN_RECHARGE) {
+            showToast(`Montant minimum de recharge : ${MIN_RECHARGE.toLocaleString('fr-FR')} FCFA.`);
+            return;
+        }
+        if (!phone) {
+            showToast("Veuillez entrer votre numéro de rechargement.");
+            return;
+        }
+
+        const btn = document.getElementById('rechargeContinueBtn');
+        if (btn) {
+            btn.disabled = true;
+            btn.innerText = "Enregistrement...";
+        }
+
+        pendingRecharge = {
+            amount,
+            phone,
+            method: selectedRechargeMethod.name,
+            merchant: selectedRechargeMethod.merchantNumber
+        };
+
+        const uid = currentUid || auth.currentUser?.uid || '';
+        const nowMs = Date.now();
+        const nowText = new Date(nowMs).toLocaleString('fr-FR');
+        const autoRefId = 'RCH-' + nowMs.toString().slice(-6);
+
+        const record = {
+            uid,
+            userName: state.user?.name || 'Client',
+            userPhone: state.user?.phone || phone,
+            id: autoRefId,
+            amount: Number(amount),
+            method: selectedRechargeMethod.name,
+            phone,
+            paymentUrl: JEKO_RECHARGE_URL,
+            date: nowText,
+            createdAt: nowMs,
+            status: 'En attente'
+        };
+
+        state.recharges.unshift(record);
+        state.notifications.unshift({
+            title: "Recharge enregistrée (En attente)",
+            body: `Recharge de ${formatMoney(amount)} via ${selectedRechargeMethod.name} (${phone}) enregistrée en attente.`,
+            date: nowText
+        });
+
+        try {
+            await push(ref(db, 'recharges'), record);
+        } catch (e) {
+            console.warn("Avertissement push recharge :", e);
+        }
+
+        playUiTone('click');
+        await saveState();
+
+        document.getElementById('payMethodDisplay').innerText = pendingRecharge.method;
+        document.getElementById('payAmountDisplay').innerText = formatMoney(pendingRecharge.amount);
+        document.getElementById('paySenderDisplay').innerText = pendingRecharge.phone;
+        document.getElementById('jekoLinkDisplay').innerText = JEKO_RECHARGE_URL;
+        const anchor = document.getElementById('jekoPaymentAnchor');
+        if (anchor) anchor.href = JEKO_RECHARGE_URL;
+
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = "Recharger maintenant";
+        }
+
+        showToast("Paiement enregistré en « En attente » dans l'historique de recharge.");
+        navigate('view-payment-confirm');
+        window.open(JEKO_RECHARGE_URL, '_blank', 'noopener,noreferrer');
+    }
+    window.goToPaymentConfirmation = goToPaymentConfirmation;
+
+    function selectLinkMethod(el, method) {
+        document.querySelectorAll('#linkMethods .method-option').forEach(opt => opt.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedLinkMethod = method;
+    }
+    window.selectLinkMethod = selectLinkMethod;
+
+    async function saveLinkedAccount() {
+        const phone = document.getElementById('linkPhoneInput').value.trim();
+        if (!phone) {
+            showToast("Veuillez entrer votre numéro.");
+            return;
+        }
+
+        state.linkedAccount = {
+            method: selectedLinkMethod,
+            phone: phone,
+            updatedAt: new Date().toLocaleDateString('fr-FR')
+        };
+
+        await saveState();
+        showToast("Compte enregistré avec succès !");
+        navigate('view-linked-account');
+    }
+    window.saveLinkedAccount = saveLinkedAccount;
+
+    function calculateWithdrawNet() {
+        const amount = Number(document.getElementById('withdrawAmountInput').value) || 0;
+        const fee = Math.round(amount * 0.04);
+        const net = Math.max(0, amount - fee);
+        document.getElementById('withdrawFeeDisplay').innerText = formatMoney(fee);
+        document.getElementById('withdrawNetDisplay').innerText = formatMoney(net);
+    }
+    window.calculateWithdrawNet = calculateWithdrawNet;
+
+    async function submitWithdraw() {
+        if (!state.linkedAccount || !state.linkedAccount.phone) {
+            showToast("Veuillez d'abord lier votre compte avant de lancer un retrait.");
+            setTimeout(() => navigate('view-link-account'), 900);
+            return;
+        }
+
+        const amount = Number(document.getElementById('withdrawAmountInput').value);
+        const phone = document.getElementById('withdrawPhoneInput').value.trim();
+
+        if (!amount || amount < MIN_WITHDRAW) {
+            showToast(`Montant minimum de retrait : ${MIN_WITHDRAW.toLocaleString('fr-FR')} F CFA.`);
+            return;
+        }
+        if (amount > state.balance) {
+            showToast("Solde insuffisant pour ce retrait.");
+            return;
+        }
+        if (!phone) {
+            showToast("Veuillez saisir votre numéro de retrait.");
+            return;
+        }
+
+        const btn = document.getElementById('submitWithdrawBtn');
+        btn.disabled = true;
+        btn.innerText = "Envoi en cours...";
+
+        const fee = Math.round(amount * 0.04);
+        const net = amount - fee;
+        const uid = currentUid || auth.currentUser?.uid || '';
+
+        const record = {
+            uid,
+            userName: state.user?.name || 'Client',
+            userPhone: state.user?.phone || phone,
+            id: 'RET-' + Date.now().toString().slice(-5),
+            amount: Number(amount),
+            fee: Number(fee),
+            net: Number(net),
+            phone,
+            method: state.linkedAccount.method,
+            date: new Date().toLocaleString('fr-FR'),
+            createdAt: Date.now(),
+            status: 'En attente'
+        };
+
+        try {
+            await push(ref(db, 'withdrawals'), record);
+            state.balance -= amount;
+            state.withdrawals.unshift(record);
+            document.getElementById('withdrawAmountInput').value = '';
+            calculateWithdrawNet();
+            await saveState();
+            showToast("Retrait envoyé à l'administrateur (En attente).");
+            navigate('view-withdraw-history');
+        } catch (e) {
+            console.error("Erreur push retrait :", e);
+            showToast("Erreur d'envoi vers l'admin : vérifiez les règles Firebase.");
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "Confirmer le retrait";
+        }
+    }
+    window.submitWithdraw = submitWithdraw;
+
+    async function simulateReferralBonus() {
+        state.teamCount += 1;
+        state.teamBonus += 1000;
+        state.balance += 1000;
+        state.totalEarned += 1000;
+        playUiTone('gain');
+        await saveState();
+        showToast("Récompense d'équipe reçue : +1 000 F ajoutés au solde !");
+    }
+    window.simulateReferralBonus = simulateReferralBonus;
+
+    function sendSupportTicket(e) {
+        e.preventDefault();
+        const topic = document.getElementById('supportTopic').value;
+        const msg = document.getElementById('supportMessage').value.trim();
+        const text = encodeURIComponent(`Bonjour Nova Fortune (${topic}) : ${msg}`);
+        document.getElementById('supportMessage').value = '';
+        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank', 'noopener,noreferrer');
+        showToast("Ouverture du chat WhatsApp Nova Fortune...");
+    }
+    window.sendSupportTicket = sendSupportTicket;
+
+    function copyText(text) {
+        navigator.clipboard.writeText(text);
+        showToast("Copié : " + text);
+    }
+    window.copyText = copyText;
+
+    async function confirmLogout() {
+        isReadingWelcomeAfterSignup = false;
+        if (autoCreditTimer) {
+            clearInterval(autoCreditTimer);
+            autoCreditTimer = null;
+        }
+        if (liveTickerTimer) {
+            clearInterval(liveTickerTimer);
+            liveTickerTimer = null;
+        }
+        if (typeof unsubscribeUser === 'function') {
+            unsubscribeUser();
+            unsubscribeUser = null;
+        }
+        currentUid = null;
+        state = {
+            user: null,
+            balance: 0,
+            totalEarned: 0,
+            purchases: [],
+            recharges: [],
+            withdrawals: [],
+            linkedAccount: null,
+            teamCount: 0,
+            teamBonus: 0,
+            checkinHistory: [],
+            uiSounds: true,
+            notifications: []
+        };
+        showAuthScreen('login');
+        try {
+            await signOut(auth);
+        } catch (e) {
+            console.error(e);
+        }
+        showToast("Vous êtes déconnecté.");
+    }
+    window.confirmLogout = confirmLogout;
+
+    function updateUI() {
+        document.getElementById('headerBalance').innerText = state.balance.toLocaleString('fr-FR') + ' F';
+        document.getElementById('investBalanceDisplay').innerText = formatMoney(state.balance);
+        document.getElementById('accBalance').innerText = formatMoney(state.balance);
+        document.getElementById('withdrawBalanceDisplay').innerText = formatMoney(state.balance);
+
+        const rechargeAvail = document.getElementById('rechargeAvailBalance');
+        if (rechargeAvail) rechargeAvail.innerText = state.balance.toLocaleString('fr-FR') + ' FCFA';
+
+        const soundToggle = document.getElementById('uiSoundToggle');
+        if (soundToggle) soundToggle.checked = Boolean(state.uiSounds);
+
+        if (state.user) {
+            document.getElementById('accUserPhone').innerText = state.user.phone;
+            document.getElementById('referralLinkText').innerText = `https://novafortune.app/register?ref=${state.user.code}`;
+        }
+
+        const activeDailyIncome = state.purchases
+            .filter(item => (item.creditedDays || 0) < (item.days || 10))
+            .reduce((sum, item) => sum + Number(item.daily || 0), 0);
+
+        document.getElementById('accDailyIncome').innerText = activeDailyIncome.toLocaleString('fr-FR') + ' F / jour';
+        document.getElementById('accTotalEarned').innerText = formatMoney(state.totalEarned);
+
+        document.getElementById('stickyBalanceText').innerText = formatMoney(state.balance);
+        document.getElementById('stickyDailyText').innerText = `+${activeDailyIncome.toLocaleString('fr-FR')} F / jour`;
+        document.getElementById('stickyLinkedStatus').innerText = state.linkedAccount
+            ? `${state.linkedAccount.method} lié`
+            : 'Aucun compte lié';
+
+        document.getElementById('teamMembersCount').innerText = state.teamCount;
+        document.getElementById('teamBonusTotal').innerText = state.teamBonus.toLocaleString('fr-FR') + ' F';
+
+        renderCheckinUI();
+        refreshWithdrawLockState();
+
+        const notifList = document.getElementById('notificationsList');
+        if (notifList) {
+            notifList.innerHTML = state.notifications.length === 0
+                ? `<div class="vip-card" style="text-align:center; color:var(--gray-muted);">Aucune notification pour le moment.</div>`
+                : state.notifications.map(n => `
+                    <div class="vip-card" style="padding:15px;">
+                        <div style="font-weight:800; font-size:0.92rem; color:var(--black-dark);">${n.title}</div>
+                        <div style="font-size:0.82rem; color:var(--gray-dark); margin:4px 0;">${n.body}</div>
+                        <div style="font-size:0.72rem; color:var(--gray-muted);">${n.date}</div>
+                    </div>
+                `).join('');
+        }
+
+        const purchasesList = document.getElementById('purchasesList');
+        if (state.purchases.length === 0) {
+            purchasesList.innerHTML = `<div class="vip-card" style="text-align:center; color:var(--gray-muted);">Aucun investissement enregistré dans Mes achats.</div>`;
+        } else {
+            const now = Date.now();
+            purchasesList.innerHTML = state.purchases.map(p => {
+                const days = Number(p.days || 10);
+                const creditedDays = Math.min(days, Number(p.creditedDays || 0));
+                const isCompleted = creditedDays >= days;
+                const remainingMs = Math.max(0, DAY_MS - (now - Number(p.lastCreditedAt || now)));
+                const nextCreditText = isCompleted
+                    ? 'Cycle terminé'
+                    : `Prochain crédit dans ${formatCountdown(remainingMs)}`;
+                return `
+                    <div class="vip-card">
+                        <span class="vip-badge">${p.level}</span>
+                        <div class="vip-product-name">${p.productName}</div>
+                        <div style="font-weight:800; font-size:1.1rem; margin:4px 0;">Capital : ${formatMoney(p.price)}</div>
+                        <div style="font-size:0.82rem; color:var(--green-dark); font-weight:700;">Gain : +${formatMoney(p.daily)} / 24h (${creditedDays}/${days} jours crédités)</div>
+                        <div style="font-size:0.76rem; color:var(--yellow-dark); font-weight:700; margin-top:4px;">${nextCreditText}</div>
+                        <div style="font-size:0.74rem; color:var(--gray-muted); margin-top:6px;">Acheté le ${p.date} • Réf: ${p.id}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        const linkedDiv = document.getElementById('linkedAccountDetails');
+        if (!state.linkedAccount) {
+            linkedDiv.innerHTML = `
+                <div class="vip-card" style="text-align:center;">
+                    <p style="color:var(--gray-muted); margin-bottom:14px;">Aucun compte lié pour le moment.</p>
+                    <button class="btn btn-green" onclick="navigate('view-link-account')">Lier mon compte</button>
+                </div>
+            `;
+        } else {
+            linkedDiv.innerHTML = `
+                <div class="vip-card">
+                    <span class="status-pill status-success" style="float:right;">Compte Lié</span>
+                    <div style="font-size:0.8rem; color:var(--gray-muted);">Méthode de paiement</div>
+                    <h3 style="font-size:1.3rem; font-weight:800; margin:4px 0 12px;">${state.linkedAccount.method}</h3>
+                    <div style="background:#f8fafc; border:1px solid var(--gray-border); padding:12px; border-radius:12px; font-weight:700;">
+                        Numéro : ${state.linkedAccount.phone}
+                    </div>
+                    <button class="btn btn-outline" style="margin-top:14px;" onclick="navigate('view-link-account')">Modifier mon compte</button>
+                </div>
+            `;
+        }
+
+        const rList = document.getElementById('rechargeHistoryList');
+        rList.innerHTML = state.recharges.length === 0
+            ? `<div class="vip-card" style="text-align:center; color:var(--gray-muted);">Aucune recharge enregistrée.</div>`
+            : state.recharges.map(r => {
+                const status = r.status || 'En attente';
+                const pillClass = status === 'Validé' ? 'status-success' : (status === 'Rejeté' ? 'status-rejected' : 'status-pending');
+                return `
+                    <div class="record-card">
+                        <div>
+                            <div style="font-weight:800; color:var(--green-dark);">+${formatMoney(r.amount)}</div>
+                            <div style="font-size:0.78rem; color:var(--gray-muted);">${r.method} (${r.phone}) • Réf: ${r.id}</div>
+                            <div style="font-size:0.72rem; color:var(--gray-muted);">${r.date}</div>
+                        </div>
+                        <span class="status-pill ${pillClass}">${status}</span>
+                    </div>
+                `;
+            }).join('');
+
+        const wList = document.getElementById('withdrawHistoryList');
+        wList.innerHTML = state.withdrawals.length === 0
+            ? `<div class="vip-card" style="text-align:center; color:var(--gray-muted);">Aucun retrait enregistré.</div>`
+            : state.withdrawals.map(w => {
+                const status = w.status || 'En attente';
+                const pillClass = status === 'Validé' ? 'status-success' : (status === 'Rejeté' ? 'status-rejected' : 'status-pending');
+                return `
+                    <div class="record-card">
+                        <div>
+                            <div style="font-weight:800; color:var(--black-dark);">-${formatMoney(w.amount)} <span style="font-size:0.74rem; color:var(--green-dark);">(Net: ${formatMoney(w.net)})</span></div>
+                            <div style="font-size:0.78rem; color:var(--gray-muted);">Vers ${w.phone} • Frais 4%: ${formatMoney(w.fee)}</div>
+                            <div style="font-size:0.72rem; color:var(--gray-muted);">${w.date}</div>
+                        </div>
+                        <span class="status-pill ${pillClass}">${status}</span>
+                    </div>
+                `;
+            }).join('');
+    }
+</script>
+</body>
+</html>

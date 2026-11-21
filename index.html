@@ -1914,17 +1914,21 @@
         <div class="vip-card" style="background:linear-gradient(135deg, var(--black-dark) 0%, #1e293b 65%, var(--green-dark) 100%); color:#ffffff;">
             <span class="hero-tag">Récompense de Parrainage</span>
             <h2 style="font-size:1.18rem; margin-bottom:6px;">Partagez votre lien et gagnez lorsque votre équipe recharge !</h2>
-            <p style="font-size:0.84rem; color:#cbd5e1;">Chaque fois qu'un membre invité effectue une recharge via votre lien, vous recevez une récompense directe.</p>
+            <p style="font-size:0.84rem; color:#cbd5e1;">Copiez le lien de votre site et partagez-le avec vos amis pour inviter de nouveaux membres sur Nova Fortune.</p>
         </div>
 
         <div class="vip-card">
-            <label class="form-label">Votre lien d'invitation :</label>
+            <label class="form-label">Votre lien d'invitation à copier et partager :</label>
             <div class="copy-box">
-                <span id="referralLinkText" style="font-size:0.8rem; font-weight:700; word-break:break-all;">https://novafortune.app/invite?ref=NF001</span>
-                <button class="btn btn-green" style="width:auto; padding:8px 14px; font-size:0.78rem; flex-shrink:0;" onclick="copyText(document.getElementById('referralLinkText').innerText)">
+                <span id="referralLinkText" style="font-size:0.78rem; font-weight:700; word-break:break-all;">https://novafortunebusiness-bit.github.io/novafortunebusiness-bit/?ref=NF001</span>
+                <button type="button" class="btn btn-green" style="width:auto; padding:8px 14px; font-size:0.78rem; flex-shrink:0;" onclick="copyText(document.getElementById('referralLinkText').innerText)">
                     Copier
                 </button>
             </div>
+
+            <button type="button" class="btn btn-yellow" style="margin-top:10px; font-size:0.84rem;" onclick="shareReferralLink()">
+                Partager le lien d'invitation
+            </button>
 
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; text-align:center;">
                 <div style="background:#f8fafc; border:1px solid var(--gray-border); padding:14px; border-radius:12px;">
@@ -1937,7 +1941,7 @@
                 </div>
             </div>
 
-            <button class="btn btn-outline" style="margin-top:16px; font-size:0.82rem;" onclick="simulateReferralBonus()">
+            <button type="button" class="btn btn-outline" style="margin-top:16px; font-size:0.82rem;" onclick="simulateReferralBonus()">
                 Simuler une recharge de filleul (+1 000 F)
             </button>
         </div>
@@ -2052,6 +2056,7 @@
     const DAY_MS = 24 * 60 * 60 * 1000;
     const WHATSAPP_NUMBER = "2250700000000";
     const JEKO_RECHARGE_URL = "https://pay.jeko.africa/pl/d95bfc0e-e246-4947-ac8c-aaa4e5614f16";
+    const SITE_BASE_URL = "https://novafortunebusiness-bit.github.io/novafortunebusiness-bit/";
 
     const firebaseConfig = {
         apiKey: "AIzaSyC7BobRSMpmbyqPlaZnkbwjWXLl9lGC6Ys",
@@ -3171,11 +3176,73 @@
     }
     window.sendSupportTicket = sendSupportTicket;
 
-    function copyText(text) {
-        navigator.clipboard.writeText(text);
-        showToast("Copié : " + text);
+    function getReferralShareUrl() {
+        const refEl = document.getElementById('referralLinkText');
+        if (refEl && refEl.innerText && refEl.innerText.startsWith('http')) {
+            return refEl.innerText.trim();
+        }
+        const code = state.user?.code || 'NF001';
+        return `${SITE_BASE_URL}?ref=${encodeURIComponent(code)}`;
+    }
+
+    async function copyText(text) {
+        const valueToCopy = String(text || getReferralShareUrl()).trim();
+        if (!valueToCopy) return;
+
+        let copied = false;
+        if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+            try {
+                await navigator.clipboard.writeText(valueToCopy);
+                copied = true;
+            } catch (e) {
+                copied = false;
+            }
+        }
+
+        if (!copied) {
+            try {
+                const ta = document.createElement('textarea');
+                ta.value = valueToCopy;
+                ta.setAttribute('readonly', '');
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                copied = document.execCommand('copy');
+                document.body.removeChild(ta);
+            } catch (e) {
+                copied = false;
+            }
+        }
+
+        if (copied) {
+            playUiTone('click');
+            showToast("Lien copié ! Vous pouvez le coller et le partager.");
+        } else {
+            window.prompt("Copiez ce lien pour le partager :", valueToCopy);
+        }
     }
     window.copyText = copyText;
+
+    async function shareReferralLink() {
+        const url = getReferralShareUrl();
+        const shareMessage = `Rejoins Nova Fortune et inscris-toi via mon lien : ${url}`;
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'Nova Fortune',
+                    text: shareMessage,
+                    url
+                });
+                playUiTone('click');
+                return;
+            } catch (e) {
+                if (e && e.name === 'AbortError') return;
+            }
+        }
+        await copyText(url);
+    }
+    window.shareReferralLink = shareReferralLink;
 
     async function confirmLogout() {
         isReadingWelcomeAfterSignup = false;
@@ -3230,7 +3297,10 @@
 
         if (state.user) {
             document.getElementById('accUserPhone').innerText = state.user.phone;
-            document.getElementById('referralLinkText').innerText = `https://novafortune.app/register?ref=${state.user.code}`;
+            const code = state.user.code || 'NF001';
+            document.getElementById('referralLinkText').innerText = `${SITE_BASE_URL}?ref=${encodeURIComponent(code)}`;
+        } else {
+            document.getElementById('referralLinkText').innerText = `${SITE_BASE_URL}?ref=NF001`;
         }
 
         const activeDailyIncome = state.purchases

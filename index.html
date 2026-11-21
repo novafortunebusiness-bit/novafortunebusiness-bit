@@ -56,12 +56,6 @@
             flex-shrink: 0;
         }
 
-        .ico-xl {
-            width: 40px;
-            height: 40px;
-            display: inline-block;
-        }
-
         .app-shell {
             width: 100%;
             max-width: 480px;
@@ -188,6 +182,11 @@
         @keyframes pulseDot {
             0%, 100% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.35); opacity: 0.65; }
+        }
+
+        @keyframes soundWave {
+            0%, 100% { transform: scaleY(0.5); }
+            50% { transform: scaleY(1.2); }
         }
 
         .welcome-contract-pill {
@@ -363,6 +362,150 @@
             margin-bottom: 10px;
         }
 
+        /* ==================== CARTE BIENVENUE VOCALE ACCUEIL ==================== */
+        .voice-welcome-card {
+            background: linear-gradient(135deg, #064e3b 0%, #14191f 65%, #1e293b 100%);
+            color: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1.5px solid rgba(250, 204, 21, 0.55);
+            box-shadow: var(--shadow);
+        }
+
+        .voice-bars {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            height: 16px;
+        }
+
+        .voice-bars span {
+            width: 3px;
+            height: 12px;
+            background: var(--yellow-accent);
+            border-radius: 99px;
+            animation: soundWave 0.9s infinite ease-in-out;
+        }
+
+        .voice-bars span:nth-child(2) { animation-delay: 0.15s; height: 16px; }
+        .voice-bars span:nth-child(3) { animation-delay: 0.3s; height: 10px; }
+
+        /* ==================== STATISTIQUES PLATEFORME EN DIRECT ==================== */
+        .platform-pulse-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .pulse-stat-box {
+            background: var(--bg-card);
+            border: 1px solid var(--gray-border);
+            border-radius: 14px;
+            padding: 11px 8px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .pulse-stat-val {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: var(--black-dark);
+        }
+
+        .pulse-stat-lbl {
+            font-size: 0.66rem;
+            font-weight: 700;
+            color: var(--gray-muted);
+            margin-top: 2px;
+        }
+
+        /* ==================== RENDEMENT AUTO 24H SUR L'ACCUEIL ==================== */
+        .auto-yield-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f0fdf4 100%);
+            border: 1.5px solid var(--green-primary);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .yield-progress-track {
+            width: 100%;
+            height: 8px;
+            background: #dcfce7;
+            border-radius: 99px;
+            overflow: hidden;
+            margin: 10px 0 8px;
+        }
+
+        .yield-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--green-primary), var(--yellow-accent));
+            border-radius: 99px;
+            transition: width 0.4s ease;
+        }
+
+        /* ==================== MISSIONS & COFFRES BONUS ==================== */
+        .missions-card {
+            background: var(--bg-card);
+            border: 1px solid var(--gray-border);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .mission-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 11px 0;
+            border-bottom: 1px solid var(--gray-border);
+        }
+
+        .mission-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        /* ==================== SIMULATEUR DE GAINS VIP ==================== */
+        .simulator-card {
+            background: linear-gradient(145deg, #14191f 0%, #1e293b 100%);
+            color: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 18px 16px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(250, 204, 21, 0.35);
+            box-shadow: var(--shadow);
+        }
+
+        .sim-pills {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin: 12px 0;
+        }
+
+        .sim-pill-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 10px;
+            padding: 8px 4px;
+            font-size: 0.74rem;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .sim-pill-btn.active {
+            background: var(--yellow-accent);
+            color: var(--black-dark);
+            border-color: var(--yellow-accent);
+        }
+
         .live-withdrawals-box {
             background: linear-gradient(135deg, #14191f 0%, #1e293b 100%);
             color: #ffffff;
@@ -495,11 +638,6 @@
             border: 1.5px solid var(--green-primary);
             box-shadow: var(--shadow);
             cursor: pointer;
-        }
-
-        .home-empty-slot {
-            min-height: 150px;
-            width: 100%;
         }
 
         .page-header {
@@ -1219,6 +1357,9 @@
     <symbol id="ic-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>
     </symbol>
+    <symbol id="ic-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+    </symbol>
 </svg>
 
 <div class="toast" id="toast"></div>
@@ -1354,6 +1495,62 @@
     <!-- ==================== PAGE 2 : ACCUEIL ==================== -->
     <div id="view-home" class="view">
 
+        <!-- CARTE D'ACCUEIL VOCAL PERSONNALISÉ -->
+        <div class="voice-welcome-card">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+                <div>
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                        <span class="voice-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                        <span style="font-size:0.7rem; font-weight:800; letter-spacing:0.7px; color:var(--yellow-accent); text-transform:uppercase;">Accueil Vocal Actif</span>
+                    </div>
+                    <h2 style="font-size:1.1rem; font-weight:800; line-height:1.3;" id="homeVoiceGreetingTitle">
+                        Salut ! Soyez la bienvenue sur votre compte.
+                    </h2>
+                    <p style="font-size:0.8rem; color:#cbd5e1; margin-top:4px; line-height:1.45;">
+                        Profitez et gagnez. Et j'espère que on vous a manqué.
+                    </p>
+                </div>
+                <button type="button" onclick="replayWelcomeVoice()" title="Réécouter le message de bienvenue" style="background:rgba(250,204,21,0.18); color:var(--yellow-accent); border:1px solid rgba(250,204,21,0.45); border-radius:12px; padding:9px 11px; font-size:0.74rem; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:5px; flex-shrink:0;">
+                    <svg class="ico"><use href="#ic-volume"/></svg> Écouter
+                </button>
+            </div>
+        </div>
+
+        <!-- STATISTIQUES GLOBALES EN DIRECT -->
+        <div class="platform-pulse-grid">
+            <div class="pulse-stat-box">
+                <div class="pulse-stat-val" style="color:var(--green-dark);" id="liveInvestorsCount">14 820</div>
+                <div class="pulse-stat-lbl">Investisseurs</div>
+            </div>
+            <div class="pulse-stat-box">
+                <div class="pulse-stat-val" style="color:var(--yellow-dark);" id="livePaidTodayAmount">4,85 M F</div>
+                <div class="pulse-stat-lbl">Crédités / 24h</div>
+            </div>
+            <div class="pulse-stat-box">
+                <div class="pulse-stat-val" style="color:var(--black-dark);">100 %</div>
+                <div class="pulse-stat-lbl">Auto-Crédit 24h</div>
+            </div>
+        </div>
+
+        <!-- TABLEAU DE RENDEMENT AUTOMATIQUE QUOTIDIEN -->
+        <div class="auto-yield-card" id="homeAutoYieldCard">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+                <div>
+                    <span style="font-size:0.7rem; font-weight:800; color:var(--green-dark); text-transform:uppercase; letter-spacing:0.6px;">Moteur de Gains Automatiques</span>
+                    <div style="font-size:1.15rem; font-weight:800; color:var(--black-dark); margin-top:2px;" id="homeDailyAutoIncome">0 F CFA / 24h</div>
+                </div>
+                <span class="status-pill status-success" id="homeActivePacksBadge">0 pack actif</span>
+            </div>
+            <div class="yield-progress-track">
+                <div class="yield-progress-fill" id="homeYieldProgressBar" style="width: 12%;"></div>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.76rem; color:var(--gray-dark); font-weight:600;">
+                <span id="homeNextCreditCountdown">Investissez pour lancer le crédit auto 24h</span>
+                <a href="javascript:void(0)" onclick="navigate('view-invest')" style="color:var(--green-dark); font-weight:800; text-decoration:none;">Booster &rsaquo;</a>
+            </div>
+        </div>
+
+        <!-- RETRAITS EN DIRECT -->
         <div class="live-withdrawals-box">
             <div class="live-badge-row">
                 <span class="live-pill"><span class="live-dot"></span> Retraits en direct</span>
@@ -1379,6 +1576,7 @@
             <div class="live-recent-mini-list" id="liveRecentMiniList"></div>
         </div>
 
+        <!-- PRÉSENCE QUOTIDIENNE -->
         <div class="checkin-banner-home" onclick="navigate('view-checkin')">
             <div style="display:flex; align-items:center; gap:12px;">
                 <div style="width:44px; height:44px; border-radius:12px; background:rgba(16,185,129,0.2); color:var(--green-primary); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
@@ -1392,6 +1590,7 @@
             <span class="hero-tag" style="margin:0; flex-shrink:0;" id="homeCheckinBadge">+27 F</span>
         </div>
 
+        <!-- ACCÈS RAPIDE -->
         <h3 style="font-size:1rem; font-weight:800; margin-bottom:12px;">Accès Rapide</h3>
         <div class="quick-grid">
             <button class="action-tile" onclick="navigate('view-invest')">
@@ -1427,7 +1626,54 @@
             </button>
         </div>
 
-        <div id="homeRemovedSlot" class="home-empty-slot" aria-hidden="true"></div>
+        <!-- COFFRES & RÉCOMPENSES D'ACTIVITÉ -->
+        <div class="missions-card">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="width:32px; height:32px; border-radius:10px; background:var(--yellow-soft); color:var(--yellow-dark); display:flex; align-items:center; justify-content:center;">
+                        <svg class="ico"><use href="#ic-gift"/></svg>
+                    </span>
+                    <div>
+                        <h3 style="font-size:0.95rem; font-weight:800;">Coffres Bonus & Objectifs</h3>
+                        <div style="font-size:0.72rem; color:var(--gray-muted);">Débloquez des récompenses instantanées</div>
+                    </div>
+                </div>
+            </div>
+            <div id="homeMissionsList"></div>
+        </div>
+
+        <!-- SIMULATEUR DE GAINS VIP INTERACTIF -->
+        <div class="simulator-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span class="hero-tag" style="margin:0;">Simulateur de Gains</span>
+                <span style="font-size:0.74rem; color:#6ee7b7; font-weight:700;">Cycle 10 jours</span>
+            </div>
+            <h3 style="font-size:1rem; font-weight:800; margin-top:8px;">Calculez vos gains automatiques</h3>
+            <div class="sim-pills" id="simPlanPills">
+                <button type="button" class="sim-pill-btn active" onclick="selectSimulatorPlan(0)">VIP 1</button>
+                <button type="button" class="sim-pill-btn" onclick="selectSimulatorPlan(1)">VIP 2</button>
+                <button type="button" class="sim-pill-btn" onclick="selectSimulatorPlan(2)">VIP 3</button>
+                <button type="button" class="sim-pill-btn" onclick="selectSimulatorPlan(3)">VIP 4</button>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; background:rgba(255,255,255,0.06); padding:12px 10px; border-radius:12px; text-align:center;">
+                <div>
+                    <div style="font-size:0.68rem; color:#94a3b8;">Capital</div>
+                    <div style="font-size:0.86rem; font-weight:800; color:#ffffff;" id="simCapitalVal">5 000 F</div>
+                </div>
+                <div>
+                    <div style="font-size:0.68rem; color:#94a3b8;">Gain / 24h</div>
+                    <div style="font-size:0.86rem; font-weight:800; color:#6ee7b7;" id="simDailyVal">+1 000 F</div>
+                </div>
+                <div>
+                    <div style="font-size:0.68rem; color:#94a3b8;">Total 10j</div>
+                    <div style="font-size:0.86rem; font-weight:800; color:var(--yellow-accent);" id="simTotalVal">10 000 F</div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-green" style="margin-top:12px; padding:11px 14px; font-size:0.85rem;" onclick="investFromSimulator()">
+                Activer ce plan maintenant
+            </button>
+        </div>
+
     </div>
 
     <!-- ==================== PAGE 3 : INVESTIR ==================== -->
@@ -1505,8 +1751,8 @@
                 <div class="menu-item-left">
                     <span class="menu-icon-box"><svg class="ico"><use href="#ic-volume"/></svg></span>
                     <div>
-                        <div>Sons de l'interface</div>
-                        <div style="font-size:0.73rem; color:var(--gray-muted); font-weight:500;">Un son discret pour un gain ou un achat</div>
+                        <div>Sons & voix de l'interface</div>
+                        <div style="font-size:0.73rem; color:var(--gray-muted); font-weight:500;">Accueil vocal et sons de gains</div>
                     </div>
                 </div>
                 <label class="toggle-switch" onclick="event.stopPropagation()">
@@ -2102,6 +2348,73 @@
     let liveWithdrawalIndex = 0;
     let liveTickerTimer = null;
     let isReadingWelcomeAfterSignup = false;
+    let welcomeVoiceSpokenForSession = false;
+    let pendingAutoVoiceName = null;
+    let selectedSimPlanIdx = 0;
+
+    // ==================== SYNTHÈSE VOCALE DE BIENVENUE ====================
+    function speakFrenchText(text, onBlocked) {
+        if (!state.uiSounds) return;
+        if (!('speechSynthesis' in window)) return;
+        try {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'fr-FR';
+            utterance.rate = 0.96;
+            utterance.pitch = 1.04;
+            utterance.volume = 1;
+
+            const voices = window.speechSynthesis.getVoices();
+            const frVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('fr'));
+            if (frVoice) utterance.voice = frVoice;
+
+            utterance.onerror = () => {
+                if (typeof onBlocked === 'function') onBlocked();
+            };
+
+            window.speechSynthesis.speak(utterance);
+        } catch (e) {
+            if (typeof onBlocked === 'function') onBlocked();
+        }
+    }
+
+    function speakWelcomeMessage(userName) {
+        const cleanName = (userName || state.user?.name || '').trim();
+        const prefix = cleanName ? `${cleanName}. ` : '';
+        const fullSpeech = `${prefix}Salut. Soyez la bienvenue sur votre compte. Profitez et gagnez. Et j'espère que on vous a manqué.`;
+
+        const titleEl = document.getElementById('homeVoiceGreetingTitle');
+        if (titleEl) {
+            titleEl.innerText = cleanName
+                ? `${cleanName}, salut ! Soyez la bienvenue sur votre compte.`
+                : `Salut ! Soyez la bienvenue sur votre compte.`;
+        }
+
+        speakFrenchText(fullSpeech, () => {
+            pendingAutoVoiceName = cleanName || 'cher membre';
+        });
+    }
+
+    function replayWelcomeVoice() {
+        pendingAutoVoiceName = null;
+        speakWelcomeMessage(state.user?.name || '');
+    }
+    window.replayWelcomeVoice = replayWelcomeVoice;
+
+    // Débloque automatiquement la voix au premier toucher si le navigateur a bloqué l'autoplay
+    document.addEventListener('pointerdown', () => {
+        if (pendingAutoVoiceName !== null && currentUid) {
+            const nameToSpeak = pendingAutoVoiceName;
+            pendingAutoVoiceName = null;
+            speakWelcomeMessage(nameToSpeak);
+        }
+    }, { passive: true });
+
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.onvoiceschanged = () => {
+            window.speechSynthesis.getVoices();
+        };
+    }
 
     function buildWithdrawalItem(index) {
         const safeIdx = ((index % WITHDRAWAL_NAMES.length) + WITHDRAWAL_NAMES.length) % WITHDRAWAL_NAMES.length;
@@ -2166,6 +2479,27 @@
         { id: 'vip4', level: 'VIP 4', productName: 'Pack Nova Fortune Diamant', price: 100000, daily: 15000, days: 10, featured: true }
     ];
 
+    function selectSimulatorPlan(idx) {
+        selectedSimPlanIdx = idx;
+        const plan = VIP_PLANS[idx] || VIP_PLANS[0];
+        document.querySelectorAll('#simPlanPills .sim-pill-btn').forEach((btn, i) => {
+            btn.classList.toggle('active', i === idx);
+        });
+        const capEl = document.getElementById('simCapitalVal');
+        const dayEl = document.getElementById('simDailyVal');
+        const totEl = document.getElementById('simTotalVal');
+        if (capEl) capEl.innerText = plan.price.toLocaleString('fr-FR') + ' F';
+        if (dayEl) dayEl.innerText = '+' + plan.daily.toLocaleString('fr-FR') + ' F';
+        if (totEl) totEl.innerText = (plan.daily * plan.days).toLocaleString('fr-FR') + ' F';
+    }
+    window.selectSimulatorPlan = selectSimulatorPlan;
+
+    function investFromSimulator() {
+        const plan = VIP_PLANS[selectedSimPlanIdx] || VIP_PLANS[0];
+        buyVipPlan(plan.id);
+    }
+    window.investFromSimulator = investFromSimulator;
+
     let currentUid = null;
     let unsubscribeUser = null;
     let autoCreditTimer = null;
@@ -2183,6 +2517,7 @@
         teamCount: 0,
         teamBonus: 0,
         checkinHistory: [],
+        claimedMissions: [],
         uiSounds: true,
         notifications: []
     };
@@ -2220,10 +2555,89 @@
     async function toggleInterfaceSounds(enabled) {
         state.uiSounds = Boolean(enabled);
         if (state.uiSounds) playUiTone('click');
-        showToast(state.uiSounds ? "Sons de l'interface activés." : "Sons de l'interface désactivés.");
+        showToast(state.uiSounds ? "Sons et voix activés." : "Sons et voix désactivés.");
         await saveState();
     }
     window.toggleInterfaceSounds = toggleInterfaceSounds;
+
+    // ==================== COFFRES BONUS & OBJECTIFS ====================
+    const DAILY_MISSIONS = [
+        {
+            id: 'mission_checkin',
+            title: 'Présence du jour',
+            desc: 'Validez votre présence quotidienne',
+            reward: 50,
+            check: () => state.checkinHistory.includes(getLocalDateKey())
+        },
+        {
+            id: 'mission_first_invest',
+            title: 'Investisseur Actif',
+            desc: 'Activez au moins 1 plan VIP',
+            reward: 250,
+            check: () => state.purchases.length >= 1
+        },
+        {
+            id: 'mission_link_wallet',
+            title: 'Compte Sécurisé',
+            desc: 'Liez votre compte de retrait',
+            reward: 100,
+            check: () => Boolean(state.linkedAccount && state.linkedAccount.phone)
+        }
+    ];
+
+    async function claimMissionReward(missionId) {
+        const mission = DAILY_MISSIONS.find(m => m.id === missionId);
+        if (!mission) return;
+        if (!mission.check()) {
+            showToast("Terminez d'abord cet objectif pour ouvrir le coffre !");
+            return;
+        }
+        if (state.claimedMissions.includes(missionId)) {
+            showToast("Récompense déjà réclamée !");
+            return;
+        }
+        state.claimedMissions.push(missionId);
+        state.balance = Number(state.balance || 0) + mission.reward;
+        state.totalEarned = Number(state.totalEarned || 0) + mission.reward;
+        state.notifications.unshift({
+            title: `Coffre débloqué : ${mission.title}`,
+            body: `Vous avez reçu +${mission.reward} F CFA de bonus.`,
+            date: new Date().toLocaleString('fr-FR')
+        });
+        playUiTone('gain');
+        await saveState();
+        showToast(`Coffre ouvert ! +${mission.reward} F CFA ajoutés à votre solde !`);
+    }
+    window.claimMissionReward = claimMissionReward;
+
+    function renderHomeMissions() {
+        const container = document.getElementById('homeMissionsList');
+        if (!container) return;
+
+        container.innerHTML = DAILY_MISSIONS.map(m => {
+            const unlocked = m.check();
+            const claimed = state.claimedMissions.includes(m.id);
+            let btnHtml = '';
+
+            if (claimed) {
+                btnHtml = `<span class="status-pill status-success">Reçu</span>`;
+            } else if (unlocked) {
+                btnHtml = `<button type="button" class="btn btn-yellow" style="width:auto; padding:7px 12px; font-size:0.75rem; border-radius:99px;" onclick="claimMissionReward('${m.id}')">+${m.reward} F</button>`;
+            } else {
+                btnHtml = `<span class="status-pill status-pending">+${m.reward} F</span>`;
+            }
+
+            return `
+                <div class="mission-row">
+                    <div>
+                        <div style="font-size:0.84rem; font-weight:800; color:var(--black-dark);">${m.title}</div>
+                        <div style="font-size:0.74rem; color:var(--gray-muted);">${m.desc}</div>
+                    </div>
+                    ${btnHtml}
+                </div>
+            `;
+        }).join('');
+    }
 
     function getLocalDateKey(dateObj = new Date()) {
         const y = dateObj.getFullYear();
@@ -2469,13 +2883,20 @@
         window.scrollTo({ top: 0, behavior: 'instant' });
     }
 
-    function showPlatformScreen(viewId = 'view-home') {
+    function showPlatformScreen(viewId = 'view-home', triggerWelcomeSpeech = false) {
         document.getElementById('view-register').style.display = 'none';
         document.getElementById('view-congrats').style.display = 'none';
         document.getElementById('mainHeader').style.display = 'flex';
         document.getElementById('bottomNav').style.display = 'flex';
         startLiveWithdrawalsTicker();
         navigate(viewId);
+
+        if (triggerWelcomeSpeech && !welcomeVoiceSpokenForSession) {
+            welcomeVoiceSpokenForSession = true;
+            setTimeout(() => {
+                speakWelcomeMessage(state.user?.name || '');
+            }, 350);
+        }
     }
 
     async function saveState() {
@@ -2494,6 +2915,7 @@
                 teamCount: state.teamCount,
                 teamBonus: state.teamBonus,
                 checkinHistory: state.checkinHistory,
+                claimedMissions: state.claimedMissions,
                 uiSounds: state.uiSounds,
                 notifications: state.notifications
             });
@@ -2527,6 +2949,7 @@
         });
     }
 
+    // ==================== CRÉDIT AUTOMATIQUE TOUTES LES 24 HEURES ====================
     function processDailyInvestments() {
         if (!Array.isArray(state.purchases) || state.purchases.length === 0) return false;
 
@@ -2577,11 +3000,12 @@
         if (addedTotal > 0) {
             playUiTone('gain');
             state.notifications.unshift({
-                title: "Gain quotidien crédité",
+                title: "Gain quotidien crédité automatiquement",
                 body: `+${formatMoney(addedTotal)} ajoutés à votre solde.`,
                 date: new Date().toLocaleString('fr-FR')
             });
             showToast(`+${formatMoney(addedTotal)} crédités automatiquement sur votre compte !`);
+            speakFrenchText(`Félicitations ${state.user?.name || ''}, ${addedTotal} francs CFA viennent d'être crédités automatiquement sur votre compte.`);
         }
 
         return changed;
@@ -2597,8 +3021,19 @@
             } else {
                 updateUI();
             }
-        }, 60 * 1000);
+        }, 15 * 1000);
     }
+
+    document.addEventListener('visibilitychange', async () => {
+        if (document.visibilityState === 'visible' && currentUid && !isSavingState) {
+            const changed = processDailyInvestments();
+            if (changed) {
+                await saveState();
+            } else {
+                updateUI();
+            }
+        }
+    });
 
     function showToast(msg) {
         const toast = document.getElementById('toast');
@@ -2617,7 +3052,8 @@
         const totalSeconds = Math.floor(msRemaining / 1000);
         const h = Math.floor(totalSeconds / 3600);
         const m = Math.floor((totalSeconds % 3600) / 60);
-        return `${h}h ${m}min`;
+        const s = totalSeconds % 60;
+        return `${h}h ${m}m ${s}s`;
     }
 
     function refreshWithdrawLockState() {
@@ -2675,6 +3111,7 @@
                         teamCount: Number(data.teamCount || 0),
                         teamBonus: Number(data.teamBonus || 0),
                         checkinHistory: Array.isArray(data.checkinHistory) ? data.checkinHistory : [],
+                        claimedMissions: Array.isArray(data.claimedMissions) ? data.claimedMissions : [],
                         uiSounds: typeof data.uiSounds === 'boolean' ? data.uiSounds : true,
                         notifications: Array.isArray(data.notifications) ? data.notifications : []
                     };
@@ -2684,17 +3121,24 @@
                     } else {
                         updateUI();
                     }
+
+                    if (!isReadingWelcomeAfterSignup && !welcomeVoiceSpokenForSession && state.user?.name) {
+                        welcomeVoiceSpokenForSession = true;
+                        speakWelcomeMessage(state.user.name);
+                    }
                 }
             });
 
             if (isReadingWelcomeAfterSignup) {
                 showCongratsScreen(state.user?.name || document.getElementById('regName')?.value?.trim() || 'cher membre');
             } else {
-                showPlatformScreen('view-home');
+                showPlatformScreen('view-home', Boolean(state.user?.name));
             }
         } else {
             currentUid = null;
             isReadingWelcomeAfterSignup = false;
+            welcomeVoiceSpokenForSession = false;
+            pendingAutoVoiceName = null;
             if (autoCreditTimer) {
                 clearInterval(autoCreditTimer);
                 autoCreditTimer = null;
@@ -2709,6 +3153,7 @@
 
     window.onload = function() {
         renderVipPlans();
+        selectSimulatorPlan(0);
         syncRechargeAmountUI(MIN_RECHARGE);
         renderLiveWithdrawals();
         updateUI();
@@ -2731,6 +3176,7 @@
         btn.disabled = true;
         btn.innerText = "Vérification...";
         isReadingWelcomeAfterSignup = true;
+        welcomeVoiceSpokenForSession = false;
 
         try {
             let cred;
@@ -2760,6 +3206,7 @@
                 teamCount: 0,
                 teamBonus: 0,
                 checkinHistory: [],
+                claimedMissions: [],
                 uiSounds: true,
                 notifications: [{
                     title: "Bienvenue sur Nova Fortune",
@@ -2804,6 +3251,7 @@
         }
 
         isReadingWelcomeAfterSignup = false;
+        welcomeVoiceSpokenForSession = false;
         btn.disabled = true;
         btn.innerText = "Connexion...";
 
@@ -2824,6 +3272,7 @@
                     teamCount: Number(data.teamCount || 0),
                     teamBonus: Number(data.teamBonus || 0),
                     checkinHistory: Array.isArray(data.checkinHistory) ? data.checkinHistory : [],
+                    claimedMissions: Array.isArray(data.claimedMissions) ? data.claimedMissions : [],
                     uiSounds: typeof data.uiSounds === 'boolean' ? data.uiSounds : true,
                     notifications: Array.isArray(data.notifications) ? data.notifications : []
                 };
@@ -2833,7 +3282,7 @@
                 }
             }
             updateUI();
-            showPlatformScreen('view-home');
+            showPlatformScreen('view-home', true);
             showToast("Connexion réussie !");
         } catch (err) {
             if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') {
@@ -2852,8 +3301,8 @@
 
     function enterPlatform() {
         isReadingWelcomeAfterSignup = false;
-        playUiTone('gain');
-        showPlatformScreen('view-home');
+        welcomeVoiceSpokenForSession = false;
+        showPlatformScreen('view-home', true);
     }
     window.enterPlatform = enterPlatform;
 
@@ -3246,6 +3695,11 @@
 
     async function confirmLogout() {
         isReadingWelcomeAfterSignup = false;
+        welcomeVoiceSpokenForSession = false;
+        pendingAutoVoiceName = null;
+        if ('speechSynthesis' in window) {
+            try { window.speechSynthesis.cancel(); } catch (e) {}
+        }
         if (autoCreditTimer) {
             clearInterval(autoCreditTimer);
             autoCreditTimer = null;
@@ -3270,6 +3724,7 @@
             teamCount: 0,
             teamBonus: 0,
             checkinHistory: [],
+            claimedMissions: [],
             uiSounds: true,
             notifications: []
         };
@@ -3295,6 +3750,13 @@
         const soundToggle = document.getElementById('uiSoundToggle');
         if (soundToggle) soundToggle.checked = Boolean(state.uiSounds);
 
+        const greetingTitle = document.getElementById('homeVoiceGreetingTitle');
+        if (greetingTitle) {
+            greetingTitle.innerText = state.user?.name
+                ? `${state.user.name}, salut ! Soyez la bienvenue sur votre compte.`
+                : `Salut ! Soyez la bienvenue sur votre compte.`;
+        }
+
         if (state.user) {
             document.getElementById('accUserPhone').innerText = state.user.phone;
             const code = state.user.code || 'NF001';
@@ -3303,12 +3765,31 @@
             document.getElementById('referralLinkText').innerText = `${SITE_BASE_URL}?ref=NF001`;
         }
 
-        const activeDailyIncome = state.purchases
-            .filter(item => (item.creditedDays || 0) < (item.days || 10))
-            .reduce((sum, item) => sum + Number(item.daily || 0), 0);
+        const activePacks = state.purchases.filter(item => (item.creditedDays || 0) < (item.days || 10));
+        const activeDailyIncome = activePacks.reduce((sum, item) => sum + Number(item.daily || 0), 0);
 
         document.getElementById('accDailyIncome').innerText = activeDailyIncome.toLocaleString('fr-FR') + ' F / jour';
         document.getElementById('accTotalEarned').innerText = formatMoney(state.totalEarned);
+
+        // Mise à jour du tableau de rendement automatique 24h sur l'accueil
+        const homeAutoDaily = document.getElementById('homeDailyAutoIncome');
+        const homePacksBadge = document.getElementById('homeActivePacksBadge');
+        const homeCountdownEl = document.getElementById('homeNextCreditCountdown');
+        const homeProgressBar = document.getElementById('homeYieldProgressBar');
+
+        if (homeAutoDaily) homeAutoDaily.innerText = `${activeDailyIncome.toLocaleString('fr-FR')} F CFA / 24h`;
+        if (homePacksBadge) homePacksBadge.innerText = `${activePacks.length} pack${activePacks.length > 1 ? 's' : ''} actif${activePacks.length > 1 ? 's' : ''}`;
+
+        if (activePacks.length > 0 && homeCountdownEl && homeProgressBar) {
+            const now = Date.now();
+            const soonestMs = Math.min(...activePacks.map(p => Math.max(0, DAY_MS - (now - Number(p.lastCreditedAt || now)))));
+            const pct = Math.min(100, Math.max(5, Math.round(((DAY_MS - soonestMs) / DAY_MS) * 100)));
+            homeProgressBar.style.width = `${pct}%`;
+            homeCountdownEl.innerText = `Prochain crédit auto dans ${formatCountdown(soonestMs)}`;
+        } else if (homeCountdownEl && homeProgressBar) {
+            homeProgressBar.style.width = '8%';
+            homeCountdownEl.innerText = 'Activez un pack VIP pour recevoir vos gains chaque 24h';
+        }
 
         document.getElementById('stickyBalanceText').innerText = formatMoney(state.balance);
         document.getElementById('stickyDailyText').innerText = `+${activeDailyIncome.toLocaleString('fr-FR')} F / jour`;
@@ -3320,6 +3801,7 @@
         document.getElementById('teamBonusTotal').innerText = state.teamBonus.toLocaleString('fr-FR') + ' F';
 
         renderCheckinUI();
+        renderHomeMissions();
         refreshWithdrawLockState();
 
         const notifList = document.getElementById('notificationsList');

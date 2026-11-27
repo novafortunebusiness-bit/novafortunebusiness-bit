@@ -580,14 +580,14 @@
         .quick-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-            margin-bottom: 16px;
+            gap: 12px;
+            margin-bottom: 14px;
         }
 
         .action-tile {
             background: var(--bg-card);
             border-radius: var(--radius-lg);
-            padding: 18px 15px;
+            padding: 16px 14px;
             border: 1px solid var(--gray-border);
             box-shadow: var(--shadow);
             cursor: pointer;
@@ -605,8 +605,8 @@
         }
 
         .tile-icon {
-            width: 44px;
-            height: 44px;
+            width: 42px;
+            height: 42px;
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -617,8 +617,8 @@
         .tile-yellow { background: var(--yellow-soft); color: var(--yellow-dark); }
         .tile-gray { background: var(--gray-soft); color: var(--black-dark); }
 
-        .action-tile h3 { font-size: 0.98rem; font-weight: 700; color: var(--black-dark); }
-        .action-tile span { font-size: 0.76rem; color: var(--gray-muted); }
+        .action-tile h3 { font-size: 0.95rem; font-weight: 700; color: var(--black-dark); }
+        .action-tile span { font-size: 0.74rem; color: var(--gray-muted); }
 
         .checkin-banner-home {
             background: linear-gradient(135deg, var(--black-dark) 0%, #1e293b 100%);
@@ -1580,41 +1580,6 @@
             <span class="hero-tag" style="margin:0; flex-shrink:0;" id="homeCheckinBadge">+27 F</span>
         </div>
 
-        <h3 style="font-size:1rem; font-weight:800; margin-bottom:12px;">Accès Rapide</h3>
-        <div class="quick-grid">
-            <button class="action-tile" onclick="navigate('view-invest')">
-                <div class="tile-icon tile-green"><svg class="ico-lg"><use href="#ic-chart"/></svg></div>
-                <div>
-                    <h3>Investir</h3>
-                    <span>Tous les plans VIP</span>
-                </div>
-            </button>
-
-            <button class="action-tile" onclick="navigate('view-recharge')">
-                <div class="tile-icon tile-yellow"><svg class="ico-lg"><use href="#ic-plus"/></svg></div>
-                <div>
-                    <h3>Recharger</h3>
-                    <span>Dès 5 000 F CFA</span>
-                </div>
-            </button>
-
-            <button class="action-tile" onclick="navigate('view-team')">
-                <div class="tile-icon tile-yellow"><svg class="ico-lg"><use href="#ic-team"/></svg></div>
-                <div>
-                    <h3>Équipe</h3>
-                    <span>Parrainer & gagner</span>
-                </div>
-            </button>
-
-            <button class="action-tile" onclick="navigate('view-account')">
-                <div class="tile-icon tile-green"><svg class="ico-lg"><use href="#ic-user"/></svg></div>
-                <div>
-                    <h3>Mon Compte</h3>
-                    <span>Solde & activités</span>
-                </div>
-            </button>
-        </div>
-
         <div class="missions-card">
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
                 <div style="display:flex; align-items:center; gap:8px;">
@@ -1712,6 +1677,41 @@
             </button>
             <button class="btn btn-yellow" onclick="navigate('view-withdraw')">
                 <svg class="ico"><use href="#ic-transfer"/></svg> Retrait
+            </button>
+        </div>
+
+        <div class="section-caption" style="margin-top:6px;">Accès Rapide</div>
+        <div class="quick-grid">
+            <button class="action-tile" onclick="navigate('view-invest')">
+                <div class="tile-icon tile-green"><svg class="ico-lg"><use href="#ic-chart"/></svg></div>
+                <div>
+                    <h3>Investir</h3>
+                    <span>Tous les plans VIP</span>
+                </div>
+            </button>
+
+            <button class="action-tile" onclick="navigate('view-recharge')">
+                <div class="tile-icon tile-yellow"><svg class="ico-lg"><use href="#ic-plus"/></svg></div>
+                <div>
+                    <h3>Recharger</h3>
+                    <span>Dès 5 000 F CFA</span>
+                </div>
+            </button>
+
+            <button class="action-tile" onclick="navigate('view-team')">
+                <div class="tile-icon tile-yellow"><svg class="ico-lg"><use href="#ic-team"/></svg></div>
+                <div>
+                    <h3>Équipe</h3>
+                    <span>Parrainer & gagner</span>
+                </div>
+            </button>
+
+            <button class="action-tile" onclick="navigate('view-account')">
+                <div class="tile-icon tile-green"><svg class="ico-lg"><use href="#ic-user"/></svg></div>
+                <div>
+                    <h3>Mon Compte</h3>
+                    <span>Solde & activités</span>
+                </div>
             </button>
         </div>
 
@@ -3592,7 +3592,6 @@
     }
     window.submitWithdraw = submitWithdraw;
 
-    // Bonus unique de 1 000 F CFA lorsqu'un filleul investit
     async function creditSingleReferralInvestmentBonus(referralId) {
         const cleanId = String(referralId || '').trim();
         if (!cleanId) return false;

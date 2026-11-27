@@ -650,10 +650,6 @@
             transition: opacity 0.15s ease;
         }
 
-        .live-spotlight-card.switching {
-            opacity: 0.45;
-        }
-
         .live-recent-mini-list {
             margin-top: 10px;
             display: flex;
@@ -2413,11 +2409,11 @@
                     Enregistrer Verso
                 </button>
             </div>
-            <button type="button" class="btn btn-green" onclick="openWhatsAppWithLoanMessage()">
+            <a href="https://wa.me/qr/7I3XRTG5VUYBB1" target="_blank" rel="noopener noreferrer" class="btn btn-green" style="text-decoration:none;" onclick="prepareLoanWhatsAppCopy()">
                 <svg class="ico"><use href="#ic-whatsapp"/></svg> Envoyer le dossier prêt sur WhatsApp
-            </button>
+            </a>
             <p style="font-size:0.72rem; color:#cbd5e1; margin-top:8px; line-height:1.4;">
-                Votre nom et le texte du prêt s'affichent automatiquement dans WhatsApp. Joignez les 2 photos enregistrées dans la discussion WhatsApp.
+                Le texte du prêt est copié automatiquement : ouvrez la discussion WhatsApp puis collez le message et joignez vos 2 photos.
             </p>
         </div>
 
@@ -2429,12 +2425,15 @@
                     </div>
                     <div>
                         <div style="font-weight:800; font-size:0.92rem;">WhatsApp Officiel Nova Fortune</div>
-                        <div style="font-size:0.78rem; color:var(--gray-muted);">Contactez directement Nova Fortune sur WhatsApp</div>
+                        <div style="font-size:0.78rem; color:var(--gray-muted);">Discuter directement avec le service client</div>
+                        <a href="https://wa.me/qr/7I3XRTG5VUYBB1" target="_blank" rel="noopener noreferrer" style="display:inline-block; font-size:0.74rem; color:var(--green-dark); font-weight:700; margin-top:3px; word-break:break-all;">
+                            https://wa.me/qr/7I3XRTG5VUYBB1
+                        </a>
                     </div>
                 </div>
-                <button type="button" onclick="openWhatsAppDirect()" class="btn btn-green" style="width:auto; padding:9px 14px; font-size:0.78rem;">
+                <a href="https://wa.me/qr/7I3XRTG5VUYBB1" target="_blank" rel="noopener noreferrer" onclick="prepareDirectWhatsAppCopy()" class="btn btn-green" style="width:auto; padding:9px 14px; font-size:0.78rem; text-decoration:none; flex-shrink:0;">
                     WhatsApp
-                </button>
+                </a>
             </div>
 
             <form onsubmit="sendSupportTicket(event)" style="margin-top:16px; padding-top:16px; border-top:1px solid var(--gray-border);">
@@ -2568,7 +2567,6 @@
             if (!ctx) return;
             const t = ctx.currentTime;
 
-            // Impulsion 1 (note de recharge claire)
             const osc1 = ctx.createOscillator();
             const g1 = ctx.createGain();
             osc1.type = 'triangle';
@@ -2581,7 +2579,6 @@
             osc1.start(t);
             osc1.stop(t + 0.12);
 
-            // Impulsion 2 (montée signature du rechargement)
             const osc2 = ctx.createOscillator();
             const g2 = ctx.createGain();
             osc2.type = 'triangle';
@@ -2596,16 +2593,6 @@
         } catch (e) {}
     }
 
-    function playUiTone(type = 'recharge') {
-        if (!state.uiSounds) return;
-        if (type === 'gain') {
-            playRechargeChime(0);
-            return;
-        }
-        playRechargeChime(35);
-    }
-
-    // Débloque l'audio dès le premier contact utilisateur et joue la sonnerie sur tout bouton / zone cliquable
     document.addEventListener('pointerdown', (e) => {
         getAudioContext();
         const interactive = e.target.closest('button, .btn, .action-tile, .menu-item, .back-btn, .loan-amount-card, .checkin-banner-home, .loan-banner-home, .method-option, .preset-pill-btn, .sim-pill-btn, .id-capture-box, .nav-btn, .mini-header-btn');
@@ -2614,7 +2601,6 @@
         }
     }, { passive: true });
 
-    // Sonnerie de recharge à chaque saisie / écriture de montant
     document.addEventListener('input', (e) => {
         const target = e.target;
         if (!target) return;
@@ -2664,12 +2650,43 @@
         submitted: false
     };
 
-    function buildWhatsAppTargetUrl(messageText) {
-        const cleanMsg = String(messageText || '').trim();
-        if (!cleanMsg) return WHATSAPP_QR_URL;
-        const sep = WHATSAPP_QR_URL.includes('?') ? '&' : '?';
-        return `${WHATSAPP_QR_URL}${sep}text=${encodeURIComponent(cleanMsg)}`;
+    function copyMessageSilently(text) {
+        const val = String(text || "").trim();
+        if (!val) return;
+        if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+            navigator.clipboard.writeText(val).catch(() => {});
+        }
     }
+
+    function redirectToSupportWhatsApp(messageText = "") {
+        const cleanMsg = String(messageText || "").trim();
+        if (cleanMsg) {
+            copyMessageSilently(cleanMsg);
+            showToast("Message copié • Ouverture du WhatsApp du service client...");
+        } else {
+            showToast("Ouverture du WhatsApp du service client...");
+        }
+        const opened = window.open(WHATSAPP_QR_URL, "_blank", "noopener,noreferrer");
+        if (!opened) {
+            window.location.href = WHATSAPP_QR_URL;
+        }
+    }
+
+    function prepareDirectWhatsAppCopy() {
+        const userName = (state.user?.name || "").trim();
+        const msg = loanApplication.submitted
+            ? buildLoanWhatsAppText()
+            : `Bonjour Service Client Nova Fortune, je suis ${userName || "un membre"}. J'ai besoin d'assistance.`;
+        copyMessageSilently(msg);
+        showToast("Message prêt collé dans votre presse-papiers...");
+    }
+    window.prepareDirectWhatsAppCopy = prepareDirectWhatsAppCopy;
+
+    function prepareLoanWhatsAppCopy() {
+        copyMessageSilently(buildLoanWhatsAppText());
+        showToast("Dossier prêt copié • Collez-le dans WhatsApp avec vos 2 photos.");
+    }
+    window.prepareLoanWhatsAppCopy = prepareLoanWhatsAppCopy;
 
     function selectLoanAmount(amount) {
         loanApplication.amount = Number(amount);
@@ -2832,8 +2849,7 @@
     window.downloadLoanIdPhoto = downloadLoanIdPhoto;
 
     function openWhatsAppWithLoanMessage() {
-        const fullText = buildLoanWhatsAppText();
-        window.open(buildWhatsAppTargetUrl(fullText), '_blank', 'noopener,noreferrer');
+        redirectToSupportWhatsApp(buildLoanWhatsAppText());
     }
     window.openWhatsAppWithLoanMessage = openWhatsAppWithLoanMessage;
 
@@ -2842,7 +2858,7 @@
         const baseMsg = loanApplication.submitted
             ? buildLoanWhatsAppText()
             : `Bonjour Service Client Nova Fortune, je suis ${userName || 'un membre'}. J'ai besoin d'assistance.`;
-        window.open(buildWhatsAppTargetUrl(baseMsg), '_blank', 'noopener,noreferrer');
+        redirectToSupportWhatsApp(baseMsg);
     }
     window.openWhatsAppDirect = openWhatsAppDirect;
 
@@ -2918,7 +2934,6 @@
     }
 
     function renderLiveWithdrawals() {
-        const card = document.getElementById('liveSpotlightCard');
         const textEl = document.getElementById('liveSpotlightText');
         const metaEl = document.getElementById('liveSpotlightMeta');
         const amtEl = document.getElementById('liveSpotlightAmount');
@@ -4096,8 +4111,7 @@
         const userName = (state.user?.name || '').trim();
         const prefix = userName ? `[${userName}] ` : '';
         const composed = `Bonjour Nova Fortune (${topic}) - ${prefix}${msg}`;
-        window.open(buildWhatsAppTargetUrl(composed), '_blank', 'noopener,noreferrer');
-        showToast("Ouverture du chat WhatsApp Nova Fortune...");
+        redirectToSupportWhatsApp(composed);
     }
     window.sendSupportTicket = sendSupportTicket;
 

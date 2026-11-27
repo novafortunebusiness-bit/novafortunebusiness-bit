@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nova Fortune - Plateforme d'Investissement & Croissance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -31,6 +33,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -155,7 +158,7 @@
             align-items: center;
             border-bottom: 2px solid var(--green-primary);
             opacity: 0;
-            transition: opacity 0.2s ease, transform 0.2s ease;
+            transition: opacity 0.12s ease, transform 0.12s ease;
         }
 
         .sticky-account-bar.visible {
@@ -167,15 +170,16 @@
         .view {
             display: none;
             padding: 20px;
-            animation: fadeIn 0.25s ease;
+            will-change: opacity, transform;
         }
 
         .view.active {
             display: block;
+            animation: fastFadeIn 0.12s ease-out;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
+        @keyframes fastFadeIn {
+            from { opacity: 0.35; transform: translateY(3px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -321,6 +325,11 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            transition: transform 0.08s ease;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
         }
 
         .btn-green {
@@ -390,6 +399,93 @@
         .voice-bars span:nth-child(2) { animation-delay: 0.15s; height: 16px; }
         .voice-bars span:nth-child(3) { animation-delay: 0.3s; height: 10px; }
 
+        .loan-banner-home {
+            background: linear-gradient(135deg, #14191f 0%, #065f46 100%);
+            color: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 16px 18px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border: 1.5px solid var(--yellow-accent);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.08s ease;
+        }
+
+        .loan-banner-home:active {
+            transform: scale(0.985);
+        }
+
+        .loan-amount-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 14px;
+            border: 2px solid var(--gray-border);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.08s ease, border-color 0.12s ease;
+            position: relative;
+        }
+
+        .loan-amount-card:active {
+            transform: scale(0.985);
+        }
+
+        .id-capture-box {
+            background: #f8fafc;
+            border: 2px dashed #94a3b8;
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.12s ease, background 0.12s ease;
+            margin-bottom: 14px;
+        }
+
+        .id-capture-box.has-photo {
+            border-style: solid;
+            border-color: var(--green-primary);
+            background: #f0fdf4;
+        }
+
+        .id-preview-img {
+            width: 100%;
+            max-height: 175px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-top: 10px;
+            border: 1px solid var(--gray-border);
+            display: none;
+        }
+
+        .support-loan-summary {
+            background: linear-gradient(145deg, #111827 0%, #1e293b 100%);
+            color: #ffffff;
+            border: 1.5px solid var(--yellow-accent);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .support-id-thumbs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 12px 0;
+        }
+
+        .support-id-thumbs img {
+            width: 100%;
+            height: 95px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
         .platform-pulse-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -441,7 +537,7 @@
             height: 100%;
             background: linear-gradient(90deg, var(--green-primary), var(--yellow-accent));
             border-radius: 99px;
-            transition: width 0.4s ease;
+            transition: width 0.25s ease;
         }
 
         .missions-card {
@@ -551,12 +647,11 @@
             justify-content: space-between;
             align-items: center;
             gap: 10px;
-            transition: opacity 0.25s ease, transform 0.25s ease;
+            transition: opacity 0.15s ease;
         }
 
         .live-spotlight-card.switching {
-            opacity: 0.35;
-            transform: translateY(3px);
+            opacity: 0.45;
         }
 
         .live-recent-mini-list {
@@ -596,12 +691,11 @@
             align-items: flex-start;
             gap: 10px;
             text-align: left;
-            transition: transform 0.15s ease, border-color 0.15s ease;
+            transition: transform 0.08s ease, border-color 0.12s ease;
         }
 
-        .action-tile:hover {
-            border-color: var(--green-primary);
-            transform: translateY(-2px);
+        .action-tile:active {
+            transform: scale(0.98);
         }
 
         .tile-icon {
@@ -809,7 +903,7 @@
             cursor: pointer;
             inset: 0;
             background-color: #cbd5e1;
-            transition: 0.25s;
+            transition: 0.15s;
             border-radius: 99px;
         }
 
@@ -821,7 +915,7 @@
             left: 3px;
             bottom: 3px;
             background-color: #ffffff;
-            transition: 0.25s;
+            transition: 0.15s;
             border-radius: 50%;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
@@ -987,7 +1081,7 @@
             font-size: 0.96rem;
             font-weight: 800;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: all 0.1s ease;
         }
 
         .preset-pill-btn.active {
@@ -1355,6 +1449,12 @@
     <symbol id="ic-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
     </symbol>
+    <symbol id="ic-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>
+    </symbol>
+    <symbol id="ic-bank" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="12 2 2 7 22 7 12 2"/><line x1="6" y1="10" x2="6" y2="18"/><line x1="10" y1="10" x2="10" y2="18"/><line x1="14" y1="10" x2="14" y2="18"/><line x1="18" y1="10" x2="18" y2="18"/><rect x="2" y="18" width="20" height="4" rx="1"/>
+    </symbol>
 </svg>
 
 <div class="toast" id="toast"></div>
@@ -1510,6 +1610,19 @@
             </div>
         </div>
 
+        <div class="loan-banner-home" onclick="navigate('view-loan')">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <div style="width:46px; height:46px; border-radius:14px; background:rgba(250, 204, 21, 0.2); color:var(--yellow-accent); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                    <svg class="ico-lg"><use href="#ic-bank"/></svg>
+                </div>
+                <div>
+                    <div style="font-size:0.98rem; font-weight:800; color:#ffffff;">Obtenir un prêt pour réaliser</div>
+                    <div style="font-size:0.76rem; color:#d1fae5; margin-top:2px;">Financement de 400 000 F à 900 000 F CFA</div>
+                </div>
+            </div>
+            <span class="hero-tag" style="margin:0; flex-shrink:0;">Demander &rsaquo;</span>
+        </div>
+
         <div class="platform-pulse-grid">
             <div class="pulse-stat-box">
                 <div class="pulse-stat-val" style="color:var(--green-dark);" id="liveInvestorsCount">14 820</div>
@@ -1628,6 +1741,91 @@
 
     </div>
 
+    <!-- ==================== PAGE PRÊT ÉTAPE 1 : CHOIX DU MONTANT ==================== -->
+    <div id="view-loan" class="view">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn" onclick="navigate('view-home')"><svg class="ico"><use href="#ic-back"/></svg></button>
+                <h2 class="page-title">Obtenir un prêt pour réaliser</h2>
+            </div>
+        </div>
+
+        <div class="info-alert">
+            Sélectionnez le montant de prêt que vous souhaitez obtenir. Vous serez ensuite dirigé vers l'étape de vérification de votre carte d'identité (Recto & Verso).
+        </div>
+
+        <div class="loan-amount-card" onclick="selectLoanAmount(400000)">
+            <span class="vip-badge">Option 1</span>
+            <div class="vip-product-name">Prêt Réalisation Standard</div>
+            <div class="vip-price" style="color:var(--green-dark);">400 000 F CFA</div>
+            <p style="font-size:0.82rem; color:var(--gray-muted); margin-bottom:14px;">
+                Idéal pour lancer ou renforcer votre projet personnel avec traitement prioritaire.
+            </p>
+            <button type="button" class="btn btn-green">
+                Choisir 400 000 F CFA &rsaquo;
+            </button>
+        </div>
+
+        <div class="loan-amount-card" style="border-color:var(--yellow-accent);" onclick="selectLoanAmount(900000)">
+            <span class="vip-badge">Option 2</span>
+            <div class="vip-product-name">Prêt Réalisation Premium</div>
+            <div class="vip-price" style="color:var(--black-dark);">900 000 F CFA</div>
+            <p style="font-size:0.82rem; color:var(--gray-muted); margin-bottom:14px;">
+                Financement maximal pour les grands projets et investissements à long terme.
+            </p>
+            <button type="button" class="btn btn-yellow">
+                Choisir 900 000 F CFA &rsaquo;
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== PAGE PRÊT ÉTAPE 2 : PHOTO PIÈCE D'IDENTITÉ (RECTO / VERSO) ==================== -->
+    <div id="view-loan-id" class="view">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn" onclick="navigate('view-loan')"><svg class="ico"><use href="#ic-back"/></svg></button>
+                <h2 class="page-title">Vérification d'identité</h2>
+            </div>
+        </div>
+
+        <div class="info-alert">
+            Montant du prêt sélectionné : <strong id="loanSelectedAmountBadge">400 000 F CFA</strong>.<br>
+            Prenez une photo claire de votre <strong>carte d'identité (Recto / Devant et Verso / Derrière)</strong> pour l'envoyer au service client.
+        </div>
+
+        <div class="vip-card">
+            <div style="margin-bottom:12px; font-size:0.84rem; color:var(--gray-dark);">
+                Demandeur : <strong id="loanApplicantNameDisplay">Client Nova Fortune</strong>
+            </div>
+
+            <label class="form-label">1. Photo de la pièce d'identité — DEVANT (Recto)</label>
+            <div class="id-capture-box" id="frontBox" onclick="document.getElementById('idFrontInput').click()">
+                <div style="width:44px; height:44px; border-radius:50%; background:var(--green-light); color:var(--green-dark); display:flex; align-items:center; justify-content:center; margin:0 auto 8px;">
+                    <svg class="ico-lg"><use href="#ic-camera"/></svg>
+                </div>
+                <div style="font-weight:800; font-size:0.9rem; color:var(--black-dark);" id="frontBoxLabel">Prendre en photo le DEVANT (Recto)</div>
+                <div style="font-size:0.75rem; color:var(--gray-muted); margin-top:3px;">Appuyez ici pour ouvrir l'appareil photo</div>
+                <img id="idFrontPreview" class="id-preview-img" alt="Aperçu Recto">
+            </div>
+            <input type="file" id="idFrontInput" accept="image/*" capture="environment" style="display:none;" onchange="handleIdPhotoChange(event, 'front')">
+
+            <label class="form-label">2. Photo de la pièce d'identité — DERRIÈRE (Verso)</label>
+            <div class="id-capture-box" id="backBox" onclick="document.getElementById('idBackInput').click()">
+                <div style="width:44px; height:44px; border-radius:50%; background:var(--yellow-soft); color:var(--yellow-dark); display:flex; align-items:center; justify-content:center; margin:0 auto 8px;">
+                    <svg class="ico-lg"><use href="#ic-camera"/></svg>
+                </div>
+                <div style="font-weight:800; font-size:0.9rem; color:var(--black-dark);" id="backBoxLabel">Prendre en photo le DERRIÈRE (Verso)</div>
+                <div style="font-size:0.75rem; color:var(--gray-muted); margin-top:3px;">Appuyez ici pour ouvrir l'appareil photo</div>
+                <img id="idBackPreview" class="id-preview-img" alt="Aperçu Verso">
+            </div>
+            <input type="file" id="idBackInput" accept="image/*" capture="environment" style="display:none;" onchange="handleIdPhotoChange(event, 'back')">
+
+            <button type="button" class="btn btn-green" id="submitLoanIdBtn" onclick="submitLoanApplication()">
+                Envoyer les photos au service client &rsaquo;
+            </button>
+        </div>
+    </div>
+
     <!-- ==================== PAGE 3 : INVESTIR ==================== -->
     <div id="view-invest" class="view">
         <div class="page-header">
@@ -1706,11 +1904,11 @@
                 </div>
             </button>
 
-            <button class="action-tile" onclick="navigate('view-account')">
-                <div class="tile-icon tile-green"><svg class="ico-lg"><use href="#ic-user"/></svg></div>
+            <button class="action-tile" onclick="navigate('view-loan')">
+                <div class="tile-icon tile-green"><svg class="ico-lg"><use href="#ic-bank"/></svg></div>
                 <div>
-                    <h3>Mon Compte</h3>
-                    <span>Solde & activités</span>
+                    <h3>Prêt Réalisation</h3>
+                    <span>400 000 F / 900 000 F</span>
                 </div>
             </button>
         </div>
@@ -1739,7 +1937,7 @@
                     <span class="menu-icon-box"><svg class="ico"><use href="#ic-volume"/></svg></span>
                     <div>
                         <div>Sons & voix de l'interface</div>
-                        <div style="font-size:0.73rem; color:var(--gray-muted); font-weight:500;">Accueil vocal et sons de gains</div>
+                        <div style="font-size:0.73rem; color:var(--gray-muted); font-weight:500;">Sonneries de clic/montant et accueil vocal</div>
                     </div>
                 </div>
                 <label class="toggle-switch" onclick="event.stopPropagation()">
@@ -2189,6 +2387,40 @@
             </div>
         </div>
 
+        <div id="loanSupportBundleCard" class="support-loan-summary" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+                <span class="hero-tag" style="margin:0;">Dossier Prêt Prêt à Envoyer</span>
+                <span style="font-size:0.76rem; color:#6ee7b7; font-weight:800;" id="supportLoanAmountText">400 000 F CFA</span>
+            </div>
+            <div style="font-size:0.84rem; margin-top:8px; color:#f1f5f9;">
+                Nom d'utilisateur : <strong style="color:var(--yellow-accent);" id="supportLoanUserText"></strong>
+            </div>
+            <div class="support-id-thumbs">
+                <div>
+                    <div style="font-size:0.7rem; color:#94a3b8; margin-bottom:4px;">Pièce Devant (Recto)</div>
+                    <img id="supportFrontThumb" alt="Pièce Recto">
+                </div>
+                <div>
+                    <div style="font-size:0.7rem; color:#94a3b8; margin-bottom:4px;">Pièce Derrière (Verso)</div>
+                    <img id="supportBackThumb" alt="Pièce Verso">
+                </div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
+                <button type="button" class="btn btn-outline" style="padding:8px 10px; font-size:0.76rem;" onclick="downloadLoanIdPhoto('front')">
+                    Enregistrer Recto
+                </button>
+                <button type="button" class="btn btn-outline" style="padding:8px 10px; font-size:0.76rem;" onclick="downloadLoanIdPhoto('back')">
+                    Enregistrer Verso
+                </button>
+            </div>
+            <button type="button" class="btn btn-green" onclick="openWhatsAppWithLoanMessage()">
+                <svg class="ico"><use href="#ic-whatsapp"/></svg> Envoyer le dossier prêt sur WhatsApp
+            </button>
+            <p style="font-size:0.72rem; color:#cbd5e1; margin-top:8px; line-height:1.4;">
+                Votre nom et le texte du prêt s'affichent automatiquement dans WhatsApp. Joignez les 2 photos enregistrées dans la discussion WhatsApp.
+            </p>
+        </div>
+
         <div class="vip-card">
             <div class="support-channel">
                 <div style="display:flex; align-items:center; gap:12px;">
@@ -2200,15 +2432,16 @@
                         <div style="font-size:0.78rem; color:var(--gray-muted);">Contactez directement Nova Fortune sur WhatsApp</div>
                     </div>
                 </div>
-                <a href="https://wa.me/2250700000000?text=Bonjour%20Service%20Client%20Nova%20Fortune%2C%20j%27ai%20besoin%20d%27assistance." target="_blank" rel="noopener noreferrer" class="btn btn-green" style="width:auto; padding:9px 14px; font-size:0.78rem; text-decoration:none;">
+                <button type="button" onclick="openWhatsAppDirect()" class="btn btn-green" style="width:auto; padding:9px 14px; font-size:0.78rem;">
                     WhatsApp
-                </a>
+                </button>
             </div>
 
             <form onsubmit="sendSupportTicket(event)" style="margin-top:16px; padding-top:16px; border-top:1px solid var(--gray-border);">
                 <div class="form-group">
                     <label class="form-label">Sujet de votre demande</label>
                     <select id="supportTopic" class="form-control">
+                        <option value="Demande de prêt">Demande de prêt (400 000 F / 900 000 F)</option>
                         <option value="Recharge en attente">Recharge en attente</option>
                         <option value="Retrait en attente">Retrait en attente (min. 1 000 F, frais 4%)</option>
                         <option value="Plan VIP">Information sur les plans VIP</option>
@@ -2217,7 +2450,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Votre message</label>
-                    <textarea id="supportMessage" class="form-control" rows="3" placeholder="Décrivez votre préoccupation (ex: ID de transaction ou numéro)..." required></textarea>
+                    <textarea id="supportMessage" class="form-control" rows="4" placeholder="Décrivez votre préoccupation..." required></textarea>
                 </div>
                 <button type="submit" class="btn btn-yellow">
                     Envoyer sur WhatsApp
@@ -2288,7 +2521,7 @@
     const MAX_RECHARGE = 1000000;
     const MIN_WITHDRAW = 1000;
     const DAY_MS = 24 * 60 * 60 * 1000;
-    const WHATSAPP_NUMBER = "2250700000000";
+    const WHATSAPP_QR_URL = "https://wa.me/qr/7I3XRTG5VUYBB1";
     const JEKO_RECHARGE_URL = "https://pay.jeko.africa/pl/d95bfc0e-e246-4947-ac8c-aaa4e5614f16";
     const SITE_BASE_URL = "https://novafortunebusiness-bit.github.io/novafortunebusiness-bit/";
 
@@ -2306,6 +2539,90 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getDatabase(app);
+
+    /* ==================== MOTEUR AUDIO ULTRA-RAPIDE (SONNERIE RECHARGE) ==================== */
+    let sharedAudioCtx = null;
+    let lastSoundTimestamp = 0;
+
+    function getAudioContext() {
+        if (!sharedAudioCtx) {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (AudioCtx) {
+                sharedAudioCtx = new AudioCtx();
+            }
+        }
+        if (sharedAudioCtx && sharedAudioCtx.state === 'suspended') {
+            sharedAudioCtx.resume().catch(() => {});
+        }
+        return sharedAudioCtx;
+    }
+
+    function playRechargeChime(minGapMs = 45) {
+        if (!state.uiSounds) return;
+        const nowPerf = performance.now();
+        if (nowPerf - lastSoundTimestamp < minGapMs) return;
+        lastSoundTimestamp = nowPerf;
+
+        try {
+            const ctx = getAudioContext();
+            if (!ctx) return;
+            const t = ctx.currentTime;
+
+            // Impulsion 1 (note de recharge claire)
+            const osc1 = ctx.createOscillator();
+            const g1 = ctx.createGain();
+            osc1.type = 'triangle';
+            osc1.frequency.setValueAtTime(659.25, t);
+            g1.gain.setValueAtTime(0.001, t);
+            g1.gain.linearRampToValueAtTime(0.11, t + 0.012);
+            g1.gain.exponentialRampToValueAtTime(0.001, t + 0.11);
+            osc1.connect(g1);
+            g1.connect(ctx.destination);
+            osc1.start(t);
+            osc1.stop(t + 0.12);
+
+            // Impulsion 2 (montée signature du rechargement)
+            const osc2 = ctx.createOscillator();
+            const g2 = ctx.createGain();
+            osc2.type = 'triangle';
+            osc2.frequency.setValueAtTime(880, t + 0.065);
+            g2.gain.setValueAtTime(0.001, t + 0.065);
+            g2.gain.linearRampToValueAtTime(0.12, t + 0.078);
+            g2.gain.exponentialRampToValueAtTime(0.001, t + 0.21);
+            osc2.connect(g2);
+            g2.connect(ctx.destination);
+            osc2.start(t + 0.065);
+            osc2.stop(t + 0.22);
+        } catch (e) {}
+    }
+
+    function playUiTone(type = 'recharge') {
+        if (!state.uiSounds) return;
+        if (type === 'gain') {
+            playRechargeChime(0);
+            return;
+        }
+        playRechargeChime(35);
+    }
+
+    // Débloque l'audio dès le premier contact utilisateur et joue la sonnerie sur tout bouton / zone cliquable
+    document.addEventListener('pointerdown', (e) => {
+        getAudioContext();
+        const interactive = e.target.closest('button, .btn, .action-tile, .menu-item, .back-btn, .loan-amount-card, .checkin-banner-home, .loan-banner-home, .method-option, .preset-pill-btn, .sim-pill-btn, .id-capture-box, .nav-btn, .mini-header-btn');
+        if (interactive) {
+            playRechargeChime(30);
+        }
+    }, { passive: true });
+
+    // Sonnerie de recharge à chaque saisie / écriture de montant
+    document.addEventListener('input', (e) => {
+        const target = e.target;
+        if (!target) return;
+        const id = target.id || '';
+        if (id === 'rechargeAmount' || id === 'withdrawAmountInput' || id === 'rechargeRangeSlider') {
+            playRechargeChime(55);
+        }
+    }, { passive: true });
 
     const WITHDRAWAL_NAMES = [
         "konan frabrice",
@@ -2339,6 +2656,195 @@
     let welcomeVoiceSpokenForSession = false;
     let pendingAutoVoiceName = null;
     let selectedSimPlanIdx = 0;
+
+    let loanApplication = {
+        amount: 400000,
+        frontDataUrl: '',
+        backDataUrl: '',
+        submitted: false
+    };
+
+    function buildWhatsAppTargetUrl(messageText) {
+        const cleanMsg = String(messageText || '').trim();
+        if (!cleanMsg) return WHATSAPP_QR_URL;
+        const sep = WHATSAPP_QR_URL.includes('?') ? '&' : '?';
+        return `${WHATSAPP_QR_URL}${sep}text=${encodeURIComponent(cleanMsg)}`;
+    }
+
+    function selectLoanAmount(amount) {
+        loanApplication.amount = Number(amount);
+        loanApplication.submitted = false;
+        playRechargeChime(0);
+        const badge = document.getElementById('loanSelectedAmountBadge');
+        if (badge) badge.innerText = formatMoney(loanApplication.amount);
+        const applicantEl = document.getElementById('loanApplicantNameDisplay');
+        if (applicantEl) applicantEl.innerText = state.user?.name || 'Client Nova Fortune';
+        navigate('view-loan-id');
+    }
+    window.selectLoanAmount = selectLoanAmount;
+
+    function compressImageFile(file, maxWidth = 820, quality = 0.75) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const img = new Image();
+                img.onload = () => {
+                    const scale = Math.min(1, maxWidth / img.width);
+                    const canvas = document.createElement('canvas');
+                    canvas.width = Math.round(img.width * scale);
+                    canvas.height = Math.round(img.height * scale);
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    resolve(canvas.toDataURL('image/jpeg', quality));
+                };
+                img.onerror = reject;
+                img.src = ev.target.result;
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    }
+
+    async function handleIdPhotoChange(event, side) {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+        try {
+            const compressedDataUrl = await compressImageFile(file);
+            if (side === 'front') {
+                loanApplication.frontDataUrl = compressedDataUrl;
+                const preview = document.getElementById('idFrontPreview');
+                const box = document.getElementById('frontBox');
+                const label = document.getElementById('frontBoxLabel');
+                if (preview) {
+                    preview.src = compressedDataUrl;
+                    preview.style.display = 'block';
+                }
+                if (box) box.classList.add('has-photo');
+                if (label) label.innerText = "Photo DEVANT (Recto) capturée ✓";
+            } else {
+                loanApplication.backDataUrl = compressedDataUrl;
+                const preview = document.getElementById('idBackPreview');
+                const box = document.getElementById('backBox');
+                const label = document.getElementById('backBoxLabel');
+                if (preview) {
+                    preview.src = compressedDataUrl;
+                    preview.style.display = 'block';
+                }
+                if (box) box.classList.add('has-photo');
+                if (label) label.innerText = "Photo DERRIÈRE (Verso) capturée ✓";
+            }
+            playRechargeChime(0);
+            showToast(side === 'front' ? "Photo devant (Recto) ajoutée." : "Photo derrière (Verso) ajoutée.");
+        } catch (err) {
+            showToast("Impossible de charger la photo. Réessayez.");
+        }
+    }
+    window.handleIdPhotoChange = handleIdPhotoChange;
+
+    function buildLoanWhatsAppText() {
+        const userName = (state.user?.name || 'Client Nova Fortune').trim();
+        const userPhone = (state.user?.phone || '').trim();
+        const amountStr = formatMoney(loanApplication.amount);
+        return `Bonjour Service Client Nova Fortune, je suis ${userName}${userPhone ? ' (' + userPhone + ')' : ''}. Je souhaite obtenir un prêt pour réaliser d'un montant de ${amountStr}. Voici les photos de ma carte d'identité (Recto devant et Verso derrière).`;
+    }
+
+    async function submitLoanApplication() {
+        if (!loanApplication.frontDataUrl) {
+            showToast("Veuillez prendre en photo le DEVANT (Recto) de votre pièce d'identité.");
+            return;
+        }
+        if (!loanApplication.backDataUrl) {
+            showToast("Veuillez prendre en photo le DERRIÈRE (Verso) de votre pièce d'identité.");
+            return;
+        }
+
+        const btn = document.getElementById('submitLoanIdBtn');
+        if (btn) {
+            btn.disabled = true;
+            btn.innerText = "Envoi au service client...";
+        }
+
+        const userName = (state.user?.name || 'Client Nova Fortune').trim();
+        const userPhone = (state.user?.phone || '').trim();
+        const nowMs = Date.now();
+        const nowText = new Date(nowMs).toLocaleString('fr-FR');
+        const loanText = buildLoanWhatsAppText();
+
+        loanApplication.submitted = true;
+
+        state.notifications.unshift({
+            title: `Demande de prêt de ${formatMoney(loanApplication.amount)}`,
+            body: `Dossier de ${userName} avec pièce d'identité (Recto & Verso) transmis au service client.`,
+            date: nowText
+        });
+        saveState();
+
+        push(ref(db, 'loanRequests'), {
+            uid: currentUid || '',
+            userName,
+            userPhone,
+            amount: loanApplication.amount,
+            idFrontPhoto: loanApplication.frontDataUrl,
+            idBackPhoto: loanApplication.backDataUrl,
+            status: 'En attente',
+            date: nowText,
+            createdAt: nowMs
+        }).catch(e => console.warn("Avertissement enregistrement prêt :", e));
+
+        const bundleCard = document.getElementById('loanSupportBundleCard');
+        const amtTextEl = document.getElementById('supportLoanAmountText');
+        const userTextEl = document.getElementById('supportLoanUserText');
+        const frontThumb = document.getElementById('supportFrontThumb');
+        const backThumb = document.getElementById('supportBackThumb');
+        const topicEl = document.getElementById('supportTopic');
+        const msgEl = document.getElementById('supportMessage');
+
+        if (bundleCard) bundleCard.style.display = 'block';
+        if (amtTextEl) amtTextEl.innerText = formatMoney(loanApplication.amount);
+        if (userTextEl) userTextEl.innerText = userName;
+        if (frontThumb) frontThumb.src = loanApplication.frontDataUrl;
+        if (backThumb) backThumb.src = loanApplication.backDataUrl;
+        if (topicEl) topicEl.value = 'Demande de prêt';
+        if (msgEl) msgEl.value = loanText;
+
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = "Envoyer les photos au service client ›";
+        }
+
+        playRechargeChime(0);
+        showToast("Pièces enregistrées ! Redirection vers le service client...");
+        navigate('view-support');
+    }
+    window.submitLoanApplication = submitLoanApplication;
+
+    function downloadLoanIdPhoto(side) {
+        const dataUrl = side === 'front' ? loanApplication.frontDataUrl : loanApplication.backDataUrl;
+        if (!dataUrl) return;
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = `piece_identite_${side}_${(state.user?.name || 'client').replace(/\s+/g, '_')}.jpg`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        showToast(side === 'front' ? "Photo Recto enregistrée dans votre téléphone." : "Photo Verso enregistrée dans votre téléphone.");
+    }
+    window.downloadLoanIdPhoto = downloadLoanIdPhoto;
+
+    function openWhatsAppWithLoanMessage() {
+        const fullText = buildLoanWhatsAppText();
+        window.open(buildWhatsAppTargetUrl(fullText), '_blank', 'noopener,noreferrer');
+    }
+    window.openWhatsAppWithLoanMessage = openWhatsAppWithLoanMessage;
+
+    function openWhatsAppDirect() {
+        const userName = (state.user?.name || '').trim();
+        const baseMsg = loanApplication.submitted
+            ? buildLoanWhatsAppText()
+            : `Bonjour Service Client Nova Fortune, je suis ${userName || 'un membre'}. J'ai besoin d'assistance.`;
+        window.open(buildWhatsAppTargetUrl(baseMsg), '_blank', 'noopener,noreferrer');
+    }
+    window.openWhatsAppDirect = openWhatsAppDirect;
 
     function speakFrenchText(text, onBlocked) {
         if (!state.uiSounds) return;
@@ -2421,26 +2927,20 @@
         if (!textEl || !metaEl || !amtEl || !miniList) return;
 
         const current = buildWithdrawalItem(liveWithdrawalIndex);
-        if (card) card.classList.add('switching');
+        textEl.innerText = `${current.name} vient de retirer`;
+        metaEl.innerText = `${current.method} • ${current.timeLabel}`;
+        amtEl.innerText = `+${current.amount.toLocaleString('fr-FR')} FCFA`;
 
-        setTimeout(() => {
-            textEl.innerText = `${current.name} vient de retirer`;
-            metaEl.innerText = `${current.method} • ${current.timeLabel}`;
-            amtEl.innerText = `+${current.amount.toLocaleString('fr-FR')} FCFA`;
-
-            const rows = [1, 2, 3].map(offset => {
-                const item = buildWithdrawalItem(liveWithdrawalIndex + offset);
-                return `
-                    <div class="live-mini-row">
-                        <span><strong>${item.name}</strong> vient de retirer <span style="color:#6ee7b7; font-weight:700;">(${item.method})</span></span>
-                        <span style="font-weight:800; color:var(--yellow-accent); white-space:nowrap;">${item.amount.toLocaleString('fr-FR')} F</span>
-                    </div>
-                `;
-            }).join('');
-            miniList.innerHTML = rows;
-
-            if (card) card.classList.remove('switching');
-        }, 140);
+        const rows = [1, 2, 3].map(offset => {
+            const item = buildWithdrawalItem(liveWithdrawalIndex + offset);
+            return `
+                <div class="live-mini-row">
+                    <span><strong>${item.name}</strong> vient de retirer <span style="color:#6ee7b7; font-weight:700;">(${item.method})</span></span>
+                    <span style="font-weight:800; color:var(--yellow-accent); white-space:nowrap;">${item.amount.toLocaleString('fr-FR')} F</span>
+                </div>
+            `;
+        }).join('');
+        miniList.innerHTML = rows;
     }
 
     function cycleLiveWithdrawal() {
@@ -2513,35 +3013,12 @@
     let pendingRecharge = { amount: MIN_RECHARGE, phone: '', method: 'Wave', merchant: '07 88 99 00 11' };
     let selectedLinkMethod = 'Wave';
 
-    function playUiTone(type = 'gain') {
-        if (!state.uiSounds) return;
-        try {
-            const AudioCtx = window.AudioContext || window.webkitAudioContext;
-            if (!AudioCtx) return;
-            const ctx = new AudioCtx();
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.type = 'sine';
-            const now = ctx.currentTime;
-            if (type === 'gain') {
-                osc.frequency.setValueAtTime(587.33, now);
-                osc.frequency.exponentialRampToValueAtTime(880, now + 0.14);
-            } else {
-                osc.frequency.setValueAtTime(520, now);
-                osc.frequency.exponentialRampToValueAtTime(660, now + 0.1);
-            }
-            gain.gain.setValueAtTime(0.06, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
-            osc.start(now);
-            osc.stop(now + 0.23);
-        } catch (e) {}
-    }
-
     async function toggleInterfaceSounds(enabled) {
         state.uiSounds = Boolean(enabled);
-        if (state.uiSounds) playUiTone('click');
+        if (state.uiSounds) {
+            getAudioContext();
+            playRechargeChime(0);
+        }
         showToast(state.uiSounds ? "Sons et voix activés." : "Sons et voix désactivés.");
         await saveState();
     }
@@ -2590,7 +3067,7 @@
             body: `Vous avez reçu +${mission.reward} F CFA de bonus.`,
             date: new Date().toLocaleString('fr-FR')
         });
-        playUiTone('gain');
+        playRechargeChime(0);
         await saveState();
         showToast(`Coffre ouvert ! +${mission.reward} F CFA ajoutés à votre solde !`);
     }
@@ -2661,7 +3138,7 @@
             body: `Vous avez reçu +${DAILY_CHECKIN_REWARD} FCFA aujourd'hui.`,
             date: new Date().toLocaleString('fr-FR')
         });
-        playUiTone('gain');
+        playRechargeChime(0);
         await saveState();
         showToast(`+${DAILY_CHECKIN_REWARD} FCFA ajoutés à votre solde !`);
     }
@@ -2794,11 +3271,13 @@
     }
 
     function onRechargeSliderChange(val) {
+        playRechargeChime(55);
         syncRechargeAmountUI(val);
     }
     window.onRechargeSliderChange = onRechargeSliderChange;
 
     function onRechargeInputChange(val) {
+        playRechargeChime(55);
         const num = Number(val);
         if (!num) return;
         const clamped = Math.min(MAX_RECHARGE, Math.max(MIN_RECHARGE, num));
@@ -2813,7 +3292,7 @@
     window.onRechargeInputChange = onRechargeInputChange;
 
     function setRechargeAmount(val) {
-        playUiTone('click');
+        playRechargeChime(0);
         syncRechargeAmountUI(val);
     }
     window.setRechargeAmount = setRechargeAmount;
@@ -2881,7 +3360,7 @@
             welcomeVoiceSpokenForSession = true;
             setTimeout(() => {
                 speakWelcomeMessage(state.user?.name || '');
-            }, 350);
+            }, 250);
         }
     }
 
@@ -2909,7 +3388,7 @@
         } catch (err) {
             console.error("Erreur sauvegarde Firebase :", err);
         } finally {
-            setTimeout(() => { isSavingState = false; }, 150);
+            setTimeout(() => { isSavingState = false; }, 120);
         }
     }
 
@@ -2984,7 +3463,7 @@
         });
 
         if (addedTotal > 0) {
-            playUiTone('gain');
+            playRechargeChime(0);
             state.notifications.unshift({
                 title: "Gain quotidien crédité automatiquement",
                 body: `+${formatMoney(addedTotal)} ajoutés à votre solde.`,
@@ -3025,7 +3504,8 @@
         const toast = document.getElementById('toast');
         toast.innerText = msg;
         toast.style.display = 'block';
-        setTimeout(() => { toast.style.display = 'none'; }, 3400);
+        clearTimeout(window.__toastTimer);
+        window.__toastTimer = setTimeout(() => { toast.style.display = 'none'; }, 3000);
     }
     window.showToast = showToast;
 
@@ -3291,11 +3771,13 @@
     function enterPlatform() {
         isReadingWelcomeAfterSignup = false;
         welcomeVoiceSpokenForSession = false;
+        playRechargeChime(0);
         showPlatformScreen('view-home', true);
     }
     window.enterPlatform = enterPlatform;
 
     function navigate(viewId) {
+        playRechargeChime(25);
         if (!currentUid && viewId !== 'view-register') {
             showAuthScreen('login');
             return;
@@ -3305,7 +3787,9 @@
         if (target) target.classList.add('active');
 
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        if (viewId === 'view-home' || viewId === 'view-checkin') document.getElementById('nav-home').classList.add('active');
+        if (viewId === 'view-home' || viewId === 'view-checkin' || viewId === 'view-loan' || viewId === 'view-loan-id') {
+            document.getElementById('nav-home').classList.add('active');
+        }
         if (viewId === 'view-invest') document.getElementById('nav-invest').classList.add('active');
         if (viewId === 'view-team') document.getElementById('nav-team').classList.add('active');
         if (viewId === 'view-support') document.getElementById('nav-support').classList.add('active');
@@ -3373,7 +3857,7 @@
             setTimeout(() => {
                 setRechargeAmount(plan.price);
                 navigate('view-recharge');
-            }, 900);
+            }, 600);
             return;
         }
 
@@ -3399,7 +3883,7 @@
             date: new Date(now).toLocaleString('fr-FR')
         });
 
-        playUiTone('gain');
+        playRechargeChime(0);
         await saveState();
         showToast(`${plan.productName} activé : +${plan.daily.toLocaleString('fr-FR')} F toutes les 24h !`);
         navigate('view-purchases');
@@ -3426,11 +3910,7 @@
             return;
         }
 
-        const btn = document.getElementById('rechargeContinueBtn');
-        if (btn) {
-            btn.disabled = true;
-            btn.innerText = "Enregistrement...";
-        }
+        playRechargeChime(0);
 
         pendingRecharge = {
             amount,
@@ -3465,15 +3945,6 @@
             date: nowText
         });
 
-        try {
-            await push(ref(db, 'recharges'), record);
-        } catch (e) {
-            console.warn("Avertissement push recharge :", e);
-        }
-
-        playUiTone('click');
-        await saveState();
-
         document.getElementById('payMethodDisplay').innerText = pendingRecharge.method;
         document.getElementById('payAmountDisplay').innerText = formatMoney(pendingRecharge.amount);
         document.getElementById('paySenderDisplay').innerText = pendingRecharge.phone;
@@ -3481,14 +3952,12 @@
         const anchor = document.getElementById('jekoPaymentAnchor');
         if (anchor) anchor.href = JEKO_RECHARGE_URL;
 
-        if (btn) {
-            btn.disabled = false;
-            btn.innerText = "Recharger maintenant";
-        }
-
         showToast("Paiement enregistré en « En attente » dans l'historique de recharge.");
         navigate('view-payment-confirm');
         window.open(JEKO_RECHARGE_URL, '_blank', 'noopener,noreferrer');
+
+        push(ref(db, 'recharges'), record).catch(e => console.warn("Avertissement push recharge :", e));
+        await saveState();
     }
     window.goToPaymentConfirmation = goToPaymentConfirmation;
 
@@ -3512,6 +3981,7 @@
             updatedAt: new Date().toLocaleDateString('fr-FR')
         };
 
+        playRechargeChime(0);
         await saveState();
         showToast("Compte enregistré avec succès !");
         navigate('view-linked-account');
@@ -3519,6 +3989,7 @@
     window.saveLinkedAccount = saveLinkedAccount;
 
     function calculateWithdrawNet() {
+        playRechargeChime(55);
         const amount = Number(document.getElementById('withdrawAmountInput').value) || 0;
         const fee = Math.round(amount * 0.04);
         const net = Math.max(0, amount - fee);
@@ -3530,7 +4001,7 @@
     async function submitWithdraw() {
         if (!state.linkedAccount || !state.linkedAccount.phone) {
             showToast("Veuillez d'abord lier votre compte avant de lancer un retrait.");
-            setTimeout(() => navigate('view-link-account'), 900);
+            setTimeout(() => navigate('view-link-account'), 600);
             return;
         }
 
@@ -3550,6 +4021,7 @@
             return;
         }
 
+        playRechargeChime(0);
         const btn = document.getElementById('submitWithdrawBtn');
         btn.disabled = true;
         btn.innerText = "Envoi en cours...";
@@ -3611,7 +4083,7 @@
             body: `Votre filleul (${cleanId}) a investi : +1 000 F CFA crédités une seule fois.`,
             date: new Date().toLocaleString('fr-FR')
         });
-        playUiTone('gain');
+        playRechargeChime(0);
         await saveState();
         return true;
     }
@@ -3621,9 +4093,10 @@
         e.preventDefault();
         const topic = document.getElementById('supportTopic').value;
         const msg = document.getElementById('supportMessage').value.trim();
-        const text = encodeURIComponent(`Bonjour Nova Fortune (${topic}) : ${msg}`);
-        document.getElementById('supportMessage').value = '';
-        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank', 'noopener,noreferrer');
+        const userName = (state.user?.name || '').trim();
+        const prefix = userName ? `[${userName}] ` : '';
+        const composed = `Bonjour Nova Fortune (${topic}) - ${prefix}${msg}`;
+        window.open(buildWhatsAppTargetUrl(composed), '_blank', 'noopener,noreferrer');
         showToast("Ouverture du chat WhatsApp Nova Fortune...");
     }
     window.sendSupportTicket = sendSupportTicket;
@@ -3668,7 +4141,7 @@
         }
 
         if (copied) {
-            playUiTone('click');
+            playRechargeChime(0);
             showToast("Lien copié ! Vous pouvez le coller et le partager.");
         } else {
             window.prompt("Copiez ce lien pour le partager :", valueToCopy);
@@ -3686,7 +4159,6 @@
                     text: shareMessage,
                     url
                 });
-                playUiTone('click');
                 return;
             } catch (e) {
                 if (e && e.name === 'AbortError') return;
